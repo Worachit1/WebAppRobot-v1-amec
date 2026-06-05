@@ -34,79 +34,254 @@
   ],
   "pickupZones": [
     {
-      "id": "z1-f1",
+      "id": "z1",
       "name": "MTF ZONE",
-      "group": {
-        "id": "g-z1",
-        "name": "MTF",
-        "spots": [
-          {
-            "id": "s-z1-mtf-rd",
-            "name": "MTF-RD",
-            "rcsPosition": "MTF-RD"
-          },
-          {
-            "id": "s-z1-mtf-bd",
-            "name": "MTF-BD",
-            "rcsPosition": "MTF-BD"
-          },
-          {
-            "id": "s-z1-mtf-mk",
-            "name": "MTF-MK",
-            "rcsPosition": "MTF-MK"
-          }
-        ]
-      }
+      "group": [
+        {
+          "id": "g-z1",
+          "name": "MTF",
+          "spots": [
+            {
+              "id": "s-g-z1-mtf-rd",
+              "name": "MTF-RD",
+              "rcsPosition": "MTF-RD"
+            },
+            {
+              "id": "s-g-z1-mtf-bd",
+              "name": "MTF-BD",
+              "rcsPosition": "MTF-BD"
+            },
+            {
+              "id": "s-g-z1-mtf-mk",
+              "name": "MTF-MK",
+              "rcsPosition": "MTF-MK"
+            }
+          ]
+        }
+      ]
     },
     {
-      "id": "z2-f1",
+      "id": "z2",
       "name": "STF ZONE",
-      "group": {
-        "id": "g-z2-f1",
-        "name": "F1 STF",
-        "spots": [
-          {
-            "id": "s-z2-f1-f1lz",
-            "name": "F1LZ",
-            "rcsPosition": "F1LZ"
-          },
-          {
-            "id": "s-z2-f1-f1lz-cardreturn",
-            "name": "F1LZ-CartReturn",
-            "rcsPosition": "F1LZ-CartReturn"
-          },
-          {
-            "id": "s-z2-f1-stf-g5to",
-            "name": "F1LZ-G5TO",
-            "rcsPosition": "F1LZ-G5TO"
-          }
-        ]
-      }
+      "groups": [
+        {
+          "id": "g-z2-f1",
+          "name": "F1 STF",
+          "spots": [
+            {
+              "id": "s-g-z2-f1-f1lz",
+              "name": "F1LZ",
+              "rcsPosition": "F1LZ"
+            },
+            {
+              "id": "s-g-z2-f1-f1lz-cartreturn",
+              "name": "F1LZ-CartReturn",
+              "rcsPosition": "F1LZ-CartReturn"
+            },
+            {
+              "id": "s-g-z2-f1-f1lz-g5to",
+              "name": "F1LZ-G5TO",
+              "rcsPosition": "F1LZ-G5TO"
+            }
+          ]
+        },
+        {
+          "id": "g-z2-f2",
+          "name": "F2 STF",
+          "spots": [
+            {
+              "id": "s-g-z2-f2-f2bd-cartreturn",
+              "name": "F2BD-CartReturn",
+              "rcsPosition": "F2BD-CartReturn"
+            },
+            {
+              "id": "s-g-z2-f2-f2pb12-cartreturn",
+              "name": "F2PB12-CartReturn",
+              "rcsPosition": "F2PB12-CartReturn"
+            },
+            {
+              "id": "s-g-z2-f2-f2pb8",
+              "name": "F2PB8",
+              "rcsPosition": "F2PB8"
+            }
+          ]
+        }
+      ]
     },
     {
-      "id": "z2-f2",
-      "name": "STF ZONE",
-      "group": {
-        "id": "g-z2-f2",
-        "name": "F2 STF",
-        "spots": [
-          {
-            "id": "s-z2-f2-f2bd-cardreturn",
-            "name": " F2BD-CartReturn",
-            "rcsPosition": " F2BD-CartReturn"
-          },
-          {
-            "id": "s-z2-f1lz-cardreturn",
-            "name": "F1LZ-CartReturn",
-            "rcsPosition": "F1LZ-CartReturn"
-          },
-          {
-            "id": "s-z2-stf-g5to",
-            "name": "F1LZ-G5TO",
-            "rcsPosition": "F1LZ-G5TO"
-          }
-        ]
-      }
+      "id": "z3",
+      "name": "STA ZONE",
+      "groups": [
+        {
+          "id": "g-z3-kt",
+          "name": "KT STA",
+          "spots": [
+            {
+              "id": "s-g-z3-kt-g4-kitting-in",
+              "name": "G4_Kitting_(IN)",
+              "rcsPosition": "G4_Kitting_(IN)"
+            },
+            {
+              "id": "s-g-z3-kt-g4-kitting-out",
+              "name": "G4_Kitting_(OUT)",
+              "rcsPosition": "G4_Kitting_(OUT)"
+            }
+          ]
+        },
+        {
+          "id": "g-z3-g4",
+          "name": "G4 STA",
+          "spots": [
+            {
+              "id": "s-g-z3-g4-125-gsb282",
+              "name": "125-GSB282",
+              "rcsPosition": "125-GSB282"
+            },
+            {
+              "id": "s-g-z3-g4-125-gsb282-g5to",
+              "name": "125-GSB282-G5TO",
+              "rcsPosition": "125-GSB282-G5TO"
+            },
+            {
+              "id": "s-g-z3-g4-125-gsb282",
+              "name": "F2PB8",
+              "rcsPosition": "F2PB8"
+            },
+            {
+              "id": "s-g-z3-g4-125-gsb282",
+              "name": "125-GSB282",
+              "rcsPosition": "125-GSB282"
+            },
+            {
+              "id": "s-g-z3-g4-125-gsb282-g5to",
+              "name": "125-GSB282-G5TO",
+              "rcsPosition": "125-GSB282-G5TO"
+            },
+            {
+              "id": "s-g-z3-g4-125-gsb282",
+              "name": "F2PB8",
+              "rcsPosition": "F2PB8"
+            },
+            {
+              "id": "s-g-z3-g4-125-gsb282",
+              "name": "125-GSB282",
+              "rcsPosition": "125-GSB282"
+            },
+            {
+              "id": "s-g-z3-g4-125-gsb282-g5to",
+              "name": "125-GSB282-G5TO",
+              "rcsPosition": "125-GSB282-G5TO"
+            },
+            {
+              "id": "s-g-z3-g4-125-gsb282",
+              "name": "F2PB8",
+              "rcsPosition": "F2PB8"
+            },
+            {
+              "id": "s-g-z3-g4-125-gsb282",
+              "name": "F2PB8",
+              "rcsPosition": "F2PB8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f2",
+      "name": "Floor 2",
+      "spots": [
+        {
+          "id": "s-f2-item366",
+          "name": "item366",
+          "rcsPosition": "item366"
+        },
+        {
+          "id": "s-f2-item235",
+          "name": "item235",
+          "rcsPosition": "item235"
+        },
+        {
+          "id": "s-f2-pcb_f-g",
+          "name": "PCB_F/G",
+          "rcsPosition": "PCB_F/G"
+        },
+        {
+          "id": "s-f2-f-g-item366-_1",
+          "name": "F/G(item366)_1",
+          "rcsPosition": "F/G(item366)_1"
+        },
+        {
+          "id": "s-f2-f-g-item366-_2",
+          "name": "F/G(item366)_2",
+          "rcsPosition": "F/G(item366)_2"
+        },
+        {
+          "id": "s-f2-f-g-item366-_3",
+          "name": "F/G(item366)_3",
+          "rcsPosition": "F/G(item366)_3"
+        },
+        {
+          "id": "s-f2-f-g-item366-_4",
+          "name": "F/G(item366)_4",
+          "rcsPosition": "F/G(item366)_4"
+        },
+        {
+          "id": "s-f2-f-g-item366-_5",
+          "name": "F/G(item366)_5",
+          "rcsPosition": "F/G(item366)_5"
+        },
+        {
+          "id": "s-f2-f-g-item2xx",
+          "name": "F/G(item2XX)",
+          "rcsPosition": "F/G(item2XX)"
+        },
+        {
+          "id": "s-f2-f-g-item6xx",
+          "name": "F/G(item6XX)",
+          "rcsPosition": "F/G(item6XX)"
+        },
+        {
+          "id": "s-f2-pcb_shop-mt",
+          "name": "PCB_Shop(MT)",
+          "rcsPosition": "PCB_Shop(MT)"
+        },
+        {
+          "id": "s-f2-pcb_shop-smt",
+          "name": "PCB_Shop(SMT)",
+          "rcsPosition": "PCB_Shop(SMT)"
+        },
+        {
+          "id": "s-f2-elc_feeder",
+          "name": "ELC_Feeder",
+          "rcsPosition": "ELC_Feeder"
+        },
+        {
+          "id": "s-f2-elc_storage",
+          "name": "ELC_storage",
+          "rcsPosition": "ELC_storage"
+        },
+        {
+          "id": "s-f2-item6xx",
+          "name": "item6XX",
+          "rcsPosition": "item6XX"
+        }
+      ]
+    },
+    {
+      "id": "f3",
+      "name": "Floor 3",
+      "spots": [
+        {
+          "id": "s-f3-w-h",
+          "name": "W/H",
+          "rcsPosition": "W/H"
+        },
+        {
+          "id": "s-f3-w-h-vpc",
+          "name": "W/H(VPC)",
+          "rcsPosition": "W/H(VPC)"
+        }
+      ]
     }
   ]
 }
