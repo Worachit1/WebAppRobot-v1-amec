@@ -143,9 +143,9 @@
               "rcsPosition": "125-GSB282-G5TO"
             },
             {
-              "id": "s-g-z3-g4-125-gsb282",
-              "name": "F2PB8",
-              "rcsPosition": "F2PB8"
+              "id": "s-g-z3-g4-125-gsb400",
+              "name": "125-GSB400",
+              "rcsPosition": "125-GSB400"
             },
             {
               "id": "s-g-z3-g4-125-gsb282",
@@ -153,133 +153,131 @@
               "rcsPosition": "125-GSB282"
             },
             {
-              "id": "s-g-z3-g4-125-gsb282-g5to",
-              "name": "125-GSB282-G5TO",
-              "rcsPosition": "125-GSB282-G5TO"
+              "id": "s-g-z3-g4-124-sus-sheave-g5to",
+              "name": "124_Sus.Sheave-G5TO",
+              "rcsPosition": "124_Sus.Sheave-G5TO"
             },
             {
-              "id": "s-g-z3-g4-125-gsb282",
-              "name": "F2PB8",
-              "rcsPosition": "F2PB8"
+              "id": "s-g-z3-g4-124-sus-sheave",
+              "name": "124_Sus.Sheave",
+              "rcsPosition": "124_Sus.Sheave"
             },
             {
-              "id": "s-g-z3-g4-125-gsb282",
-              "name": "125-GSB282",
-              "rcsPosition": "125-GSB282"
+              "id": "s-g-z3-g4-121-upper-beam-g5to",
+              "name": "121_Upper_Beam-G5TO",
+              "rcsPosition": "121_Upper_Beam-G5TO"
             },
             {
-              "id": "s-g-z3-g4-125-gsb282-g5to",
-              "name": "125-GSB282-G5TO",
-              "rcsPosition": "125-GSB282-G5TO"
+              "id": "s-g-z3-g4-121-upper-beam",
+              "name": "121_Upper_Beam",
+              "rcsPosition": "121_Upper_Beam"
             },
             {
-              "id": "s-g-z3-g4-125-gsb282",
-              "name": "F2PB8",
-              "rcsPosition": "F2PB8"
+              "id": "s-g-z3-g4-128-selection-table-g5to",
+              "name": "128_Selection_Table-G5TO",
+              "rcsPosition": "128_Selection_Table-G5TO"
             },
             {
-              "id": "s-g-z3-g4-125-gsb282",
-              "name": "F2PB8",
-              "rcsPosition": "F2PB8"
+              "id": "s-g-z3-g4-128-selection-table",
+              "name": "128_Selection_Table",
+              "rcsPosition": "128_Selection_Table"
+            },
+            {
+              "id": "s-g-z3-g4-121-handrail",
+              "name": "121_Handrail",
+              "rcsPosition": "121_Handrail"
+            },
+            {
+              "id": "s-g-z3-g4-183-oil-buffer",
+              "name": "183-Oil_buffer",
+              "rcsPosition": "183-Oil_buffer"
+            },
+            {
+              "id": "s-g-z3-g4-183-rial-footing",
+              "name": "183-Rial_footing",
+              "rcsPosition": "183-Rial_footing"
+            },
+            {
+              "id": "s-g-z3-home-cartreturn",
+              "name": "CartReturn",
+              "rcsPosition": "CartReturn"
+            },
+            {
+              "id": "s-g-z3-home-feederin",
+              "name": "FeederIn",
+              "rcsPosition": "FeederIn"
+            },
+            {
+              "id": "s-g-z3-home-home-ps-hp",
+              "name": "Home_(PS&HP)",
+              "rcsPosition": "Home_(PS&HP)"
+            },
+            {
+              "id": "s-g-z3-bwh-g2-d1c1-in",
+              "name": "#G2-D1C1_(IN)",
+              "rcsPosition": "#G2-D1C1_(IN)"
+            },
+            {
+              "id": "s-g-z3-bwh-g2-d1c1-out",
+              "name": "#G2-D1C1_(OUT)",
+              "rcsPosition": "#G2-D1C1_(OUT)"
+            },
+            {
+              "id": "s-g-z3-bwh-g1-a1b9-in",
+              "name": "#G1-A1B9_(IN)",
+              "rcsPosition": "#G1-A1B9_(IN)"
+            },
+            {
+              "id": "s-g-z3-bwh-g1-a1b9-out",
+              "name": "#G1-A1B9_(OUT)",
+              "rcsPosition": "#G1-A1B9_(OUT)"
+            },
+            {
+              "id": "s-g-z3-b9-197-01-blocking-device",
+              "name": "197-01_Blocking_Device",
+              "rcsPosition": "197-01_Blocking_Device"
+            },
+            {
+              "id": "s-g-z3-b9-115-sp",
+              "name": "B9-115_S/P",
+              "rcsPosition": "B9-115_S/P"
+            },
+            {
+              "id": "s-g-z3-b9-122-weighting-device",
+              "name": "B9-122_Weighting_Device",
+              "rcsPosition": "B9-122_Weighting_Device"
+            },
+            {
+              "id": "s-g-z3-b9-103-04-isolate-rubber-198-02-pit-leader",
+              "name": "103-04_Isolate_Rubber/198-02_Pit_Leader",
+              "rcsPosition": "103-04_Isolate_Rubber/198-02_Pit_Leader"
+            },
+            {
+              "id": "s-g-z3-b9-115-c",
+              "name": "B9-115_C",
+              "rcsPosition": "B9-115_C"
+            },
+            {
+              "id": "s-g-z3-a1-a1-hanger-case",
+              "name": "A1-Hanger_Case",
+              "rcsPosition": "A1-Hanger_Case"
+            },
+            {
+              "id": "s-g-z3-a1-a1-cd-accessory-home-ps-hp",
+              "name": "A1-C/D_Accessory-Home_(PS&HP)",
+              "rcsPosition": "A1-C/D_Accessory-Home_(PS&HP)"
+            },
+            {
+              "id": "s-g-z3-a1-a1-cd-accessory",
+              "name": "A1-C/D_Accessory",
+              "rcsPosition": "A1-C/D_Accessory"
+            },
+            {
+              "id": "s-g-z3-a1-a1-cd-operator",
+              "name": "A1-C/D Operator",
+              "rcsPosition": "A1-C/D Operator"
             }
           ]
-        }
-      ]
-    },
-    {
-      "id": "f2",
-      "name": "Floor 2",
-      "spots": [
-        {
-          "id": "s-f2-item366",
-          "name": "item366",
-          "rcsPosition": "item366"
-        },
-        {
-          "id": "s-f2-item235",
-          "name": "item235",
-          "rcsPosition": "item235"
-        },
-        {
-          "id": "s-f2-pcb_f-g",
-          "name": "PCB_F/G",
-          "rcsPosition": "PCB_F/G"
-        },
-        {
-          "id": "s-f2-f-g-item366-_1",
-          "name": "F/G(item366)_1",
-          "rcsPosition": "F/G(item366)_1"
-        },
-        {
-          "id": "s-f2-f-g-item366-_2",
-          "name": "F/G(item366)_2",
-          "rcsPosition": "F/G(item366)_2"
-        },
-        {
-          "id": "s-f2-f-g-item366-_3",
-          "name": "F/G(item366)_3",
-          "rcsPosition": "F/G(item366)_3"
-        },
-        {
-          "id": "s-f2-f-g-item366-_4",
-          "name": "F/G(item366)_4",
-          "rcsPosition": "F/G(item366)_4"
-        },
-        {
-          "id": "s-f2-f-g-item366-_5",
-          "name": "F/G(item366)_5",
-          "rcsPosition": "F/G(item366)_5"
-        },
-        {
-          "id": "s-f2-f-g-item2xx",
-          "name": "F/G(item2XX)",
-          "rcsPosition": "F/G(item2XX)"
-        },
-        {
-          "id": "s-f2-f-g-item6xx",
-          "name": "F/G(item6XX)",
-          "rcsPosition": "F/G(item6XX)"
-        },
-        {
-          "id": "s-f2-pcb_shop-mt",
-          "name": "PCB_Shop(MT)",
-          "rcsPosition": "PCB_Shop(MT)"
-        },
-        {
-          "id": "s-f2-pcb_shop-smt",
-          "name": "PCB_Shop(SMT)",
-          "rcsPosition": "PCB_Shop(SMT)"
-        },
-        {
-          "id": "s-f2-elc_feeder",
-          "name": "ELC_Feeder",
-          "rcsPosition": "ELC_Feeder"
-        },
-        {
-          "id": "s-f2-elc_storage",
-          "name": "ELC_storage",
-          "rcsPosition": "ELC_storage"
-        },
-        {
-          "id": "s-f2-item6xx",
-          "name": "item6XX",
-          "rcsPosition": "item6XX"
-        }
-      ]
-    },
-    {
-      "id": "f3",
-      "name": "Floor 3",
-      "spots": [
-        {
-          "id": "s-f3-w-h",
-          "name": "W/H",
-          "rcsPosition": "W/H"
-        },
-        {
-          "id": "s-f3-w-h-vpc",
-          "name": "W/H(VPC)",
-          "rcsPosition": "W/H(VPC)"
         }
       ]
     }
