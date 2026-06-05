@@ -71,6 +71,7 @@
             {
               "id": "s-g-z2-f1-f1lz",
               "name": "F1LZ",
+              "statusCart": "empty",
               "rcsPosition": "F1LZ"
             },
             {
@@ -343,4 +344,5 @@
       ]
     }
   ]
+  
 }
