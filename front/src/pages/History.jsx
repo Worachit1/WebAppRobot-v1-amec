@@ -11,10 +11,12 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import ScreenLayout from "../components/ScreenLayout.jsx";
-import MitsubishiLogo from "../components/Amr-mtm-str.jsx";
 import { fetchHistory } from "../api/client.js";
 
+import { formatDateTime } from "../config/formatDatetime.js";
+
 import Pagination from "../components/Pagination.jsx";
+import { defaultRowsPerPage } from "../config/rowPerPages.js";
 
 const STATUS_COLORS = {
   COMPLETED: "success",
@@ -34,7 +36,7 @@ function HistoryCard({ item }) {
     <Box
       sx={{
         width: "100%",
-        borderRadius: 2,
+        borderRadius: "8px",
         border: "2px solid #111",
         p: 2,
         display: "flex",
@@ -43,17 +45,39 @@ function HistoryCard({ item }) {
         gap: 2,
       }}
     >
-      <Box>
-        <Typography variant="body2">หมายเลขคำสั่ง : {item.orderId}</Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 0.5,
+        }}
+      >
         <Typography variant="body2">
-          รายละเอียด : {item.pickup?.name} → {item.drop?.name}
+          <span style={{ fontWeight: 600 }}>หมายเลขคำสั่ง :</span>{" "}
+          {item.orderId}
         </Typography>
         <Typography variant="body2">
-          เวลาดำเนินการ : {item.startedAt || "-"}
+          <span style={{ fontWeight: 700 }}>Pick Up :</span> <br />{" "}
+          {item.pickup?.name}
         </Typography>
-        <Typography variant="body2">สถานะหุ่นยนต์ : {item.status}</Typography>
+        <Typography variant="body2">
+          <span style={{ fontWeight: 700 }}>Drop Off :</span>
+          <br /> {item.drop?.name}
+        </Typography>
+        <Typography variant="body2">
+          <span style={{ fontWeight: 600 }}>เวลาดำเนินการ :</span>
+          <br /> {formatDateTime(item.startedAt) || "-"}
+        </Typography>
+        <Typography variant="body2">
+          <span style={{ fontWeight: 700 }}>Cart :</span> {item.cartName}
+        </Typography>
       </Box>
-      <Chip label={item.status} color={chipColor} size="small" />
+      <Chip
+        label={item.status}
+        color={chipColor}
+        size="small"
+        sx={{ fontSize: "12px", fontWeight: 700 }}
+      />
     </Box>
   );
 }
@@ -66,7 +90,7 @@ function History() {
   const [loading, setLoading] = useState(true);
 
   const [page, setPage] = useState(1);
-  const rowsPerPage = 4;
+  const rowsPerPage = defaultRowsPerPage;
 
   useEffect(() => {
     setLoading(true);
@@ -89,57 +113,90 @@ function History() {
       onBack={() => navigate("/")}
       onHome={() => navigate("/")}
     >
-      <MitsubishiLogo />
-      <Box sx={{ display: "flex", width: "100%", gap: 2 }}>
-        <TextField
-          fullWidth
-          size="small"
-          placeholder="ค้นหา งาน / คำสั่ง"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <Select
-          size="small"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-        >
-          <MenuItem value="ALL">ทั้งหมด</MenuItem>
-          <MenuItem value="COMPLETED">Completed</MenuItem>
-          <MenuItem value="CANCELLED">Cancel</MenuItem>
-          <MenuItem value="RUNNING">On Task</MenuItem>
-        </Select>
-      </Box>
-      {loading ? (
-        <CircularProgress />
-      ) : (
+      <Box
+        sx={{
+          width: "100%",
+          minHeight: "80vh",
+          p: 2,
+        }}
+      >
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            width: "100%",
+            maxWidth: "420px",
+            mx: "auto",
+            backgroundColor: "#fff",
+            p: 2,
+            marginTop: "5px",
+            padding: "12px",
           }}
         >
-          {items.length === 0 ? (
-            <Typography variant="body2" color="text.secondary">
-              ไม่มีรายการ
-            </Typography>
+          <Typography
+            sx={{
+              textAlign: "center",
+              color: "#0066c0",
+              fontSize: "20px",
+              fontWeight: 900,
+              border: "2px solid #000",
+              mb: 3,
+            }}
+          >
+            TASK HISTORY
+          </Typography>
+          <Box sx={{ display: "flex", width: "100%", gap: 2 }}>
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="ค้นหา งาน / คำสั่ง"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+            <Select
+              size="small"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              sx={{
+                mb: 3,
+              }}
+            >
+              <MenuItem value="ALL">ทั้งหมด</MenuItem>
+              <MenuItem value="COMPLETED">Completed</MenuItem>
+              <MenuItem value="CANCELLED">Cancel</MenuItem>
+              <MenuItem value="RUNNING">On Task</MenuItem>
+            </Select>
+          </Box>
+          {loading ? (
+            <CircularProgress />
           ) : (
-            <>
-              {paginatedItems.map((item) => (
-                <HistoryCard key={item.orderId} item={item} />
-              ))}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                width: "100%",
+              }}
+            >
+              {items.length === 0 ? (
+                <Typography variant="body2" color="text.secondary">
+                  ไม่มีรายการ
+                </Typography>
+              ) : (
+                <>
+                  {paginatedItems.map((item) => (
+                    <HistoryCard key={item.orderId} item={item} />
+                  ))}
 
-              <Pagination
-                page={page}
-                totalItems={totalItems}
-                rowsPerPage={rowsPerPage}
-                onPageChange={setPage}
-              />
-            </>
+                  <Pagination
+                    page={page}
+                    totalItems={totalItems}
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={setPage}
+                  />
+                </>
+              )}
+            </Box>
           )}
         </Box>
-      )}
+      </Box>
     </ScreenLayout>
   );
 }

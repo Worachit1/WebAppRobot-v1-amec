@@ -18,6 +18,8 @@ import DoorTest from "./pages/DoorTest.jsx";
 import ZoneList from "./pages/Zonelist.jsx";
 import Statustwo from "./pages/Status.two.jsx";
 import TaskAssign from "./pages/TaskAssign.jsx";
+import CartSelect from "./pages/CartSelect.jsx";
+import CartSelectStatus from "./pages/CartSelectStatus.jsx";
 
 function isAuthed() {
   return Boolean(localStorage.getItem("authUser"));
@@ -154,6 +156,24 @@ function App() {
           element={
             <RequireAuth>
               <TaskAssign />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/cart-select"
+          element={
+            <RequireAuth>
+              <CartSelect />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/cart-status"
+          element={
+            <RequireAuth>
+              <CartSelectStatus />
             </RequireAuth>
           }
         />

@@ -5,11 +5,12 @@ function MitsubishiLogo() {
   return (
     <Box
       sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 2,
-        my: 3,
+        maxWidth: "420px",
+        mx: "auto",
+        backgroundColor: "#fff",
+        p: 2,
+        marginTop: "5px",
+        padding: "12px",
       }}
     >
       <Box sx={{ textAlign: "left" }}>

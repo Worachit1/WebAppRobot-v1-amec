@@ -2,9 +2,9 @@ import { Box, Button, Typography, Dialog } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import taskAssignImg from "../../public/assets/images/location_task_assign.jpg";
-import c060Img from "../../public/assets/images/C060.png";
-import cartIcon from "../../public/assets/images/cartIcon.png";
+import taskAssignImg from "../../src/assets/images/location_task_assign.jpg";
+import c060Img from "../../src/assets/images/C1001.png";
+import cartIcon from "../../src/assets/images/cartIcon.png";
 import ScreenLayout from "../components/ScreenLayout";
 
 const zone = [

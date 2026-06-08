@@ -10,17 +10,23 @@ import {
 } from "@mui/material";
 import ScreenLayout from "../components/ScreenLayout.jsx";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
-import { fetchZonePick, fetchZoneDrop } from "../api/client.js";
-import cartT2Img from "../../public/assets/images/cart/Cart T2.png";
-import cartT3Img from "../../public/assets/images/cart/Cart T3.png";
-import cartT6Img from "../../public/assets/images/cart/Cart T6.png";
+import {
+  fetchZonePick,
+  fetchZoneDrop,
+  fetchCarts,
+  fetchRobtots,
+  createOrder,
+} from "../api/client.js";
+import cartT2Img from "../../src/assets/images/cart/Cart T2.png";
+import cartT3Img from "../../src/assets/images/cart/Cart T3.png";
+import cartT6Img from "../../src/assets/images/cart/Cart T6.png";
 
 import { dropRules } from "../config/dropRules.js";
 
 const cartTypes = [
-  { id: 1, img: cartT2Img },
-  { id: 2, img: cartT3Img },
-  { id: 3, img: cartT6Img },
+  { id: "t2", img: cartT2Img },
+  { id: "t3", img: cartT3Img },
+  { id: "t6", img: cartT6Img },
 ];
 
 const formatSpotName = (name = "") => {
@@ -35,65 +41,76 @@ function TaskAssign() {
 
   const groupId = searchParams.get("groupId");
   const card = searchParams.get("card");
-  const type = searchParams.get("type");
 
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   const [pickup, setPickup] = useState("");
   const [dropOff, setDropOff] = useState("");
+  const [cartType, setCartType] = useState("");
 
   const [pickupStations, setPickupStations] = useState([]);
   const [dropStations, setDropStations] = useState([]);
+  const [robots, setRobots] = useState([]);
+  const [carts, setCarts] = useState([]);
 
-  const [cartType, setCartType] = useState("");
+  const selectedRobot = robots[0];
   const canSelectCart = Boolean(pickup && dropOff);
 
   useEffect(() => {
     setLoading(true);
 
-    Promise.all([fetchZonePick(), fetchZoneDrop()])
-      .then(([pickRes, dropRes]) => {
+    Promise.all([
+      fetchZonePick(),
+      fetchZoneDrop(),
+      fetchCarts(),
+      fetchRobtots(),
+    ])
+      .then(([pickRes, dropRes, cartRes, robotRes]) => {
         const pickZones = pickRes?.data || [];
         const dropZones = dropRes?.data || [];
 
         const selectedGroup = pickZones
-          .flatMap((zone) => zone.groups || [])
+          .flatMap((zone) => zone.groups || zone.group || [])
           .find((group) => group.id === groupId);
 
         const allDropSpots = dropZones.flatMap((zone) =>
-          (zone.groups || []).flatMap((group) => group.spots || []),
+          (zone.groups || zone.group || []).flatMap(
+            (group) => group.spots || [],
+          ),
         );
 
         setPickupStations(selectedGroup?.spots || []);
         setDropStations(allDropSpots);
+        setCarts(cartRes?.data || []);
+        setRobots(robotRes?.data || []);
       })
       .finally(() => setLoading(false));
   }, [groupId]);
 
   const dropOptions = useMemo(() => {
-  if (!pickup) return dropStations;
+    if (!pickup) return dropStations;
 
-  const allowedDropIds = dropRules[pickup];
+    const allowedDropIds = dropRules[pickup];
+    if (!allowedDropIds) return dropStations;
 
-  if (!allowedDropIds) return dropStations;
+    return dropStations.filter((station) =>
+      allowedDropIds.includes(station.id),
+    );
+  }, [pickup, dropStations]);
 
-  return dropStations.filter((station) =>
-    allowedDropIds.includes(station.id),
-  );
-}, [pickup, dropStations]);
+  const selectedDropStation = useMemo(() => {
+    return dropStations.find((station) => station.id === dropOff);
+  }, [dropStations, dropOff]);
 
-const selectedDropStation = useMemo(() => {
-  return dropStations.find((station) => station.id === dropOff);
-}, [dropStations, dropOff]);
-
-const dropStatus = selectedDropStation?.statusClass || "";
+  const dropStatusCart = selectedDropStation?.statusCart || "empty";
+  const dropStatusWork = selectedDropStation?.statusWork || "free";
 
   const handlePickupChange = (value) => {
     setPickup(value);
     setCartType("");
 
     const allowedDropIds = dropRules[value];
-
     const nextDropOptions = allowedDropIds
       ? dropStations.filter((station) => allowedDropIds.includes(station.id))
       : dropStations;
@@ -102,6 +119,29 @@ const dropStatus = selectedDropStation?.statusClass || "";
       setDropOff("");
     }
   };
+
+  const handleConfirm = async () => {
+    if (!pickup || !dropOff || !cartType || !selectedRobot) return;
+
+    try {
+      setSubmitting(true);
+
+      await createOrder({
+        robotId: selectedRobot.id,
+        cartId: String(cartType),
+        pickupSpotId: pickup,
+        dropSpotId: dropOff,
+      });
+
+      navigate("/zone-list");
+    } catch (err) {
+      console.error(err);
+      alert(err?.response?.data?.error || err.message || "Create order failed");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   if (loading) {
     return (
       <ScreenLayout
@@ -290,19 +330,18 @@ const dropStatus = selectedDropStation?.statusClass || "";
             sx={{
               minWidth: 120,
               height: 48,
-              borderRadius: "4px",
-              bgcolor: dropStatus === "full" ? "#ed6c2f" : "#2e7d32",
+              bgcolor: dropStatusCart === "full" ? "#ed6c2f" : "#2e7d32",
               color: "#fff !important",
               fontSize: 18,
               fontWeight: 900,
               "&.Mui-disabled": {
-                bgcolor: dropStatus === "full" ? "#ed6c2f" : "#2e7d32",
+                bgcolor: dropStatusCart === "full" ? "#ed6c2f" : "#2e7d32",
                 color: "#fff",
                 opacity: 1,
               },
             }}
           >
-            {dropStatus ? dropStatus.toUpperCase() : "-"}
+            {dropStatusCart.toUpperCase()}
           </Button>
         </Box>
 
@@ -326,8 +365,9 @@ const dropStatus = selectedDropStation?.statusClass || "";
           </Button>
 
           <Button
-            disabled={!pickup || !dropOff || !cartType}
+            disabled={!pickup || !dropOff || !cartType || submitting}
             variant="contained"
+            onClick={handleConfirm}
             sx={{
               minWidth: 170,
               height: 64,
@@ -337,7 +377,7 @@ const dropStatus = selectedDropStation?.statusClass || "";
               textTransform: "none",
             }}
           >
-            Confirm
+            {submitting ? "Sending..." : "Confirm"}
           </Button>
         </Box>
       </Box>
