@@ -23,13 +23,23 @@
       "deviceNum": "EH12835AAK00001",
       "rcsId": "rcs-1",
       "imageUrl": "/assets/C040.jpg"
+    }
+  ],
+  "carts": [
+    {
+      "id": "t2",
+      "name": "T2",
+      "imageUrl": "/assets/images/cart/C040.jpg"
     },
     {
-      "id": "up",
-      "name": "UP",
-      "deviceNum": "AGV-02",
-      "rcsId": "rcs-1",
-      "imageUrl": "/assets/Up.png"
+      "id": "t3",
+      "name": "T3",
+      "imageUrl": "/assets/images/cart/C040.jpg"
+    },
+    {
+      "id": "t6",
+      "name": "T6",
+      "imageUrl": "/assets/images/cart/C040.jpg"
     }
   ],
   "pickupZones": [

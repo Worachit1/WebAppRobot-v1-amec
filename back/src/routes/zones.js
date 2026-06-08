@@ -13,7 +13,7 @@ function normalizeZones(zones = []) {
       spots: (group.spots || []).map((spot) => ({
         id: spot.id,
         name: spot.name,
-        statusClass: spot.statusClass || "empty",
+        statusCart: spot.statusCart || "empty",
         rcsPosition: spot.rcsPosition,
       })),
     })),

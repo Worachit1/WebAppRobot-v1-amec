@@ -7,6 +7,7 @@ const ordersRoutes = require("./routes/orders");
 const statusRoutes = require("./routes/status");
 const liftRoutes = require("./routes/lift");
 const zoneRoutes = require("./routes/zones");
+const robotRoutes = require("./routes/robots");
 const { registerDoorRoutes } = require("./routes/door");
 
 const app = express();
@@ -25,6 +26,7 @@ app.use("/api/orders", ordersRoutes);
 app.use("/api/status", statusRoutes);
 app.use("/api/lift", liftRoutes);
 app.use("/api/zones", zoneRoutes);
+app.use("/api/robots", robotRoutes);
 registerDoorRoutes(app);
 
 const server = app.listen(port, () => {
