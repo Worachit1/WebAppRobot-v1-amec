@@ -14,6 +14,7 @@ function normalizeZones(zones = []) {
         id: spot.id,
         name: spot.name,
         statusCart: spot.statusCart || "empty",
+        statusWork: spot.statusWork || "free",
         rcsPosition: spot.rcsPosition,
       })),
     })),
