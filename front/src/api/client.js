@@ -53,6 +53,8 @@ export function fetchCart(params = {}) {
 export function fetchConfig() {
   return apiRequest("/config");
 }
+//test
+//test
 
 export function updateConfig(config) {
   return apiRequest("/config", {
