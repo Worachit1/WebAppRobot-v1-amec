@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import ScreenLayout from "../components/ScreenLayout.jsx";
 import MitsubishiLogo from "../components/Amr-mtm-str.jsx";
 
-import taskAssignImg from "../../public/assets/images/location_task_assign.jpg";
+import taskAssignImg from "../../src/assets/images/location_task_assign.jpg";
 
 const TEST_PASSWORD = "AMECAMR26";
 
@@ -163,7 +163,7 @@ function Home() {
               boxShadow: "6px 6px 12px rgba(0,0,0,0.3)",
             },
           }}
-          onClick={() => navigate("/cancel")}
+          onClick={() => navigate("/history")}
         >
           <span>TASK HISTORY</span>
           <Box
@@ -217,7 +217,7 @@ function Home() {
               boxShadow: "6px 6px 12px rgba(0,0,0,0.3)",
             },
           }}
-          onClick={() => navigate("/cancel")}
+          // onClick={() => navigate("/cancel")}
         >
           <span>UTILIZATION</span>
           <Box

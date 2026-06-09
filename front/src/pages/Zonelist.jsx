@@ -2,9 +2,9 @@ import { Box, Button, Typography, Dialog } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import taskAssignImg from "../../public/assets/images/location_task_assign.jpg";
-import c060Img from "../../public/assets/images/C060.png";
-import cartIcon from "../../public/assets/images/cartIcon.png";
+import taskAssignImg from "../../src/assets/images/location_task_assign.jpg";
+import c100Img from "../../src/assets/images/C1001.png";
+import cartIcon from "../../src/assets/images/cartIcon.png";
 import ScreenLayout from "../components/ScreenLayout";
 
 import { fetchZonePick } from "../api/client";
@@ -79,7 +79,7 @@ const ZoneList = () => {
                   gap: 2,
                   mb: 2,
                   alignItems: "start",
-                  minHeight: "120px"
+                  minHeight: "120px",
                 }}
               >
                 <Box
@@ -293,12 +293,13 @@ const ZoneList = () => {
             >
               <Box
                 component="img"
-                src={c060Img}
+                src={c100Img}
                 alt="CALL AMR"
                 sx={{
-                  width: "100px",
+                  width: "180px",
                   height: "90px",
                   objectFit: "contain",
+                  marginLeft: "-30px"
                 }}
               />
 
@@ -318,7 +319,7 @@ const ZoneList = () => {
             <Button
               onClick={() => {
                 navigate(
-                  `/task-assign/${encodeURIComponent(selectedCard?.zoneId)}?zoneName=${encodeURIComponent(selectedCard?.zoneName)}&groupId=${encodeURIComponent(selectedCard?.groupId)}&card=${encodeURIComponent(selectedCard?.groupName)}&type=CART_STATION`,
+                  `/cart-select?zoneId=${encodeURIComponent(selectedCard?.zoneId)}&zoneName=${encodeURIComponent(selectedCard?.zoneName)}&groupId=${encodeURIComponent(selectedCard?.groupId)}&groupName=${encodeURIComponent(selectedCard?.groupName)}`,
                 );
               }}
               sx={{

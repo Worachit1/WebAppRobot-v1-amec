@@ -14,8 +14,6 @@ function Pagination({ page, totalItems, rowsPerPage, onPageChange }) {
     setPageInput(String(page));
   }, [page]);
 
-  if (totalPages <= 1) return null;
-
   const applyPageInput = () => {
     const value = Number(pageInput);
 
@@ -28,6 +26,8 @@ function Pagination({ page, totalItems, rowsPerPage, onPageChange }) {
     onPageChange(nextPage);
     setPageInput(String(nextPage));
   };
+
+  
 
   return (
     <Box
