@@ -27,11 +27,11 @@ function writeLog(file, ...args) {
     .join(" ");
   const line = `[${new Date().toISOString()}] ${text}\n`;
   process.stdout.write(line);
-  try {
-    fs.appendFileSync(file, line);
-  } catch (_) {
+  //try {
+    //fs.appendFileSync(file, line);
+ // } catch (_) {
     /* never let logging crash a request */
-  }
+ // }
 }
 
 const controlLog = (...args) => writeLog(CONTROL_LOG, ...args);
