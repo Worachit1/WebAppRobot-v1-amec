@@ -128,7 +128,7 @@ const ZoneList = () => {
                         onClick={() => handleSelectCard(zone, group)}
                         sx={{
                           height: "85px",
-                          backgroundColor: "#bdf8c7",
+                          backgroundColor: "#c2f4ca",
                           color: "#000",
                           borderRadius: "2px",
                           boxShadow: "4px 4px 6px rgba(0,0,0,0.25)",
@@ -136,7 +136,7 @@ const ZoneList = () => {
                           flexDirection: "column",
                           fontWeight: 800,
                           "&:hover": {
-                            backgroundColor: "#a8efb5",
+                            backgroundColor: "#9cbca1",
                           },
                         }}
                       >
@@ -149,7 +149,6 @@ const ZoneList = () => {
                             objectFit: "contain",
                           }}
                         />
-
                         <Typography sx={{ fontSize: "16px", fontWeight: 800 }}>
                           {group.name}
                         </Typography>
@@ -161,8 +160,7 @@ const ZoneList = () => {
                 {isFirstZone && (
                   <Button
                     sx={{
-                      height: "90px",
-                      mt: 1,
+                      mt: 0,
                       bgcolor: "#a020a0",
                       color: "#fff",
                       borderRadius: "4px",
@@ -174,6 +172,7 @@ const ZoneList = () => {
                       "&:hover": {
                         bgcolor: "#8c168c",
                       },
+                      height: "128px",
                     }}
                   >
                     <Box sx={{ fontSize: "34px", lineHeight: 1 }}>
@@ -299,7 +298,7 @@ const ZoneList = () => {
                   width: "180px",
                   height: "90px",
                   objectFit: "contain",
-                  marginLeft: "-30px"
+                  marginLeft: "-30px",
                 }}
               />
 

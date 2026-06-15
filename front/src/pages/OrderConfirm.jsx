@@ -3,7 +3,7 @@ import { Box, Button, Paper, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import ScreenLayout from "../components/ScreenLayout.jsx";
-import MitsubishiLogo from "../components/Amr-mtm-str.jsx";
+import AmrLogo from "../components/Amr-mtm-str.jsx";
 import { createOrder } from "../api/client.js";
 import { useOrder } from "../context/OrderContext.jsx";
 
@@ -39,7 +39,7 @@ function OrderConfirm() {
 
   return (
     <ScreenLayout title="สั่งงาน" onBack={() => navigate("/order/drop")} onHome={() => navigate("/")}>
-      <MitsubishiLogo />
+      <AmrLogo />
       <Box
         sx={{
           width: "100%",

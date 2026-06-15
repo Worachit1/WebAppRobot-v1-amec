@@ -12,7 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import ScreenLayout from "../components/ScreenLayout.jsx";
-import MitsubishiLogo from "../components/Amr-mtm-str.jsx";
+import AmrLogo from "../components/Amr-mtm-str.jsx";
 
 import taskAssignImg from "../../src/assets/images/location_task_assign.jpg";
 
@@ -57,14 +57,15 @@ function Home() {
       showBack={false}
       onHome={() => navigate("/")}
     >
-      <MitsubishiLogo />
+      <AmrLogo />
 
       <Box
         sx={{
           display: "flex",
-          gap: 2,
+          gap: 4,
           width: "100%",
           justifyContent: "center",
+          m: 4
         }}
       >
         <Button
@@ -136,9 +137,10 @@ function Home() {
       <Box
         sx={{
           display: "flex",
-          gap: 2,
+          gap: 4,
           width: "100%",
           justifyContent: "center",
+          m: 4
         }}
       >
         <Button

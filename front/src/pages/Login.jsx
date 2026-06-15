@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import MitsubishiLogo from "../components/Amr-mtm-str.jsx";
+import AmrLogo from "../components/Amr-mtm-str.jsx";
 import { login } from "../api/client.js";
 
 function Login() {
@@ -39,7 +39,7 @@ function Login() {
       }}
     >
       <Box sx={{ width: "100%", maxWidth: 360 }}>
-        <MitsubishiLogo />
+        <AmrLogo />
         <Typography variant="subtitle1" align="center" sx={{ mb: 2 }}>
           ล็อคอินเข้าสู่ระบบ
         </Typography>

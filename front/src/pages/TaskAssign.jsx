@@ -22,16 +22,14 @@ import cartT3Img from "../../src/assets/images/cart/Cart T3.png";
 import cartT6Img from "../../src/assets/images/cart/Cart T6.png";
 
 import { dropRules } from "../config/dropRules.js";
+import Swal from "sweetalert2";
+import { formatSpotName } from "../config/fotmatSpotName.js";
 
 const cartTypes = [
   { id: "t2", img: cartT2Img },
   { id: "t3", img: cartT3Img },
   { id: "t6", img: cartT6Img },
 ];
-
-const formatSpotName = (name = "") => {
-  return String(name).replace(/_/g, " ");
-};
 
 function TaskAssign() {
   const navigate = useNavigate();
@@ -56,6 +54,8 @@ function TaskAssign() {
 
   const selectedRobot = robots[0];
   const canSelectCart = Boolean(pickup && dropOff);
+
+
 
   useEffect(() => {
     setLoading(true);
@@ -123,6 +123,34 @@ function TaskAssign() {
   const handleConfirm = async () => {
     if (!pickup || !dropOff || !cartType || !selectedRobot) return;
 
+    const selectedPickupStation = pickupStations.find(
+      (station) => station.id === pickup,
+    );
+
+    const selectedDropStation = dropStations.find(
+      (station) => station.id === dropOff,
+    );
+
+    const result = await Swal.fire({
+      title: "Are You Sure",
+      html: `
+      <div style="text-align:left; font-size:18px;">
+        <div><b>Pick up:</b> ${formatSpotName(selectedPickupStation?.name || "-")}</div>
+        <div><b>Drop Off:</b> ${formatSpotName(selectedDropStation?.name || "-")}</div>
+        <div><b>Cart:</b> ${String(cartType).toUpperCase()}</div>
+      </div>
+    `,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Confirm",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#1976d2",
+      cancelButtonColor: "#777",
+      reverseButtons: true,
+    });
+
+    if (!result.isConfirmed) return;
+
     try {
       setSubmitting(true);
 
@@ -136,12 +164,17 @@ function TaskAssign() {
       navigate("/zone-list");
     } catch (err) {
       console.error(err);
-      alert(err?.response?.data?.error || err.message || "Create order failed");
+
+      Swal.fire({
+        icon: "error",
+        title: "Create order failed",
+        text:
+          err?.response?.data?.error || err.message || "Create order failed",
+      });
     } finally {
       setSubmitting(false);
     }
   };
-
   if (loading) {
     return (
       <ScreenLayout
@@ -359,6 +392,12 @@ function TaskAssign() {
               fontSize: 24,
               fontWeight: 800,
               textTransform: "none",
+              border: "2px solid #d32f2f",
+              "&:hover": {
+                  bgcolor: "#e95656",
+                  color: "#fff",
+                },
+              borderRadius: "4px",
             }}
           >
             Cancel

@@ -11,7 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import ScreenLayout from "../components/ScreenLayout.jsx";
-import MitsubishiLogo from "../components/Amr-mtm-str.jsx";
+import AmrLogo from "../components/Amr-mtm-str.jsx";
 import { fetchHistory } from "../api/client.js";
 
 const STATUS_COLORS = {
@@ -65,7 +65,7 @@ function History() {
 
   return (
     <ScreenLayout title="ประวัติการสั่งงาน" onBack={() => navigate("/")} onHome={() => navigate("/")}>
-      <MitsubishiLogo />
+      <AmrLogo />
       <Box sx={{ display: "flex", width: "100%", gap: 2 }}>
         <TextField
           fullWidth

@@ -13,6 +13,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import ScreenLayout from "../components/ScreenLayout.jsx";
 import { fetchZoneDrop, updateSpotStatusCart } from "../api/client.js";
 
+
 import Swal from "sweetalert2";
 
 function CartSelect() {
@@ -207,7 +208,6 @@ function CartSelect() {
                   </Button>
                 </Box>
               ))}
-
             <Button
               onClick={() =>
                 navigate(

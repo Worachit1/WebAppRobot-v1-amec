@@ -3,13 +3,13 @@ import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import ScreenLayout from "../components/ScreenLayout.jsx";
-import MitsubishiLogo from "../components/Amr-mtm-str.jsx";
+import AmrLogo from "../components/Amr-mtm-str.jsx";
 
 function Home() {
   const navigate = useNavigate();
   return (
     <ScreenLayout title="หน้าหลัก" onBack={() => {}} showBack={false} onHome={() => navigate("/")}>
-      <MitsubishiLogo />
+      <AmrLogo />
       <Box sx={{ display: "flex", gap: 2, width: "100%", justifyContent: "center" }}>
         <Button
           variant="contained"

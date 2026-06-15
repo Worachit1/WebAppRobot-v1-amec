@@ -3,7 +3,7 @@ import { Box, Button, CircularProgress, Typography, Paper } from "@mui/material"
 import { useNavigate } from "react-router-dom";
 
 import ScreenLayout from "../components/ScreenLayout.jsx";
-import MitsubishiLogo from "../components/Amr-mtm-str.jsx";
+import AmrLogo from "../components/Amr-mtm-str.jsx";
 import {
   postDoor1,
   postDoor2,
@@ -101,7 +101,7 @@ function DoorTest() {
 
   return (
     <ScreenLayout title="ทดสอบประตู" onBack={() => navigate("/")} onHome={() => navigate("/")}>
-      <MitsubishiLogo />
+      <AmrLogo />
 
       <Button
         variant="outlined"
