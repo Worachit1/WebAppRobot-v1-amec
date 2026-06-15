@@ -29,21 +29,6 @@ function ScreenLayout({ title, onBack, onHome, children, showBack = true }) {
         <IconButton onClick={onBack} disabled={!showBack} sx={{ opacity: showBack ? 1 : 0 }}>
           <ArrowBackIcon />
         </IconButton>
-        {/* <Box
-          sx={{
-            px: 2.5,
-            py: 0.5,
-            bgcolor: "#0066c0",
-            color: "#fff",
-            borderRadius: 999,
-            minWidth: 140,
-            textAlign: "center"
-          }}
-        >
-          <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-            {title}
-          </Typography>
-        </Box> */}
         <IconButton onClick={onHome}>
           <HomeIcon />
         </IconButton>

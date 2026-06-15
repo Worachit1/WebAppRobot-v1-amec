@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 
-function MitsubishiLogo() {
+function AmrLogo() {
   return (
     <Box
       sx={{
@@ -11,6 +11,7 @@ function MitsubishiLogo() {
         p: 2,
         marginTop: "5px",
         padding: "12px",
+        width: "100%",
       }}
     >
       <Box sx={{ textAlign: "left" }}>
@@ -33,4 +34,4 @@ function MitsubishiLogo() {
   );
 }
 
-export default MitsubishiLogo;
+export default AmrLogo;

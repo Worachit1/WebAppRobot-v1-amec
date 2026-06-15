@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import ScreenLayout from "../components/ScreenLayout.jsx";
 import { fetchZoneDrop } from "../api/client.js";
+import { formatSpotName } from "../config/fotmatSpotName.js";
 
 function CartSelectStatus() {
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ function CartSelectStatus() {
           sx={{
             textAlign: "center",
             color: "#0066c0",
-            fontSize: "18px",
+            fontSize: "20px",
             fontWeight: 900,
             border: "2px solid #000",
             mb: 2,
@@ -94,7 +95,6 @@ function CartSelectStatus() {
                 },
               }}
             >
-
               {groups.map((group) => {
                 const active = String(group.id) === String(groupId);
 
@@ -161,7 +161,7 @@ function CartSelectStatus() {
                   <Typography sx={{ fontSize: 16 }}>
                     {selectedGroup?.name}
                   </Typography>
-                  <Typography sx={{ fontSize: 16 }}>{station.name}</Typography>
+                  <Typography sx={{ fontSize: 16 }}>{formatSpotName(station.name)}</Typography>
 
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <Box

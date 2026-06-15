@@ -1,2 +1,4 @@
 back/logs/door-control.log
 /back/logs
+front/.env
+front/.env

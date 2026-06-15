@@ -57,6 +57,10 @@ function HistoryCard({ item }) {
           {item.orderId}
         </Typography>
         <Typography variant="body2">
+          <span style={{ fontWeight: 600 }}>Robot :</span>{" "}
+          {item.robotName}
+        </Typography>
+        <Typography variant="body2">
           <span style={{ fontWeight: 700 }}>Pick Up :</span> <br />{" "}
           {item.pickup?.name}
         </Typography>
@@ -159,9 +163,11 @@ function History() {
               }}
             >
               <MenuItem value="ALL">ทั้งหมด</MenuItem>
-              <MenuItem value="COMPLETED">Completed</MenuItem>
+              {/* <MenuItem value="COMPLETED">Completed</MenuItem>
               <MenuItem value="CANCELLED">Cancel</MenuItem>
-              <MenuItem value="RUNNING">On Task</MenuItem>
+              <MenuItem value="RUNNING">On Task</MenuItem> */}
+              <MenuItem value="SEND_SUCCESS">Success</MenuItem>
+              <MenuItem value="SEND_FAILED">Failed</MenuItem>
             </Select>
           </Box>
           {loading ? (

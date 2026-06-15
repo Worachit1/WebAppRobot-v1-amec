@@ -11,7 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import ScreenLayout from "../components/ScreenLayout.jsx";
-import MitsubishiLogo from "../components/Amr-mtm-str.jsx";
+import AmrLogo from "../components/Amr-mtm-str.jsx";
 import { cancelOrder, fetchHistory } from "../api/client.js";
 
 function Cancel() {
@@ -43,7 +43,7 @@ function Cancel() {
 
   return (
     <ScreenLayout title="ยกเลิกงาน" onBack={() => navigate("/")} onHome={() => navigate("/")}>
-      <MitsubishiLogo />
+      <AmrLogo />
       <Box sx={{ display: "flex", width: "100%", gap: 2 }}>
         <TextField
           fullWidth

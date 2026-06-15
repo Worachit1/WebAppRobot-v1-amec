@@ -10,7 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import ScreenLayout from "../components/ScreenLayout.jsx";
-import MitsubishiLogo from "../components/Amr-mtm-str.jsx";
+import AmrLogo from "../components/Amr-mtm-str.jsx";
 import { fetchConfig } from "../api/client.js";
 import { useOrder } from "../context/OrderContext.jsx";
 
@@ -51,7 +51,7 @@ function OrderDrop() {
 
   return (
     <ScreenLayout title="สั่งงาน" onBack={() => navigate("/order/pickup")} onHome={() => navigate("/")}>
-      <MitsubishiLogo />
+      <AmrLogo />
       <Box
         sx={{
           width: "100%",
