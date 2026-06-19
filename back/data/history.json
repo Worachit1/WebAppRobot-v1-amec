@@ -1,5 +1,42 @@
 [
   {
+    "orderId": "1781604005415494055",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t3",
+    "cartName": "T3",
+    "pickup": {
+      "id": "s-g-z1-mtf-bd",
+      "name": "MTF-BD",
+      "zoneId": "z1",
+      "zoneName": "MTF ZONE",
+      "groupId": "g-z1",
+      "groupName": "MTF",
+      "rcsPosition": "MTF-BD"
+    },
+    "drop": {
+      "id": "d-s-g-z3-home-feederin",
+      "name": "FeederIn",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-home",
+      "groupName": "Home",
+      "rcsPosition": "FeederIn"
+    },
+    "status": "SEND_SUCCESS",
+    "createdAt": "2026-06-16T10:00:05.416Z",
+    "startedAt": "2026-06-16T10:00:05.416Z",
+    "finishedAt": "2026-06-16T10:00:05.416Z",
+    "rcsResponse": {
+      "code": 1000,
+      "desc": "MOCK MODE",
+      "data": {
+        "orderId": "1781604005415494055"
+      }
+    },
+    "note": "Mock order, no RCS call"
+  },
+  {
     "orderId": "1780914732236307166",
     "robotId": "C100",
     "robotName": "C100",

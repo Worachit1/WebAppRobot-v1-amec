@@ -449,10 +449,10 @@ function getLift1Cache() { return lift1.cache; }
 function getLift2Cache() { return lift2.cache; }
 
 // ─── start poll loops ───────────────────────────────────────────────
-setInterval(pollLift1, POLL_INTERVAL_MS);
-setInterval(pollLift2, POLL_INTERVAL_MS);
-pollLift1();
-pollLift2();
+//setInterval(pollLift1, POLL_INTERVAL_MS);
+//setInterval(pollLift2, POLL_INTERVAL_MS);
+//pollLift1();
+//pollLift2();
 
 module.exports = {
   enqueueLift1Command,

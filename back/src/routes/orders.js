@@ -22,17 +22,7 @@ function findSpotInZones(zones, spotId, spotName) {
   for (const zone of zones || []) {
     for (const group of getGroups(zone)) {
       for (const spot of group.spots || []) {
-        if (spotId && spot.id === spotId) {
-          return {
-            ...spot,
-            zoneId: zone.id,
-            zoneName: zone.name,
-            groupId: group.id,
-            groupName: group.name,
-          };
-        }
-
-        if (spotName && spot.name === spotName) {
+        if ((spotId && spot.id === spotId) || (spotName && spot.name === spotName)) {
           return {
             ...spot,
             zoneId: zone.id,
@@ -44,43 +34,28 @@ function findSpotInZones(zones, spotId, spotName) {
       }
     }
   }
-
   return null;
 }
 
-function updateSpotStatusInZones(zones, spotId, updates) {
+function findSpotRefById(zones, spotId) {
   for (const zone of zones || []) {
     for (const group of getGroups(zone)) {
       for (const spot of group.spots || []) {
-        if (spot.id === spotId) {
-          Object.assign(spot, updates);
-          return true;
-        }
+        if (spot.id === spotId) return spot;
       }
     }
   }
-
-  return false;
+  return null;
 }
 
-function clearTaskByOrderId(zones, orderId) {
+function findSpotRefByOrderId(zones, orderId) {
   for (const zone of zones || []) {
     for (const group of getGroups(zone)) {
       for (const spot of group.spots || []) {
-        if (spot.orderId === orderId) {
-          spot.statusCart = "empty";
-          spot.statusWork = "free";
-
-          delete spot.robotId;
-          delete spot.cartId;
-          delete spot.orderId;
-
-          return spot;
-        }
+        if (spot.orderId === orderId) return spot;
       }
     }
   }
-
   return null;
 }
 
@@ -93,26 +68,39 @@ function findRcsBaseUrl(config, robot) {
   return rcs?.baseUrl || "";
 }
 
-function clearTaskByOrderId(zones, orderId) {
-  for (const zone of zones || []) {
-    for (const group of getGroups(zone)) {
-      for (const spot of group.spots || []) {
-        if (spot.orderId === orderId) {
-          spot.statusCart = "empty";
-          spot.statusWork = "free";
+function startNextQueuedTask(spot) {
+  const queue = Array.isArray(spot.taskQueue) ? spot.taskQueue : [];
+  const next = queue.shift();
 
-          delete spot.robotId;
-          delete spot.cartId;
-          delete spot.cartName;
-          delete spot.orderId;
-
-          return spot;
-        }
-      }
-    }
+  if (!next) {
+    delete spot.taskQueue;
+    return null;
   }
 
-  return null;
+spot.statusWork = "delivering";
+  spot.robotId = next.robotId;
+  spot.cartId = next.cartId;
+  spot.cartName = next.cartName;
+  spot.orderId = next.orderId;
+
+  if (queue.length > 0) spot.taskQueue = queue;
+  else delete spot.taskQueue;
+
+  return next;
+}
+
+async function saveMockHistory(order, status, note, rcsResponse) {
+  const history = await getHistory();
+  history.unshift({
+    ...order,
+    status,
+    createdAt: new Date().toISOString(),
+    startedAt: new Date().toISOString(),
+    finishedAt: status === "SEND_SUCCESS" ? new Date().toISOString() : null,
+    rcsResponse,
+    note,
+  });
+  await saveHistory(history);
 }
 
 router.post("/", async (req, res) => {
@@ -125,91 +113,48 @@ router.post("/", async (req, res) => {
     dropSpotName,
   } = req.body || {};
 
-  if (!robotId) {
-    return res.status(400).json({ error: "Missing robotId" });
-  }
+  if (!robotId) return res.status(400).json({ error: "Missing robotId" });
+  if (!cartId) return res.status(400).json({ error: "Missing cartId" });
 
   if (!pickupSpotId && !pickupSpotName) {
-    return res
-      .status(400)
-      .json({ error: "Missing pickupSpotId or pickupSpotName" });
+    return res.status(400).json({ error: "Missing pickupSpotId or pickupSpotName" });
   }
 
   if (!dropSpotId && !dropSpotName) {
-    return res
-      .status(400)
-      .json({ error: "Missing dropSpotId or dropSpotName" });
+    return res.status(400).json({ error: "Missing dropSpotId or dropSpotName" });
   }
 
   const config = await getConfig();
 
   const cart = (config.carts || []).find((item) => item.id === cartId);
-
-  if (!cartId) {
-    return res.status(400).json({ error: "Missing cartId" });
-  }
-
-  if (!cart) {
-    return res.status(404).json({ error: "Cart not found" });
-  }
+  if (!cart) return res.status(404).json({ error: "Cart not found" });
 
   const robot = findRobot(config, robotId);
-  if (!robot) {
-    return res.status(404).json({ error: "Robot not found" });
-  }
+  if (!robot) return res.status(404).json({ error: "Robot not found" });
 
-  const pickup = findSpotInZones(
-    config.pickupZones || [],
-    pickupSpotId,
-    pickupSpotName,
-  );
-  const drop = findSpotInZones(
-    config.dropZones || [],
-    dropSpotId,
-    dropSpotName,
-  );
+  const pickup = findSpotInZones(config.pickupZones || [], pickupSpotId, pickupSpotName);
+  const drop = findSpotInZones(config.dropZones || [], dropSpotId, dropSpotName);
 
   if (!pickup || !drop) {
     return res.status(404).json({ error: "Pickup or drop spot not found" });
   }
 
   if (!pickup.rcsPosition || !drop.rcsPosition) {
-    return res
-      .status(400)
-      .json({ error: "Pickup or drop rcsPosition is missing" });
+    return res.status(400).json({ error: "Pickup or drop rcsPosition is missing" });
   }
 
-  if (
-    drop.statusCart === "full" ||
-    drop.statusWork === "delivering" ||
-    drop.orderId
-  ) {
-    return res.status(409).json({
-      error: "Drop spot is not available",
-      drop: {
-        id: drop.id,
-        name: drop.name,
-        statusCart: drop.statusCart,
-        cartId: drop.cartId || null,
-        statusWork: drop.statusWork,
-        orderId: drop.orderId || null,
-      },
-    });
-  }
+  const dropRef = findSpotRefById(config.dropZones || [], drop.id);
+  if (!dropRef) return res.status(404).json({ error: "Drop spot ref not found" });
 
   const orderId = `${Date.now()}${Math.floor(Math.random() * 1e6)}`;
   const rcsBaseUrl = findRcsBaseUrl(config, robot);
   const taskPath = `${pickup.rcsPosition},${drop.rcsPosition}`;
 
-  console.log(
-    `[Orders] dispatch robot=${robot.id} orderId=${orderId} taskPath=${taskPath} deviceNum=${robot.deviceNum}`,
-  );
-
   const order = {
     orderId,
     robotId: robot.id,
     robotName: robot.name,
-    cartId: cartId || null,
+    cartId: cart.id,
     cartName: cart.name,
     pickup: {
       id: pickup.id,
@@ -231,29 +176,74 @@ router.post("/", async (req, res) => {
     },
   };
 
+const isFree = dropRef.statusWork === "free";
+const isDelivering = dropRef.statusWork === "delivering";
+const isPending = dropRef.statusWork === "pending";
+
+  const rcsResponse = {
+    code: 1000,
+    desc: MOCK_RCS ? "MOCK MODE" : "success",
+    data: { orderId },
+  };
+
+  if (isPending) {
+    return res.status(409).json({
+      error: "Drop spot is pending. Please change statusCart to empty first.",
+      drop: {
+        id: dropRef.id,
+        name: dropRef.name,
+        statusCart: dropRef.statusCart,
+        statusWork: dropRef.statusWork,
+        orderId: dropRef.orderId || null,
+      },
+    });
+  }
+
+  if (isDelivering) {
+    dropRef.taskQueue = Array.isArray(dropRef.taskQueue) ? dropRef.taskQueue : [];
+    dropRef.taskQueue.push({
+      orderId,
+      robotId: robot.id,
+      robotName: robot.name,
+      cartId: cart.id,
+      cartName: cart.name,
+      statusWork: "queue",
+      pickup,
+      drop,
+      createdAt: new Date().toISOString(),
+    });
+
+    await saveMockHistory(order, "QUEUED", "Mock queued order", rcsResponse);
+    await saveConfig(config);
+
+    return res.json({
+      ok: true,
+      orderId,
+      status: "QUEUED",
+      message: "Current drop is delivering. Order added to queue.",
+      rcsResponse,
+      queue: getQueueSnapshot(),
+    });
+  }
+
+  if (!isFree) {
+    return res.status(409).json({
+      error: "Drop spot is not available",
+      drop: {
+        id: dropRef.id,
+        name: dropRef.name,
+        statusCart: dropRef.statusCart,
+        statusWork: dropRef.statusWork,
+        orderId: dropRef.orderId || null,
+      },
+    });
+  }
+
   let result;
 
   if (MOCK_RCS) {
-    result = {
-      ok: true,
-      rcsResponse: {
-        code: 1000,
-        desc: "MOCK MODE",
-        data: { orderId },
-      },
-    };
-
-    const history = await getHistory();
-    history.unshift({
-      ...order,
-      status: "SEND_SUCCESS",
-      createdAt: new Date().toISOString(),
-      startedAt: new Date().toISOString(),
-      finishedAt: new Date().toISOString(),
-      rcsResponse: result.rcsResponse,
-      note: "Mock order, no RCS call",
-    });
-    await saveHistory(history);
+    result = { ok: true, rcsResponse };
+    await saveMockHistory(order, "SEND_SUCCESS", "Mock order, no RCS call", rcsResponse);
   } else {
     result = await dispatchOrderImmediate(order, {
       robot,
@@ -272,14 +262,11 @@ router.post("/", async (req, res) => {
     }
   }
 
-  updateSpotStatusInZones(config.dropZones || [], drop.id, {
-    statusCart: "full",
-    statusWork: "delivering",
-    robotId: robot.id,
-    cartId: cartId || null,
-    cartName: cart.name || null,
-    orderId,
-  });
+dropRef.statusWork = "delivering";
+dropRef.robotId = robot.id;
+dropRef.cartId = cart.id;
+dropRef.cartName = cart.name;
+dropRef.orderId = orderId;
 
   await saveConfig(config);
 
@@ -292,27 +279,60 @@ router.post("/", async (req, res) => {
   });
 });
 
-router.post("/:orderId/clear-task", async (req, res) => {
+router.post("/:orderId/work-done", async (req, res) => {
   const { orderId } = req.params;
-
-  if (!orderId) {
-    return res.status(400).json({ error: "orderId is required" });
-  }
-
   const config = await getConfig();
-  const clearedSpot = clearTaskByOrderId(config.dropZones || [], orderId);
 
-  if (!clearedSpot) {
+  const spot = findSpotRefByOrderId(config.dropZones || [], orderId);
+  if (!spot) {
     return res.status(404).json({ error: "Task not found by orderId" });
   }
+
+  spot.statusWork = "free";
+
+  delete spot.robotId;
+  delete spot.cartId;
+  delete spot.cartName;
+  delete spot.orderId;
+
+  const nextTask = startNextQueuedTask(spot);
 
   await saveConfig(config);
 
   res.json({
     ok: true,
-    message: "Task cleared",
+    message: nextTask ? "Work done and next queue started" : "Work done",
     orderId,
-    data: clearedSpot,
+    nextTask,
+    data: spot,
+  });
+});
+
+router.post("/:orderId/clear-task", async (req, res) => {
+  const { orderId } = req.params;
+  const config = await getConfig();
+
+  const spot = findSpotRefByOrderId(config.dropZones || [], orderId);
+  if (!spot) return res.status(404).json({ error: "Task not found by orderId" });
+
+  spot.statusCart = "empty";
+  spot.statusWork = "free";
+
+  delete spot.robotId;
+  delete spot.cartId;
+  delete spot.cartName;
+  delete spot.orderId;
+
+  const nextTask = startNextQueuedTask(spot);
+
+  await saveConfig(config);
+
+  res.json({
+    ok: true,
+    message: nextTask ? "Task cleared and next queue started" : "Task cleared",
+    orderId,
+    nextTask,
+    data: spot,
   });
 });
 
@@ -321,40 +341,38 @@ router.patch("/:spotId/status-cart", async (req, res) => {
   const { statusCart } = req.body || {};
 
   if (!["empty", "full"].includes(statusCart)) {
-    return res.status(400).json({
-      error: "statusCart must be empty or full",
-    });
+    return res.status(400).json({ error: "statusCart must be empty or full" });
   }
 
   const config = await getConfig();
+  const spot = findSpotRefById(config.dropZones || [], spotId);
 
-  let updatedSpot = null;
+  if (!spot) return res.status(404).json({ error: "Spot not found" });
 
-  for (const zone of config.dropZones || []) {
-    const groups = zone.groups || zone.group || [];
-
-    for (const group of groups) {
-      for (const spot of group.spots || []) {
-        if (spot.id === spotId) {
-          spot.statusCart = statusCart;
-          updatedSpot = spot;
-          break;
-        }
-      }
-    }
+  if (statusCart === "empty" && spot.statusWork === "delivering") {
+    return res.status(409).json({
+      error: "Cannot set statusCart to empty while statusWork is delivering",
+    });
   }
 
-  if (!updatedSpot) {
-    return res.status(404).json({
-      error: "Spot not found",
-    });
+  spot.statusCart = statusCart;
+
+  if (statusCart === "empty") {
+    spot.statusWork = "free";
+
+    delete spot.robotId;
+    delete spot.cartId;
+    delete spot.cartName;
+    delete spot.orderId;
+
+    startNextQueuedTask(spot);
   }
 
   await saveConfig(config);
 
   res.json({
     ok: true,
-    data: updatedSpot,
+    data: spot,
   });
 });
 
@@ -373,7 +391,8 @@ router.get("/history", async (req, res) => {
         item.orderId?.toLowerCase().includes(query) ||
         item.robotName?.toLowerCase().includes(query) ||
         item.pickup?.name?.toLowerCase().includes(query) ||
-        item.drop?.name?.toLowerCase().includes(query)
+        item.drop?.name?.toLowerCase().includes(query)  ||
+        item.cartName?.toLowerCase().includes(query)
       );
     });
   }
@@ -386,9 +405,7 @@ router.post("/:orderId/cancel", async (req, res) => {
   const history = await getHistory();
   const index = history.findIndex((item) => item.orderId === orderId);
 
-  if (index === -1) {
-    return res.status(404).json({ error: "Order not found" });
-  }
+  if (index === -1) return res.status(404).json({ error: "Order not found" });
 
   history[index] = {
     ...history[index],

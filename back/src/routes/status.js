@@ -12,7 +12,7 @@ const AGV_STATUS_MAP = {
   3: "INITIALIZING",
   4: "RUNNING",
   5: "CHARGING",
-  7: "UPGRADING"
+  7: "UPGRADING",
 };
 
 router.get("/:robotId", async (req, res) => {
@@ -31,20 +31,31 @@ router.get("/:robotId", async (req, res) => {
   const areaIds = rcs.areaIds && rcs.areaIds.length ? rcs.areaIds : [0, 1, 2];
   try {
     const deviceKeys = [robot.deviceNum, robot.name, robot.id];
-    const deviceRes = await getDeviceStatusFromAllAreas(rcs.baseUrl, deviceKeys, areaIds);
+    const deviceRes = await getDeviceStatusFromAllAreas(
+      rcs.baseUrl,
+      deviceKeys,
+      areaIds,
+    );
     if (deviceRes.code === 1000 && deviceRes.data) {
       const device = deviceRes.data;
       deviceStatus = {
         deviceNum: device.deviceCode || device.deviceName,
-        agvStatus: AGV_STATUS_MAP[device.deviceStatus] || device.state || "UNKNOWN",
+        agvStatus:
+          AGV_STATUS_MAP[device.deviceStatus] || device.state || "UNKNOWN",
         battery: device.battery != null ? Number(device.battery) : null,
-        charging: device.deviceStatus === 5 || (device.state && device.state.includes("Charging")),
+        charging:
+          device.deviceStatus === 5 ||
+          (device.state && device.state.includes("Charging")),
         areaId: deviceRes.areaId,
         devicePosition: device.devicePosition || null,
-        state: device.state || null
+        state: device.state || null,
+        statusCarts: device.statusCarts || null,
+        statusWork: device.statusWork || null,
       };
     } else if (deviceRes.code !== 1000) {
-      deviceStatus = { error: deviceRes.desc || "Device not found in any area" };
+      deviceStatus = {
+        error: deviceRes.desc || "Device not found in any area",
+      };
     }
   } catch (err) {
     const url = `${rcs.baseUrl}/ics/out/device/list/deviceInfo`;
@@ -61,14 +72,42 @@ router.get("/:robotId", async (req, res) => {
   const history = await getHistory();
   const latest = history.find((item) => item.robotId === robotId) || null;
 
+  let latestDropSpot = null;
+
+  if (latest?.drop?.id) {
+    for (const zone of config.dropZones || []) {
+      const groups = zone.groups || zone.group || [];
+
+      for (const group of groups) {
+        for (const spot of group.spots || []) {
+          if (spot.id === latest.drop.id) {
+            latestDropSpot = spot;
+            break;
+          }
+        }
+      }
+    }
+  }
+
   res.json({
     robot: {
       id: robot.id,
       name: robot.name,
-      deviceNum: robot.deviceNum
+      deviceNum: robot.deviceNum,
     },
     deviceStatus,
-    latestOrder: latest
+    latestOrder: latest,
+    taskStatus: latestDropSpot
+      ? {
+          spotId: latestDropSpot.id,
+          spotName: latestDropSpot.name,
+          statusCart: latestDropSpot.statusCart || "empty",
+          statusWork: latestDropSpot.statusWork || "free",
+          orderId: latestDropSpot.orderId || null,
+          cartId: latestDropSpot.cartId || null,
+          cartName: latestDropSpot.cartName || null,
+        }
+      : null,
   });
 });
 
