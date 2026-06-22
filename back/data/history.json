@@ -1,5 +1,423 @@
 [
   {
+    "orderId": "1782097507644420694",
+    "robotId": "C100",
+    "robotName": "C100",
+    "pickup": {
+      "id": "s-g-z1-mtf-bd",
+      "name": "MTF-BD",
+      "zoneId": "z1",
+      "zoneName": "MTF ZONE",
+      "groupId": "g-z1",
+      "groupName": "MTF",
+      "rcsPosition": "MTF-BD"
+    },
+    "drop": {
+      "id": "d-s-g-z3-b9-197-01-blocking-device",
+      "name": "197-01_Blocking_Device",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-b9",
+      "groupName": "B9",
+      "rcsPosition": "197-01_Blocking_Device"
+    },
+    "status": "SEND_FAILED",
+    "createdAt": "2026-06-22T03:05:07.646Z",
+    "startedAt": "2026-06-22T03:05:07.646Z",
+    "finishedAt": "2026-06-22T03:05:07.846Z",
+    "rcsResponse": {
+      "code": 2009,
+      "data": "",
+      "desc": "路径点集有误"
+    },
+    "error": "路径点集有误"
+  },
+  {
+    "orderId": "1782097507084895654",
+    "robotId": "C100",
+    "robotName": "C100",
+    "pickup": {
+      "id": "s-g-z1-mtf-bd",
+      "name": "MTF-BD",
+      "zoneId": "z1",
+      "zoneName": "MTF ZONE",
+      "groupId": "g-z1",
+      "groupName": "MTF",
+      "rcsPosition": "MTF-BD"
+    },
+    "drop": {
+      "id": "d-s-g-z3-b9-197-01-blocking-device",
+      "name": "197-01_Blocking_Device",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-b9",
+      "groupName": "B9",
+      "rcsPosition": "197-01_Blocking_Device"
+    },
+    "status": "SENDING",
+    "createdAt": "2026-06-22T03:05:07.086Z",
+    "startedAt": "2026-06-22T03:05:07.086Z"
+  },
+  {
+    "orderId": "1782097477231906197",
+    "robotId": "C100",
+    "robotName": "C100",
+    "pickup": {
+      "id": "s-g-z1-mtf-rd",
+      "name": "MTF-RD",
+      "zoneId": "z1",
+      "zoneName": "MTF ZONE",
+      "groupId": "g-z1",
+      "groupName": "MTF",
+      "rcsPosition": "MTF-RD"
+    },
+    "drop": {
+      "id": "d-s-g-z3-home-feederin",
+      "name": "FeederIn",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-home",
+      "groupName": "Home",
+      "rcsPosition": "FeederIn"
+    },
+    "status": "SENDING",
+    "createdAt": "2026-06-22T03:04:37.233Z",
+    "startedAt": "2026-06-22T03:04:37.233Z"
+  },
+  {
+    "orderId": "1782097476701543712",
+    "robotId": "C100",
+    "robotName": "C100",
+    "pickup": {
+      "id": "s-g-z1-mtf-rd",
+      "name": "MTF-RD",
+      "zoneId": "z1",
+      "zoneName": "MTF ZONE",
+      "groupId": "g-z1",
+      "groupName": "MTF",
+      "rcsPosition": "MTF-RD"
+    },
+    "drop": {
+      "id": "d-s-g-z3-home-feederin",
+      "name": "FeederIn",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-home",
+      "groupName": "Home",
+      "rcsPosition": "FeederIn"
+    },
+    "status": "SENDING",
+    "createdAt": "2026-06-22T03:04:36.703Z",
+    "startedAt": "2026-06-22T03:04:36.703Z"
+  },
+  {
+    "orderId": "1782097358047312050",
+    "robotId": "C100",
+    "robotName": "C100",
+    "pickup": {
+      "id": "s-g-z1-mtf-rd",
+      "name": "MTF-RD",
+      "zoneId": "z1",
+      "zoneName": "MTF ZONE",
+      "groupId": "g-z1",
+      "groupName": "MTF",
+      "rcsPosition": "MTF-RD"
+    },
+    "drop": {
+      "id": "d-s-g-z3-home-feederin",
+      "name": "FeederIn",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-home",
+      "groupName": "Home",
+      "rcsPosition": "FeederIn"
+    },
+    "status": "SEND_FAILED",
+    "createdAt": "2026-06-22T03:02:38.049Z",
+    "startedAt": "2026-06-22T03:02:38.049Z",
+    "finishedAt": "2026-06-22T03:02:38.130Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1782097035879395323",
+    "robotId": "C100",
+    "robotName": "C100",
+    "pickup": {
+      "id": "s-g-z1-mtf-rd",
+      "name": "MTF-RD",
+      "zoneId": "z1",
+      "zoneName": "MTF ZONE",
+      "groupId": "g-z1",
+      "groupName": "MTF",
+      "rcsPosition": "MTF-RD"
+    },
+    "drop": {
+      "id": "d-s-g-z3-home-feederin",
+      "name": "FeederIn",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-home",
+      "groupName": "Home",
+      "rcsPosition": "FeederIn"
+    },
+    "status": "SENDING",
+    "createdAt": "2026-06-22T02:57:15.881Z",
+    "startedAt": "2026-06-22T02:57:15.881Z"
+  },
+  {
+    "orderId": "1782097035374710561",
+    "robotId": "C100",
+    "robotName": "C100",
+    "pickup": {
+      "id": "s-g-z1-mtf-rd",
+      "name": "MTF-RD",
+      "zoneId": "z1",
+      "zoneName": "MTF ZONE",
+      "groupId": "g-z1",
+      "groupName": "MTF",
+      "rcsPosition": "MTF-RD"
+    },
+    "drop": {
+      "id": "d-s-g-z3-home-feederin",
+      "name": "FeederIn",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-home",
+      "groupName": "Home",
+      "rcsPosition": "FeederIn"
+    },
+    "status": "SENDING",
+    "createdAt": "2026-06-22T02:57:15.376Z",
+    "startedAt": "2026-06-22T02:57:15.376Z"
+  },
+  {
+    "orderId": "1782096799351695255",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t6",
+    "cartName": "T6",
+    "pickup": {
+      "id": "s-g-z1-mtf-rd",
+      "name": "MTF-RD",
+      "zoneId": "z1",
+      "zoneName": "MTF ZONE",
+      "groupId": "g-z1",
+      "groupName": "MTF",
+      "rcsPosition": "MTF-RD"
+    },
+    "drop": {
+      "id": "d-s-g-z3-home-feederin",
+      "name": "FeederIn",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-home",
+      "groupName": "Home",
+      "rcsPosition": "FeederIn"
+    },
+    "createdAt": "2026-06-22T02:53:19.352Z",
+    "status": "QUEUED",
+    "startedAt": "2026-06-22T02:53:19.352Z",
+    "finishedAt": null,
+    "rcsResponse": {
+      "code": 1000,
+      "desc": "QUEUED",
+      "data": {
+        "orderId": "1782096799351695255"
+      }
+    },
+    "note": "Order added to queue"
+  },
+  {
+    "orderId": "1782096446529880804",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t6",
+    "cartName": "T6",
+    "pickup": {
+      "id": "s-g-z1-mtf-rd",
+      "name": "MTF-RD",
+      "zoneId": "z1",
+      "zoneName": "MTF ZONE",
+      "groupId": "g-z1",
+      "groupName": "MTF",
+      "rcsPosition": "MTF-RD"
+    },
+    "drop": {
+      "id": "d-s-g-z3-home-feederin",
+      "name": "FeederIn",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-home",
+      "groupName": "Home",
+      "rcsPosition": "FeederIn"
+    },
+    "createdAt": "2026-06-22T02:47:26.530Z",
+    "status": "QUEUED",
+    "startedAt": "2026-06-22T02:47:26.530Z",
+    "finishedAt": null,
+    "rcsResponse": {
+      "code": 1000,
+      "desc": "QUEUED",
+      "data": {
+        "orderId": "1782096446529880804"
+      }
+    },
+    "note": "Order added to queue"
+  },
+  {
+    "orderId": "1782096330810994820",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t6",
+    "cartName": "T6",
+    "pickup": {
+      "id": "s-g-z1-mtf-rd",
+      "name": "MTF-RD",
+      "zoneId": "z1",
+      "zoneName": "MTF ZONE",
+      "groupId": "g-z1",
+      "groupName": "MTF",
+      "rcsPosition": "MTF-RD"
+    },
+    "drop": {
+      "id": "d-s-g-z3-home-feederin",
+      "name": "FeederIn",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-home",
+      "groupName": "Home",
+      "rcsPosition": "FeederIn"
+    },
+    "createdAt": "2026-06-22T02:45:30.811Z",
+    "status": "QUEUED",
+    "startedAt": "2026-06-22T02:45:30.811Z",
+    "finishedAt": null,
+    "rcsResponse": {
+      "code": 1000,
+      "desc": "QUEUED",
+      "data": {
+        "orderId": "1782096330810994820"
+      }
+    },
+    "note": "Order added to queue"
+  },
+  {
+    "orderId": "1782095822316308835",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t6",
+    "cartName": "T6",
+    "pickup": {
+      "id": "s-g-z1-mtf-rd",
+      "name": "MTF-RD",
+      "zoneId": "z1",
+      "zoneName": "MTF ZONE",
+      "groupId": "g-z1",
+      "groupName": "MTF",
+      "rcsPosition": "MTF-RD"
+    },
+    "drop": {
+      "id": "d-s-g-z3-home-feederin",
+      "name": "FeederIn",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-home",
+      "groupName": "Home",
+      "rcsPosition": "FeederIn"
+    },
+    "status": "QUEUED",
+    "createdAt": "2026-06-22T02:37:02.316Z",
+    "startedAt": "2026-06-22T02:37:02.316Z",
+    "finishedAt": null,
+    "rcsResponse": {
+      "code": 1000,
+      "desc": "MOCK MODE",
+      "data": {
+        "orderId": "1782095822316308835"
+      }
+    },
+    "note": "Mock queued order"
+  },
+  {
+    "orderId": "1781835617267132480",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t6",
+    "cartName": "T6",
+    "pickup": {
+      "id": "s-g-z3-g4-183-rial-footing",
+      "name": "183-Rial_footing",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-g4",
+      "groupName": "G4 STA",
+      "rcsPosition": "183-Rial_footing"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-out",
+      "name": "#G1-A1B9_(OUT)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "#G1-A1B9_(OUT)"
+    },
+    "status": "SEND_SUCCESS",
+    "createdAt": "2026-06-19T02:20:17.267Z",
+    "startedAt": "2026-06-19T02:20:17.267Z",
+    "finishedAt": "2026-06-19T02:20:17.267Z",
+    "rcsResponse": {
+      "code": 1000,
+      "desc": "MOCK MODE",
+      "data": {
+        "orderId": "1781835617267132480"
+      }
+    },
+    "note": "Mock order, no RCS call"
+  },
+  {
+    "orderId": "1781835197809109541",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t3",
+    "cartName": "T3",
+    "pickup": {
+      "id": "s-g-z2-f1-f1lz",
+      "name": "F1LZ",
+      "zoneId": "z2",
+      "zoneName": "STF ZONE",
+      "groupId": "g-z2-f1",
+      "groupName": "F1 STF",
+      "rcsPosition": "F1LZ"
+    },
+    "drop": {
+      "id": "d-s-g-z2-g3ew-g3ew-in",
+      "name": "G3EW_(IN)",
+      "zoneId": "z2",
+      "zoneName": "STF ZONE",
+      "groupId": "g-z2-g3ew",
+      "groupName": "G3EW",
+      "rcsPosition": "G3EW_(IN)"
+    },
+    "status": "SEND_SUCCESS",
+    "createdAt": "2026-06-19T02:13:17.815Z",
+    "startedAt": "2026-06-19T02:13:17.815Z",
+    "finishedAt": "2026-06-19T02:13:17.815Z",
+    "rcsResponse": {
+      "code": 1000,
+      "desc": "MOCK MODE",
+      "data": {
+        "orderId": "1781835197809109541"
+      }
+    },
+    "note": "Mock order, no RCS call"
+  },
+  {
     "orderId": "1781604005415494055",
     "robotId": "C100",
     "robotName": "C100",

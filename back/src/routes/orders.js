@@ -12,8 +12,6 @@ const {
 
 const router = express.Router();
 
-const MOCK_RCS = true;
-
 function getGroups(zone) {
   return zone.groups || zone.group || [];
 }
@@ -22,7 +20,10 @@ function findSpotInZones(zones, spotId, spotName) {
   for (const zone of zones || []) {
     for (const group of getGroups(zone)) {
       for (const spot of group.spots || []) {
-        if ((spotId && spot.id === spotId) || (spotName && spot.name === spotName)) {
+        if (
+          (spotId && spot.id === spotId) ||
+          (spotName && spot.name === spotName)
+        ) {
           return {
             ...spot,
             zoneId: zone.id,
@@ -77,7 +78,7 @@ function startNextQueuedTask(spot) {
     return null;
   }
 
-spot.statusWork = "delivering";
+  spot.statusWork = "delivering";
   spot.robotId = next.robotId;
   spot.cartId = next.cartId;
   spot.cartName = next.cartName;
@@ -104,148 +105,178 @@ async function saveMockHistory(order, status, note, rcsResponse) {
 }
 
 router.post("/", async (req, res) => {
-  const {
-    robotId,
-    cartId,
-    pickupSpotId,
-    dropSpotId,
-    pickupSpotName,
-    dropSpotName,
-  } = req.body || {};
+  try {
+    const {
+      robotId,
+      cartId,
+      pickupSpotId,
+      dropSpotId,
+      pickupSpotName,
+      dropSpotName,
+    } = req.body || {};
 
-  if (!robotId) return res.status(400).json({ error: "Missing robotId" });
-  if (!cartId) return res.status(400).json({ error: "Missing cartId" });
+    if (!robotId) return res.status(400).json({ error: "Missing robotId" });
+    if (!cartId) return res.status(400).json({ error: "Missing cartId" });
 
-  if (!pickupSpotId && !pickupSpotName) {
-    return res.status(400).json({ error: "Missing pickupSpotId or pickupSpotName" });
-  }
+    if (!pickupSpotId && !pickupSpotName) {
+      return res
+        .status(400)
+        .json({ error: "Missing pickupSpotId or pickupSpotName" });
+    }
 
-  if (!dropSpotId && !dropSpotName) {
-    return res.status(400).json({ error: "Missing dropSpotId or dropSpotName" });
-  }
+    if (!dropSpotId && !dropSpotName) {
+      return res
+        .status(400)
+        .json({ error: "Missing dropSpotId or dropSpotName" });
+    }
 
-  const config = await getConfig();
+    const config = await getConfig();
 
-  const cart = (config.carts || []).find((item) => item.id === cartId);
-  if (!cart) return res.status(404).json({ error: "Cart not found" });
+    const cart = (config.carts || []).find((item) => item.id === cartId);
+    if (!cart) return res.status(404).json({ error: "Cart not found" });
 
-  const robot = findRobot(config, robotId);
-  if (!robot) return res.status(404).json({ error: "Robot not found" });
+    const robot = findRobot(config, robotId);
+    if (!robot) return res.status(404).json({ error: "Robot not found" });
 
-  const pickup = findSpotInZones(config.pickupZones || [], pickupSpotId, pickupSpotName);
-  const drop = findSpotInZones(config.dropZones || [], dropSpotId, dropSpotName);
+    const pickup = findSpotInZones(
+      config.pickupZones || [],
+      pickupSpotId,
+      pickupSpotName,
+    );
+    const drop = findSpotInZones(
+      config.dropZones || [],
+      dropSpotId,
+      dropSpotName,
+    );
 
-  if (!pickup || !drop) {
-    return res.status(404).json({ error: "Pickup or drop spot not found" });
-  }
+    if (!pickup || !drop) {
+      return res.status(404).json({ error: "Pickup or drop spot not found" });
+    }
 
-  if (!pickup.rcsPosition || !drop.rcsPosition) {
-    return res.status(400).json({ error: "Pickup or drop rcsPosition is missing" });
-  }
+    if (!pickup.rcsPosition || !drop.rcsPosition) {
+      return res
+        .status(400)
+        .json({ error: "Pickup or drop rcsPosition is missing" });
+    }
 
-  const dropRef = findSpotRefById(config.dropZones || [], drop.id);
-  if (!dropRef) return res.status(404).json({ error: "Drop spot ref not found" });
+    const dropRef = findSpotRefById(config.dropZones || [], drop.id);
+    if (!dropRef)
+      return res.status(404).json({ error: "Drop spot ref not found" });
 
-  const orderId = `${Date.now()}${Math.floor(Math.random() * 1e6)}`;
-  const rcsBaseUrl = findRcsBaseUrl(config, robot);
-  const taskPath = `${pickup.rcsPosition},${drop.rcsPosition}`;
+    const orderId = `${Date.now()}${Math.floor(Math.random() * 1e6)}`;
+    const rcsBaseUrl = findRcsBaseUrl(config, robot);
+    const taskPath = `${pickup.rcsPosition},${drop.rcsPosition}`;
 
-  const order = {
-    orderId,
-    robotId: robot.id,
-    robotName: robot.name,
-    cartId: cart.id,
-    cartName: cart.name,
-    pickup: {
-      id: pickup.id,
-      name: pickup.name,
-      zoneId: pickup.zoneId,
-      zoneName: pickup.zoneName,
-      groupId: pickup.groupId,
-      groupName: pickup.groupName,
-      rcsPosition: pickup.rcsPosition,
-    },
-    drop: {
-      id: drop.id,
-      name: drop.name,
-      zoneId: drop.zoneId,
-      zoneName: drop.zoneName,
-      groupId: drop.groupId,
-      groupName: drop.groupName,
-      rcsPosition: drop.rcsPosition,
-    },
-  };
-
-const isFree = dropRef.statusWork === "free";
-const isDelivering = dropRef.statusWork === "delivering";
-const isPending = dropRef.statusWork === "pending";
-
-  const rcsResponse = {
-    code: 1000,
-    desc: MOCK_RCS ? "MOCK MODE" : "success",
-    data: { orderId },
-  };
-
-  if (isPending) {
-    return res.status(409).json({
-      error: "Drop spot is pending. Please change statusCart to empty first.",
-      drop: {
-        id: dropRef.id,
-        name: dropRef.name,
-        statusCart: dropRef.statusCart,
-        statusWork: dropRef.statusWork,
-        orderId: dropRef.orderId || null,
-      },
-    });
-  }
-
-  if (isDelivering) {
-    dropRef.taskQueue = Array.isArray(dropRef.taskQueue) ? dropRef.taskQueue : [];
-    dropRef.taskQueue.push({
+    const order = {
       orderId,
       robotId: robot.id,
       robotName: robot.name,
       cartId: cart.id,
       cartName: cart.name,
-      statusWork: "queue",
-      pickup,
-      drop,
-      createdAt: new Date().toISOString(),
-    });
-
-    await saveMockHistory(order, "QUEUED", "Mock queued order", rcsResponse);
-    await saveConfig(config);
-
-    return res.json({
-      ok: true,
-      orderId,
-      status: "QUEUED",
-      message: "Current drop is delivering. Order added to queue.",
-      rcsResponse,
-      queue: getQueueSnapshot(),
-    });
-  }
-
-  if (!isFree) {
-    return res.status(409).json({
-      error: "Drop spot is not available",
-      drop: {
-        id: dropRef.id,
-        name: dropRef.name,
-        statusCart: dropRef.statusCart,
-        statusWork: dropRef.statusWork,
-        orderId: dropRef.orderId || null,
+      pickup: {
+        id: pickup.id,
+        name: pickup.name,
+        zoneId: pickup.zoneId,
+        zoneName: pickup.zoneName,
+        groupId: pickup.groupId,
+        groupName: pickup.groupName,
+        rcsPosition: pickup.rcsPosition,
       },
-    });
-  }
+      drop: {
+        id: drop.id,
+        name: drop.name,
+        zoneId: drop.zoneId,
+        zoneName: drop.zoneName,
+        groupId: drop.groupId,
+        groupName: drop.groupName,
+        rcsPosition: drop.rcsPosition,
+      },
+      createdAt: new Date().toISOString(),
+    };
 
-  let result;
+    const isFree = dropRef.statusWork === "free";
+    const isDelivering = dropRef.statusWork === "delivering";
+    const isPending = dropRef.statusWork === "pending";
 
-  if (MOCK_RCS) {
-    result = { ok: true, rcsResponse };
-    await saveMockHistory(order, "SEND_SUCCESS", "Mock order, no RCS call", rcsResponse);
-  } else {
-    result = await dispatchOrderImmediate(order, {
+console.log("[Orders] dropRef status:", {
+  id: dropRef.id,
+  name: dropRef.name,
+  statusCart: dropRef.statusCart,
+  statusWork: dropRef.statusWork,
+  orderId: dropRef.orderId || null,
+});
+    if (isPending) {
+      return res.status(409).json({
+        error: "Drop spot is pending. Please change statusCart to empty first.",
+        drop: {
+          id: dropRef.id,
+          name: dropRef.name,
+          statusCart: dropRef.statusCart,
+          statusWork: dropRef.statusWork,
+          orderId: dropRef.orderId || null,
+        },
+      });
+    }
+
+    if (isDelivering) {
+      const queueResponse = {
+        code: 1000,
+        desc: "QUEUED",
+        data: { orderId },
+      };
+
+      dropRef.taskQueue = Array.isArray(dropRef.taskQueue)
+        ? dropRef.taskQueue
+        : [];
+
+      dropRef.taskQueue.push({
+        orderId,
+        robotId: robot.id,
+        robotName: robot.name,
+        cartId: cart.id,
+        cartName: cart.name,
+        statusWork: "queue",
+        pickup: order.pickup,
+        drop: order.drop,
+        createdAt: new Date().toISOString(),
+      });
+
+      await saveMockHistory(
+        order,
+        "QUEUED",
+        "Order added to queue",
+        queueResponse,
+      );
+      await saveConfig(config);
+
+      return res.json({
+        ok: true,
+        orderId,
+        status: "QUEUED",
+        message: "Current drop is delivering. Order added to queue.",
+        rcsResponse: queueResponse,
+        queue: getQueueSnapshot(),
+      });
+    }
+
+    if (!isFree) {
+      return res.status(409).json({
+        error: "Drop spot is not available",
+        drop: {
+          id: dropRef.id,
+          name: dropRef.name,
+          statusCart: dropRef.statusCart,
+          statusWork: dropRef.statusWork,
+          orderId: dropRef.orderId || null,
+        },
+      });
+    }
+
+    console.log(
+      `[Orders] dispatch robot=${robot.id} orderId=${orderId} taskPath=${taskPath} deviceNum=${robot.deviceNum} rcsBaseUrl=${rcsBaseUrl || "(empty)"}`,
+    );
+
+    const result = await dispatchOrderImmediate(order, {
       robot,
       startSpot: pickup,
       endSpot: drop,
@@ -260,23 +291,41 @@ const isPending = dropRef.statusWork === "pending";
         rcsResponse: result.rcsResponse,
       });
     }
+
+    await saveMockHistory(
+      order,
+      "SEND_SUCCESS",
+      "RCS order sent",
+      result.rcsResponse,
+    );
+
+    dropRef.statusWork = "delivering";
+    dropRef.robotId = robot.id;
+    dropRef.cartId = cart.id;
+    dropRef.cartName = cart.name;
+    dropRef.orderId = orderId;
+
+    await saveConfig(config);
+
+    return res.json({
+      ok: true,
+      orderId,
+      status: "SEND_SUCCESS",
+      rcsResponse: result.rcsResponse,
+      data: {
+        ...order,
+        status: "SEND_SUCCESS",
+        rcsResponse: result.rcsResponse,
+      },
+      queue: getQueueSnapshot(),
+    });
+  } catch (err) {
+    console.error("[Orders] create cart order error:", err);
+
+    return res.status(500).json({
+      error: err.message || "Create cart order failed",
+    });
   }
-
-dropRef.statusWork = "delivering";
-dropRef.robotId = robot.id;
-dropRef.cartId = cart.id;
-dropRef.cartName = cart.name;
-dropRef.orderId = orderId;
-
-  await saveConfig(config);
-
-  res.json({
-    ok: true,
-    orderId,
-    status: "SEND_SUCCESS",
-    rcsResponse: result.rcsResponse,
-    queue: getQueueSnapshot(),
-  });
 });
 
 router.post("/:orderId/work-done", async (req, res) => {
@@ -313,7 +362,8 @@ router.post("/:orderId/clear-task", async (req, res) => {
   const config = await getConfig();
 
   const spot = findSpotRefByOrderId(config.dropZones || [], orderId);
-  if (!spot) return res.status(404).json({ error: "Task not found by orderId" });
+  if (!spot)
+    return res.status(404).json({ error: "Task not found by orderId" });
 
   spot.statusCart = "empty";
   spot.statusWork = "free";
@@ -377,23 +427,40 @@ router.patch("/:spotId/status-cart", async (req, res) => {
 });
 
 router.get("/history", async (req, res) => {
-  const { status, q } = req.query;
+  const { status, q, fields } = req.query;
   let history = await getHistory();
 
   if (status && status !== "ALL") {
     history = history.filter((item) => item.status === status);
   }
 
-  if (q) {
+  const searchFields = fields
+    ? fields.split(",")
+    : ["orderId", "robotName", "pickup", "drop"];
+
+  if (q && searchFields.length > 0) {
     const query = q.toLowerCase();
+
     history = history.filter((item) => {
-      return (
-        item.orderId?.toLowerCase().includes(query) ||
-        item.robotName?.toLowerCase().includes(query) ||
-        item.pickup?.name?.toLowerCase().includes(query) ||
-        item.drop?.name?.toLowerCase().includes(query)  ||
-        item.cartName?.toLowerCase().includes(query)
-      );
+      return searchFields.some((field) => {
+        if (field === "orderId") {
+          return item.orderId?.toLowerCase().includes(query);
+        }
+
+        if (field === "robotName") {
+          return item.robotName?.toLowerCase().includes(query);
+        }
+
+        if (field === "pickup") {
+          return item.pickup?.name?.toLowerCase().includes(query);
+        }
+
+        if (field === "drop") {
+          return item.drop?.name?.toLowerCase().includes(query);
+        }
+
+        return false;
+      });
     });
   }
 

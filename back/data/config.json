@@ -2,13 +2,13 @@
   "sendEnabled": true,
   "pollingIntervalMs": 2000,
   "statusRefreshIntervalMs": 5000,
-  "modelProcessCode": "moveShelf6",
+  "modelProcessCode": "C6",
   "fromSystem": "TSC",
   "rcs": [
     {
       "id": "rcs-1",
       "name": "RCS-1",
-      "baseUrl": "http://192.168.5.131:7000",
+      "baseUrl": "http://192.168.5.142:7000",
       "areaIds": [
         0,
         1,
@@ -20,7 +20,7 @@
     {
       "id": "C100",
       "name": "C100",
-      "deviceNum": "EH12835AAK00001",
+      "deviceNum": "C3333",
       "rcsId": "rcs-1",
       "imageUrl": "/assets/C040.jpg"
     }
@@ -713,12 +713,87 @@
               "id": "d-s-g-z3-home-feederin",
               "name": "FeederIn",
               "statusCart": "empty",
-              "statusWork": "delivering",
+              "statusWork": "free",
               "rcsPosition": "FeederIn",
-              "robotId": "C100",
-              "cartId": "t3",
-              "cartName": "T3",
-              "orderId": "1781604005415494055"
+              "taskQueue": [
+                {
+                  "orderId": "1782095822316308835",
+                  "robotId": "C100",
+                  "robotName": "C100",
+                  "cartId": "t6",
+                  "cartName": "T6",
+                  "statusWork": "queue",
+                  "pickup": {
+                    "id": "s-g-z1-mtf-rd",
+                    "name": "MTF-RD",
+                    "statusCart": "empty",
+                    "statusWork": "free",
+                    "rcsPosition": "MTF-RD"
+                  },
+                  "drop": {
+                    "id": "d-s-g-z3-home-feederin",
+                    "name": "FeederIn",
+                    "statusCart": "empty",
+                    "statusWork": "free",
+                    "rcsPosition": "FeederIn"
+                  },
+                  "createdAt": "2026-06-22T02:37:02.316Z"
+                },
+                {
+                  "orderId": "1782096446529880804",
+                  "robotId": "C100",
+                  "robotName": "C100",
+                  "cartId": "t6",
+                  "cartName": "T6",
+                  "statusWork": "queue",
+                  "pickup": {
+                    "id": "s-g-z1-mtf-rd",
+                    "name": "MTF-RD",
+                    "zoneId": "z1",
+                    "zoneName": "MTF ZONE",
+                    "groupId": "g-z1",
+                    "groupName": "MTF",
+                    "rcsPosition": "MTF-RD"
+                  },
+                  "drop": {
+                    "id": "d-s-g-z3-home-feederin",
+                    "name": "FeederIn",
+                    "zoneId": "z3",
+                    "zoneName": "STA ZONE",
+                    "groupId": "g-z3-home",
+                    "groupName": "Home",
+                    "rcsPosition": "FeederIn"
+                  },
+                  "createdAt": "2026-06-22T02:47:26.529Z"
+                },
+                {
+                  "orderId": "1782096799351695255",
+                  "robotId": "C100",
+                  "robotName": "C100",
+                  "cartId": "t6",
+                  "cartName": "T6",
+                  "statusWork": "queue",
+                  "pickup": {
+                    "id": "s-g-z1-mtf-rd",
+                    "name": "MTF-RD",
+                    "zoneId": "z1",
+                    "zoneName": "MTF ZONE",
+                    "groupId": "g-z1",
+                    "groupName": "MTF",
+                    "rcsPosition": "MTF-RD"
+                  },
+                  "drop": {
+                    "id": "d-s-g-z3-home-feederin",
+                    "name": "FeederIn",
+                    "zoneId": "z3",
+                    "zoneName": "STA ZONE",
+                    "groupId": "g-z3-home",
+                    "groupName": "Home",
+                    "rcsPosition": "FeederIn"
+                  },
+                  "createdAt": "2026-06-22T02:53:19.351Z"
+                }
+              ]
             },
             {
               "id": "d-s-g-z3-home-home-ps-hp",
@@ -771,12 +846,8 @@
               "id": "d-s-g-z3-b9-197-01-blocking-device",
               "name": "197-01_Blocking_Device",
               "statusCart": "empty",
-              "statusWork": "delivering",
-              "rcsPosition": "197-01_Blocking_Device",
-              "robotId": "C100",
-              "cartId": "t3",
-              "cartName": "T3",
-              "orderId": "1780914732236307166"
+              "statusWork": "free",
+              "rcsPosition": "197-01_Blocking_Device"
             },
             {
               "id": "d-s-g-z3-b9-115-sp",

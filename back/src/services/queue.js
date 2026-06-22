@@ -22,6 +22,15 @@ async function appendHistory(entry) {
 async function dispatchOrderImmediate(order, context) {
   const { robot, startSpot, endSpot, rcsBaseUrl } = context;
   const config = await getConfig();
+  console.log("[RCS] sendEnabled:", config.sendEnabled);
+console.log("[RCS] rcsBaseUrl:", rcsBaseUrl);
+console.log("[RCS] payload source:", {
+  orderId: order.orderId,
+  robotId: robot.id,
+  deviceNum: robot.deviceNum,
+  start: startSpot.rcsPosition,
+  end: endSpot.rcsPosition,
+});
   const now = new Date().toISOString();
 
   await appendHistory({
@@ -57,6 +66,7 @@ async function dispatchOrderImmediate(order, context) {
   };
 
   try {
+    console.log("[RCS] BEFORE sendTaskOrder");
     const sendResult = await sendTaskOrder(rcsBaseUrl, payload);
     const ok = sendResult && Number(sendResult.code) === 1000;
     if (!ok) {

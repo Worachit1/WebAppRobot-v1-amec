@@ -2,11 +2,37 @@ const axios = require("axios");
 
 async function sendTaskOrder(baseUrl, payload) {
   const url = `${baseUrl}/ics/taskOrder/addTask`;
+
   console.log("[RCS] POST URL:", url);
   console.log("[RCS] POST BODY:", JSON.stringify(payload, null, 2));
-  const res = await axios.post(url, payload);
-  console.log("[RCS] POST RESPONSE:", JSON.stringify(res.data, null, 2));
-  return res.data;
+
+  try {
+    const res = await axios.post(url, payload, {
+      timeout: 10000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      validateStatus: () => true,
+    });
+
+    console.log("[RCS] HTTP STATUS:", res.status);
+    console.log("[RCS] POST RESPONSE:", JSON.stringify(res.data, null, 2));
+
+    return res.data;
+  } catch (err) {
+    console.error("[RCS] AXIOS ERROR:", {
+      message: err.message,
+      code: err.code,
+      errno: err.errno,
+      syscall: err.syscall,
+      address: err.address,
+      port: err.port,
+      responseStatus: err.response?.status,
+      responseData: err.response?.data,
+    });
+
+    throw err;
+  }
 }
 
 async function getTaskOrderStatus(baseUrl, orderId) {
