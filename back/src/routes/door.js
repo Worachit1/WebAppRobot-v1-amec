@@ -226,8 +226,8 @@ async function pollDoors() {
   }
 }
 
-setInterval(pollDoors, POLL_INTERVAL_MS);
-pollDoors();
+//setInterval(pollDoors, POLL_INTERVAL_MS);
+//pollDoors();
 
 function registerDoorRoutes(app) {
   app.use("/door", doorRouter);
