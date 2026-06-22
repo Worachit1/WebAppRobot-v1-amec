@@ -164,10 +164,11 @@ function History() {
             >
               <MenuItem value="ALL">ทั้งหมด</MenuItem>
               {/* <MenuItem value="COMPLETED">Completed</MenuItem>
-              <MenuItem value="CANCELLED">Cancel</MenuItem>
               <MenuItem value="RUNNING">On Task</MenuItem> */}
+              <MenuItem value="QUEUED">Waiting Queue</MenuItem>
               <MenuItem value="SEND_SUCCESS">Success</MenuItem>
               <MenuItem value="SEND_FAILED">Failed</MenuItem>
+              <MenuItem value="CANCELLED">Cancelled</MenuItem>
             </Select>
           </Box>
           {loading ? (

@@ -15,6 +15,31 @@ const AGV_STATUS_MAP = {
   7: "UPGRADING",
 };
 
+function getGroups(zone) {
+  return zone.groups || zone.group || [];
+}
+
+function findQueuedTaskByRobot(config, robotId) {
+  for (const zone of config.dropZones || []) {
+    for (const group of getGroups(zone)) {
+      for (const spot of group.spots || []) {
+        const task = (spot.taskQueue || []).find(
+          (item) => item.robotId === robotId,
+        );
+
+        if (task) {
+          return {
+            task,
+            spot,
+          };
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
 router.get("/:robotId", async (req, res) => {
   const { robotId } = req.params;
   const config = await getConfig();
@@ -70,24 +95,49 @@ router.get("/:robotId", async (req, res) => {
   }
 
   const history = await getHistory();
-  const latest = history.find((item) => item.robotId === robotId) || null;
 
-  let latestDropSpot = null;
+  const tasks = [];
 
-  if (latest?.drop?.id) {
-    for (const zone of config.dropZones || []) {
-      const groups = zone.groups || zone.group || [];
+  for (const zone of config.dropZones || []) {
+    for (const group of getGroups(zone)) {
+      for (const spot of group.spots || []) {
+        if (
+          String(spot.robotId) === String(robotId) &&
+          spot.orderId &&
+          spot.statusWork === "delivering"
+        ) {
+          const historyItem = history.find(
+            (item) => String(item.orderId) === String(spot.orderId),
+          );
 
-      for (const group of groups) {
-        for (const spot of group.spots || []) {
-          if (spot.id === latest.drop.id) {
-            latestDropSpot = spot;
-            break;
+          tasks.push({
+            ...(historyItem || {}),
+            orderId: spot.orderId,
+            robotId: spot.robotId,
+            cartId: spot.cartId,
+            cartName: spot.cartName,
+            statusWork: "delivering",
+            canCancel: false,
+          });
+        }
+
+        for (const task of spot.taskQueue || []) {
+          if (String(task.robotId) === String(robotId)) {
+            tasks.push({
+              ...task,
+              statusWork: spot.statusWork === "pending" ? "pending" : "queue",
+              canCancel: true,
+            });
           }
         }
       }
     }
   }
+
+  const latest =
+    tasks[0] ||
+    history.find((item) => String(item.robotId) === String(robotId)) ||
+    null;
 
   res.json({
     robot: {
@@ -97,17 +147,7 @@ router.get("/:robotId", async (req, res) => {
     },
     deviceStatus,
     latestOrder: latest,
-    taskStatus: latestDropSpot
-      ? {
-          spotId: latestDropSpot.id,
-          spotName: latestDropSpot.name,
-          statusCart: latestDropSpot.statusCart || "empty",
-          statusWork: latestDropSpot.statusWork || "free",
-          orderId: latestDropSpot.orderId || null,
-          cartId: latestDropSpot.cartId || null,
-          cartName: latestDropSpot.cartName || null,
-        }
-      : null,
+    tasks,
   });
 });
 

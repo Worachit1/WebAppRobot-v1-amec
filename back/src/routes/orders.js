@@ -69,7 +69,7 @@ function findRcsBaseUrl(config, robot) {
   return rcs?.baseUrl || "";
 }
 
-function startNextQueuedTask(spot) {
+async function startNextQueuedTask(config, spot) {
   const queue = Array.isArray(spot.taskQueue) ? spot.taskQueue : [];
   const next = queue.shift();
 
@@ -78,6 +78,42 @@ function startNextQueuedTask(spot) {
     return null;
   }
 
+  const robot = findRobot(config, next.robotId);
+  if (!robot) return null;
+
+  const rcsBaseUrl = findRcsBaseUrl(config, robot);
+
+  const result = await dispatchOrderImmediate(
+    {
+      orderId: next.orderId,
+      robotId: next.robotId,
+      robotName: next.robotName,
+      cartId: next.cartId,
+      cartName: next.cartName,
+      pickup: next.pickup,
+      drop: next.drop,
+      createdAt: next.createdAt,
+    },
+    {
+      robot,
+      startSpot: next.pickup,
+      endSpot: next.drop,
+      rcsBaseUrl,
+    },
+  );
+
+  if (!result.ok) {
+    queue.unshift(next);
+    spot.taskQueue = queue;
+    return {
+      ...next,
+      status: "SEND_FAILED",
+      rcsResponse: result.rcsResponse,
+      error: result.error,
+    };
+  }
+
+  spot.statusCart = "empty";
   spot.statusWork = "delivering";
   spot.robotId = next.robotId;
   spot.cartId = next.cartId;
@@ -87,7 +123,11 @@ function startNextQueuedTask(spot) {
   if (queue.length > 0) spot.taskQueue = queue;
   else delete spot.taskQueue;
 
-  return next;
+  return {
+    ...next,
+    status: "SEND_SUCCESS",
+    rcsResponse: result.rcsResponse,
+  };
 }
 
 async function saveMockHistory(order, status, note, rcsResponse) {
@@ -198,23 +238,54 @@ router.post("/", async (req, res) => {
     const isDelivering = dropRef.statusWork === "delivering";
     const isPending = dropRef.statusWork === "pending";
 
-console.log("[Orders] dropRef status:", {
-  id: dropRef.id,
-  name: dropRef.name,
-  statusCart: dropRef.statusCart,
-  statusWork: dropRef.statusWork,
-  orderId: dropRef.orderId || null,
-});
-    if (isPending) {
-      return res.status(409).json({
-        error: "Drop spot is pending. Please change statusCart to empty first.",
-        drop: {
-          id: dropRef.id,
-          name: dropRef.name,
-          statusCart: dropRef.statusCart,
-          statusWork: dropRef.statusWork,
-          orderId: dropRef.orderId || null,
+    console.log("[Orders] dropRef status:", {
+      id: dropRef.id,
+      name: dropRef.name,
+      statusCart: dropRef.statusCart,
+      statusWork: dropRef.statusWork,
+      orderId: dropRef.orderId || null,
+    });
+    const shouldPending =
+      dropRef.statusCart === "full" || dropRef.statusWork === "pending";
+
+    if (shouldPending) {
+      dropRef.statusWork = "pending";
+
+      dropRef.taskQueue = Array.isArray(dropRef.taskQueue)
+        ? dropRef.taskQueue
+        : [];
+
+      dropRef.taskQueue.push({
+        orderId,
+        robotId: robot.id,
+        robotName: robot.name,
+        cartId: cart.id,
+        cartName: cart.name,
+        statusWork: "queue",
+        pickup: order.pickup,
+        drop: order.drop,
+        createdAt: new Date().toISOString(),
+      });
+
+      await saveMockHistory(
+        order,
+        "PENDING",
+        "Drop spot is full, waiting for empty",
+        {
+          code: 1000,
+          desc: "PENDING",
+          data: { orderId },
         },
+      );
+
+      await saveConfig(config);
+
+      return res.json({
+        ok: true,
+        orderId,
+        status: "PENDING",
+        message: "Drop spot is full/pending. Order queued until cart is empty.",
+        queue: getQueueSnapshot(),
       });
     }
 
@@ -259,6 +330,49 @@ console.log("[Orders] dropRef status:", {
       });
     }
 
+    const isFull = dropRef.statusCart === "full";
+
+    if (isFull) {
+      dropRef.statusWork = "pending";
+
+      dropRef.taskQueue = Array.isArray(dropRef.taskQueue)
+        ? dropRef.taskQueue
+        : [];
+
+      dropRef.taskQueue.push({
+        orderId,
+        robotId: robot.id,
+        robotName: robot.name,
+        cartId: cart.id,
+        cartName: cart.name,
+        statusWork: "queue",
+        pickup: order.pickup,
+        drop: order.drop,
+        createdAt: new Date().toISOString(),
+      });
+
+      await saveMockHistory(
+        order,
+        "PENDING",
+        "Drop spot is full, waiting for empty",
+        {
+          code: 1000,
+          desc: "PENDING",
+          data: { orderId },
+        },
+      );
+
+      await saveConfig(config);
+
+      return res.json({
+        ok: true,
+        orderId,
+        status: "PENDING",
+        message: "Drop spot is full. Order pending until cart is empty.",
+        queue: getQueueSnapshot(),
+      });
+    }
+
     if (!isFree) {
       return res.status(409).json({
         error: "Drop spot is not available",
@@ -299,6 +413,7 @@ console.log("[Orders] dropRef status:", {
       result.rcsResponse,
     );
 
+    dropRef.statusCart = "empty";
     dropRef.statusWork = "delivering";
     dropRef.robotId = robot.id;
     dropRef.cartId = cart.id;
@@ -337,22 +452,20 @@ router.post("/:orderId/work-done", async (req, res) => {
     return res.status(404).json({ error: "Task not found by orderId" });
   }
 
-  spot.statusWork = "free";
+  spot.statusCart = "full";
+  spot.statusWork = "pending";
 
   delete spot.robotId;
   delete spot.cartId;
   delete spot.cartName;
   delete spot.orderId;
 
-  const nextTask = startNextQueuedTask(spot);
-
   await saveConfig(config);
 
   res.json({
     ok: true,
-    message: nextTask ? "Work done and next queue started" : "Work done",
+    message: "Work done, drop spot is full and pending",
     orderId,
-    nextTask,
     data: spot,
   });
 });
@@ -373,7 +486,7 @@ router.post("/:orderId/clear-task", async (req, res) => {
   delete spot.cartName;
   delete spot.orderId;
 
-  const nextTask = startNextQueuedTask(spot);
+  const nextTask = await startNextQueuedTask(config, spot);
 
   await saveConfig(config);
 
@@ -415,7 +528,18 @@ router.patch("/:spotId/status-cart", async (req, res) => {
     delete spot.cartName;
     delete spot.orderId;
 
-    startNextQueuedTask(spot);
+    let nextTask = null;
+
+    if (statusCart === "empty") {
+      spot.statusWork = "free";
+
+      delete spot.robotId;
+      delete spot.cartId;
+      delete spot.cartName;
+      delete spot.orderId;
+
+      nextTask = await startNextQueuedTask(config, spot);
+    }
   }
 
   await saveConfig(config);
@@ -423,6 +547,7 @@ router.patch("/:spotId/status-cart", async (req, res) => {
   res.json({
     ok: true,
     data: spot,
+    nextTask,
   });
 });
 
@@ -469,20 +594,68 @@ router.get("/history", async (req, res) => {
 
 router.post("/:orderId/cancel", async (req, res) => {
   const { orderId } = req.params;
+
+  const config = await getConfig();
   const history = await getHistory();
-  const index = history.findIndex((item) => item.orderId === orderId);
 
-  if (index === -1) return res.status(404).json({ error: "Order not found" });
+  let removedTask = null;
 
-  history[index] = {
-    ...history[index],
-    status: "CANCELLED",
-    finishedAt: new Date().toISOString(),
-    note: "Cancelled (stub)",
-  };
+  for (const zone of config.dropZones || []) {
+    for (const group of getGroups(zone)) {
+      for (const spot of group.spots || []) {
+        if (!Array.isArray(spot.taskQueue)) continue;
 
+        const index = spot.taskQueue.findIndex(
+          (task) => task.orderId === orderId,
+        );
+
+        if (index >= 0) {
+          removedTask = spot.taskQueue[index];
+          spot.taskQueue.splice(index, 1);
+
+          if (spot.taskQueue.length === 0) {
+            delete spot.taskQueue;
+          }
+
+          break;
+        }
+      }
+    }
+  }
+
+  if (!removedTask) {
+    return res.status(409).json({
+      error: "Cannot cancel this order. It may already be sent to RCS.",
+    });
+  }
+
+  const historyIndex = history.findIndex((item) => item.orderId === orderId);
+
+  if (historyIndex >= 0) {
+    history[historyIndex] = {
+      ...history[historyIndex],
+      status: "CANCELLED",
+      finishedAt: new Date().toISOString(),
+      note: "Cancelled before sending to RCS",
+    };
+  } else {
+    history.unshift({
+      ...removedTask,
+      status: "CANCELLED",
+      finishedAt: new Date().toISOString(),
+      note: "Cancelled before sending to RCS",
+    });
+  }
+
+  await saveConfig(config);
   await saveHistory(history);
-  res.json({ ok: true });
+
+  res.json({
+    ok: true,
+    orderId,
+    status: "CANCELLED",
+    removedTask,
+  });
 });
 
 module.exports = router;

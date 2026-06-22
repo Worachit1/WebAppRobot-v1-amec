@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
+  Button,
   CircularProgress,
   FormControl,
   MenuItem,
@@ -10,7 +11,8 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import ScreenLayout from "../components/ScreenLayout.jsx";
-import { fetchConfig, fetchRobotStatus } from "../api/client.js";
+import Swal from "sweetalert2";
+import { fetchConfig, fetchRobotStatus, cancelOrder } from "../api/client.js";
 
 import { formatDateTime } from "../config/formatDatetime.js";
 
@@ -21,6 +23,8 @@ function Status() {
   const [robotId, setRobotId] = useState("");
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const [actionLoading, setActionLoading] = useState(false);
 
   useEffect(() => {
     fetchConfig().then((data) => {
@@ -61,21 +65,8 @@ function Status() {
     return () => clearInterval(timer);
   }, [robotId, config]);
 
-  const latestOrderId = status?.latestOrder?.orderId;
   const device = status?.deviceStatus;
-  const latestOrder = status?.latestOrder;
-
-  const statusCart = status?.taskStatus?.statusCart;
-  const statusWork = status?.taskStatus?.statusWork;
-
-  const displayTaskStatus =
-    statusWork === "delivering"
-      ? "delivering"
-      : statusWork === "queue"
-        ? "queue"
-        : statusCart === "full" && statusWork === "free"
-          ? "pending"
-          : null;
+  const tasks = status?.tasks || [];
 
   const taskStatusColor = {
     delivering: "#1976d2",
@@ -93,6 +84,54 @@ function Status() {
           : device?.areaId != null
             ? `Area ${device.areaId}`
             : "-";
+
+  const reloadStatus = async () => {
+    if (!robotId) return;
+
+    const data = await fetchRobotStatus(robotId);
+    setStatus(data);
+  };
+
+  const handleCancel = async (orderId) => {
+    const result = await Swal.fire({
+      title: "Cancel Order?",
+      text: `Cancel order ${orderId}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Cancel Order",
+      cancelButtonText: "Back",
+      confirmButtonColor: "#d32f2f",
+      cancelButtonColor: "#777",
+      reverseButtons: true,
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      setActionLoading(true);
+
+      await cancelOrder(orderId);
+
+      await Swal.fire({
+        icon: "success",
+        title: "Cancelled",
+        text: "Order cancelled before sending to RCS.",
+        timer: 1200,
+        showConfirmButton: false,
+      });
+
+      await reloadStatus();
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Cancel failed",
+        text:
+          err?.response?.data?.error || err.message || "Cancel order failed",
+      });
+    } finally {
+      setActionLoading(false);
+    }
+  };
 
   return (
     <ScreenLayout
@@ -175,12 +214,13 @@ function Status() {
                   >
                     <Typography
                       sx={{
-                        fontSize: 18,
+                        display: "inline-block",
+                        bgcolor: "#e3f2fd",
+                        px: 1,
+                        py: 0.5,
+                        fontSize: 16,
                         fontWeight: 900,
-                        mb: 0.5,
-                        color: "#0066c0",
-                        textDecoration: "underline",
-                        textUnderlineOffset: "2px",
+                        mb: 1,
                       }}
                     >
                       AMR STATUS
@@ -241,90 +281,118 @@ function Status() {
                     )}
                   </Box>
 
-                  <Box
-                    sx={{
-                      border: "2px solid #111",
-                      borderRadius: "4px",
-                      p: "4px",
-                      padding: "8px",
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: 18,
-                        fontWeight: 900,
-                        mb: 0.5,
-                        color: "#0066c0",
-                        textDecoration: "underline",
-                        textUnderlineOffset: "2px",
-                      }}
-                    >
-                      TASK DETAIL
-                    </Typography>
-                    
-                    <Typography variant="body2">
-                      หมายเลขคำสั่ง : {latestOrderId || "-"}
-                    </Typography>
-
-                    <Typography variant="body2">
-                      Pickup : {latestOrder?.pickup?.name || "-"}
-                    </Typography>
-
-                    <Typography variant="body2">
-                      Drop Off : {latestOrder?.drop?.name || "-"}
-                    </Typography>
-
-                    <Typography variant="body2">
-                      Cart :{" "}
-                      {latestOrder?.cartName || latestOrder?.cartId || "-"}
-                    </Typography>
-
-                    <Typography variant="body2">
-                      เวลาดำเนินการ :{" "}
-                      {formatDateTime(latestOrder?.startedAt) || "-"}
-                    </Typography>
-
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                      }}
-                    >
-                      <Typography variant="body2">สถานะงาน :</Typography>
-
-                      {displayTaskStatus ? (
-                        <Box
-                          sx={{
-                            px: 1.5,
-                            py: 0.5,
-                            borderRadius: "6px",
-                            bgcolor: taskStatusColor[displayTaskStatus],
-                            color: "#fff",
-                            fontWeight: 800,
-                            fontSize: "12px",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {displayTaskStatus}
-                        </Box>
-                      ) : (
-                        <Typography variant="body2">-</Typography>
-                      )}
-                    </Box>
-
-                    <Box sx={{ display: "flex", gap: 1, mt: 1 }}>
-                      {/* <Button
-                        variant="contained"
-                        color="error"
-                        size="small"
-                        disabled={!latestOrderId || actionLoading}
-                        onClick={() => handleCancel(latestOrderId)}
+                  {tasks.length === 0 ? (
+                    <Typography variant="body2">ไม่มีงาน</Typography>
+                  ) : (
+                    <Box sx={{ width: "100%", overflowX: "auto" }}>
+                      <Typography
+                        sx={{
+                          display: "inline-block",
+                          bgcolor: "#e3f2fd",
+                          px: 1,
+                          py: 0.5,
+                          fontSize: 16,
+                          fontWeight: 900,
+                          mb: 1,
+                        }}
                       >
-                        Cancel
-                      </Button> */}
+                        TASK STATUS
+                      </Typography>
+
+                      <Box
+                        component="table"
+                        sx={{
+                          width: "100%",
+                          borderCollapse: "separate",
+                          borderSpacing: "5px 3px",
+                          fontSize: 10,
+                          "& th": {
+                            textAlign: "left",
+                            fontWeight: 900,
+                            textDecoration: "underline",
+                            py: 1.5,
+                            whiteSpace: "nowrap",
+                          },
+                          "& td": {
+                            py: 1.5,
+                            pr: 1,
+                            verticalAlign: "middle",
+                            whiteSpace: "nowrap",
+                          },
+                        }}
+                      >
+                        <Box component="thead">
+                          <Box component="tr" sx={{ gap: 6 }}>
+                            <Box component="th">Task No</Box>
+                            <Box component="th">Pick Up</Box>
+                            <Box component="th">Drop Off</Box>
+                            <Box component="th">Cart</Box>
+                            <Box component="th">Status</Box>
+                            <Box component="th"></Box>
+                          </Box>
+                        </Box>
+
+                        <Box component="tbody">
+                          {tasks.map((task, index) => (
+                            <Box component="tr" key={task.orderId}>
+                              <Box component="td" sx={{ textAlign: "center" }}>
+                                {index + 1}
+                              </Box>
+
+                              <Box component="td">
+                                {task.pickup?.name || "-"}
+                              </Box>
+                              <Box component="td">{task.drop?.name || "-"}</Box>
+                              <Box component="td">
+                                {task.cartName || task.cartId || "-"}
+                              </Box>
+
+                              <Box
+                                component="td"
+                                sx={{
+                                  fontWeight: 900,
+                                  color:
+                                    taskStatusColor[task.statusWork] || "#000",
+                                  textTransform: "capitalize",
+                                }}
+                              >
+                                {task.statusWork === "queue"
+                                  ? "Queued"
+                                  : task.statusWork}
+                              </Box>
+
+                              <Box component="td" sx={{ textAlign: "center" }}>
+                                {task.canCancel ? (
+                                  <Button
+                                    disabled={actionLoading}
+                                    onClick={() => handleCancel(task.orderId)}
+                                    sx={{
+                                      minWidth: 28,
+                                      width: 28,
+                                      height: 28,
+                                      p: 0,
+                                      border: "2px solid #000",
+                                      borderRadius: 0,
+                                      bgcolor: "#fff",
+                                      color: "#d32f2f",
+                                      fontSize: 20,
+                                      fontWeight: 900,
+                                      lineHeight: 1,
+                                      "&:hover": {
+                                        bgcolor: "#ffecec",
+                                      },
+                                    }}
+                                  >
+                                    ✖
+                                  </Button>
+                                ) : null}
+                              </Box>
+                            </Box>
+                          ))}
+                        </Box>
+                      </Box>
                     </Box>
-                  </Box>
+                  )}
                 </Box>
               )}
             </>

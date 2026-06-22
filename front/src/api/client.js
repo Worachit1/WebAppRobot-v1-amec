@@ -79,6 +79,13 @@ export function clearTask(orderId) {
   });
 }
 
+// cancel order
+export async function cancelOrder(orderId) {
+  return apiRequest(`/orders/${orderId}/cancel`, {
+    method: "POST",
+  });
+}
+
 // ----------- ของเก่าเอาค้างไว้ก่อน ------------------
 export function fetchConfig() {
   return apiRequest("/config");
@@ -95,10 +102,6 @@ export function fetchHistory(params = {}) {
   const search = new URLSearchParams(params);
   const suffix = search.toString() ? `?${search}` : "";
   return apiRequest(`/orders/history${suffix}`);
-}
-
-export function cancelOrder(orderId) {
-  return apiRequest(`/orders/${orderId}/cancel`, { method: "POST" });
 }
 
 export function fetchRobotStatus(robotId) {
