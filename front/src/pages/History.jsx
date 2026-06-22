@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
+  Checkbox,
   Chip,
   CircularProgress,
+  ListItemText,
   MenuItem,
   Select,
   TextField,
@@ -28,6 +30,14 @@ const STATUS_COLORS = {
   EXECUTION_FAILED: "error",
   SENDING: "warning",
 };
+
+const FILTER_OPTIONS = [
+  { value: "orderId", label: "หมายเลขคำสั่ง" },
+  { value: "robotName", label: "Robot" },
+  { value: "pickup", label: "Pick Up" },
+  { value: "drop", label: "Drop Off" },
+  { value: "cartName", label: "Cart" },
+];
 
 function HistoryCard({ item }) {
   const chipColor = STATUS_COLORS[item.status] || "default";
@@ -57,8 +67,7 @@ function HistoryCard({ item }) {
           {item.orderId}
         </Typography>
         <Typography variant="body2">
-          <span style={{ fontWeight: 600 }}>Robot :</span>{" "}
-          {item.robotName}
+          <span style={{ fontWeight: 600 }}>Robot :</span> {item.robotName}
         </Typography>
         <Typography variant="body2">
           <span style={{ fontWeight: 700 }}>Pick Up :</span> <br />{" "}
@@ -96,12 +105,20 @@ function History() {
   const [page, setPage] = useState(1);
   const rowsPerPage = defaultRowsPerPage;
 
+  const [searchFields, setSearchFields] = useState(
+    FILTER_OPTIONS.map((o) => o.value),
+  );
+
   useEffect(() => {
     setLoading(true);
-    fetchHistory({ status, q: query })
+    fetchHistory({
+      status,
+      q: query,
+      fields: searchFields,
+    })
       .then((data) => setItems(data))
       .finally(() => setLoading(false));
-  }, [status, query]);
+  }, [status, query, searchFields]);
 
   const totalItems = items.length;
   const startIndex = (page - 1) * rowsPerPage;
@@ -146,26 +163,66 @@ function History() {
           >
             TASK HISTORY
           </Typography>
-          <Box sx={{ display: "flex", width: "100%", gap: 2 }}>
+          <Box sx={{ display: "flex", width: "100%", gap: 1.5, mb: 3 }}>
             <TextField
-              fullWidth
               size="small"
-              placeholder="ค้นหา งาน / คำสั่ง"
+              placeholder="ค้นหา"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              sx={{ width: "150px" }}
             />
+
+            <Select
+              multiple
+              size="small"
+              value={searchFields}
+              displayEmpty
+              renderValue={(selected) =>
+                selected.length === FILTER_OPTIONS.length
+                  ? "เลือกทั้งหมด"
+                  : `${selected.length} ตัวกรอง`
+              }
+              onChange={(e) => {
+                const value =
+                  typeof e.target.value === "string"
+                    ? e.target.value.split(",")
+                    : e.target.value;
+
+                if (value.includes("ALL")) {
+                  setSearchFields(
+                    searchFields.length === FILTER_OPTIONS.length
+                      ? []
+                      : FILTER_OPTIONS.map((o) => o.value),
+                  );
+                  return;
+                }
+
+                setSearchFields(value);
+              }}
+              sx={{ width: "130px" }}
+            >
+              <MenuItem value="ALL">
+                <Checkbox
+                  checked={searchFields.length === FILTER_OPTIONS.length}
+                />
+                <ListItemText primary="เลือกทั้งหมด" />
+              </MenuItem>
+
+              {FILTER_OPTIONS.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  <Checkbox checked={searchFields.includes(option.value)} />
+                  <ListItemText primary={option.label} />
+                </MenuItem>
+              ))}
+            </Select>
+
             <Select
               size="small"
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              sx={{
-                mb: 3,
-              }}
+              sx={{ width: "110px" }}
             >
               <MenuItem value="ALL">ทั้งหมด</MenuItem>
-              {/* <MenuItem value="COMPLETED">Completed</MenuItem>
-              <MenuItem value="CANCELLED">Cancel</MenuItem>
-              <MenuItem value="RUNNING">On Task</MenuItem> */}
               <MenuItem value="SEND_SUCCESS">Success</MenuItem>
               <MenuItem value="SEND_FAILED">Failed</MenuItem>
             </Select>

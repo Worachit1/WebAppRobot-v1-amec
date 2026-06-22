@@ -91,9 +91,23 @@ export function updateConfig(config) {
   });
 }
 
-export function fetchHistory(params = {}) {
-  const search = new URLSearchParams(params);
-  const suffix = search.toString() ? `?${search}` : "";
+export function fetchHistory({ status, q, fields = [] } = {}) {
+  const search = new URLSearchParams();
+
+  if (status && status !== "ALL") {
+    search.append("status", status);
+  }
+
+  if (q) {
+    search.append("q", q);
+  }
+
+  if (fields.length) {
+    search.append("fields", fields.join(","));
+  }
+
+  const suffix = search.toString() ? `?${search.toString()}` : "";
+
   return apiRequest(`/orders/history${suffix}`);
 }
 
