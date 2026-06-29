@@ -443,6 +443,189 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.post("/home", async (req, res) => {
+  try {
+    const { robotId, dropSpotId, dropSpotName } = req.body || {};
+
+    if (!robotId) return res.status(400).json({ error: "Missing robotId" });
+
+    if (!dropSpotId && !dropSpotName) {
+      return res
+        .status(400)
+        .json({ error: "Missing dropSpotId or dropSpotName" });
+    }
+
+    const config = await getConfig();
+
+    const robot = findRobot(config, robotId);
+    if (!robot) return res.status(404).json({ error: "Robot not found" });
+
+    const drop = findSpotInZones(
+      config.dropZones || [],
+      dropSpotId,
+      dropSpotName,
+    );
+
+    if (!drop) {
+      return res.status(404).json({ error: "Home point not found" });
+    }
+
+    if (!drop.rcsPosition) {
+      return res.status(400).json({ error: "Home point rcsPosition is missing" });
+    }
+
+    const orderId = `${Date.now()}${Math.floor(Math.random() * 1e6)}`;
+    const rcsBaseUrl = findRcsBaseUrl(config, robot);
+
+    const order = {
+      orderId,
+      robotId: robot.id,
+      robotName: robot.name,
+      cartId: "HOME",
+      cartName: "HOME",
+      pickup: {
+        id: "CURRENT",
+        name: "Current Position",
+        rcsPosition: null,
+      },
+      drop: {
+        id: drop.id,
+        name: drop.name,
+        zoneId: drop.zoneId,
+        zoneName: drop.zoneName,
+        groupId: drop.groupId,
+        groupName: drop.groupName,
+        rcsPosition: drop.rcsPosition,
+      },
+      createdAt: new Date().toISOString(),
+      type: "HOME",
+    };
+
+    const result = await dispatchOrderImmediate(order, {
+      robot,
+      startSpot: null,
+      endSpot: drop,
+      rcsBaseUrl,
+    });
+
+    if (!result.ok) {
+      return res.status(502).json({
+        error: result.error || result.rcsResponse?.desc || "RCS send failed",
+        orderId,
+        status: "SEND_FAILED",
+        rcsResponse: result.rcsResponse,
+      });
+    }
+
+    await saveMockHistory(
+      order,
+      "SEND_SUCCESS",
+      "Robot sent to home point",
+      result.rcsResponse,
+    );
+
+    return res.json({
+      ok: true,
+      orderId,
+      status: "SEND_SUCCESS",
+      rcsResponse: result.rcsResponse,
+      data: {
+        ...order,
+        status: "SEND_SUCCESS",
+        rcsResponse: result.rcsResponse,
+      },
+      queue: getQueueSnapshot(),
+    });
+  } catch (err) {
+    console.error("[Orders] home order error:", err);
+
+    return res.status(500).json({
+      error: err.message || "Create home order failed",
+    });
+  }
+});
+
+router.get("/history", async (req, res) => {
+  const { status, q, fields, page = 1, limit = 10 } = req.query;
+
+  let history = await getHistory();
+
+  if (status && status !== "ALL") {
+    history = history.filter((item) => item.status === status);
+  }
+
+  const searchFields = fields
+    ? fields.split(",")
+    : ["orderId", "robotName", "pickup", "drop"];
+
+  if (q && searchFields.length > 0) {
+    const query = String(q).trim().toLowerCase();
+
+    if (query) {
+      history = history.filter((item) => {
+        return searchFields.some((field) => {
+          if (field === "orderId") {
+            return String(item.orderId || "")
+              .toLowerCase()
+              .includes(query);
+          }
+
+          if (field === "robotName") {
+            return String(item.robotName || "")
+              .toLowerCase()
+              .includes(query);
+          }
+
+          if (field === "pickup") {
+            return String(item.pickup?.name || "")
+              .toLowerCase()
+              .includes(query);
+          }
+
+          if (field === "drop") {
+            return String(item.drop?.name || "")
+              .toLowerCase()
+              .includes(query);
+          }
+
+          if (field === "cart") {
+            return String(item.cartName || item.cartId || "")
+              .toLowerCase()
+              .includes(query);
+          }
+
+          if (field === "status") {
+            return String(item.status || "")
+              .toLowerCase()
+              .includes(query);
+          }
+
+          return false;
+        });
+      });
+    }
+  }
+
+  const pageNumber = Math.max(1, Number(page) || 1);
+  const limitNumber = Math.max(1, Number(limit) || 10);
+
+  const totalItems = history.length;
+  const totalPages = Math.ceil(totalItems / limitNumber);
+
+  const startIndex = (pageNumber - 1) * limitNumber;
+  const items = history.slice(startIndex, startIndex + limitNumber);
+
+  res.json({
+    items,
+    pagination: {
+      page: pageNumber,
+      limit: limitNumber,
+      totalItems,
+      totalPages,
+    },
+  });
+});
+
 router.post("/:orderId/work-done", async (req, res) => {
   const { orderId } = req.params;
   const config = await getConfig();
@@ -518,6 +701,8 @@ router.patch("/:spotId/status-cart", async (req, res) => {
     });
   }
 
+  let nextTask = null;
+
   spot.statusCart = statusCart;
 
   if (statusCart === "empty") {
@@ -528,68 +713,20 @@ router.patch("/:spotId/status-cart", async (req, res) => {
     delete spot.cartName;
     delete spot.orderId;
 
-    let nextTask = null;
+    nextTask = await startNextQueuedTask(config, spot);
+  }
 
-    if (statusCart === "empty") {
-      spot.statusWork = "free";
-
-      delete spot.robotId;
-      delete spot.cartId;
-      delete spot.cartName;
-      delete spot.orderId;
-
-      nextTask = await startNextQueuedTask(config, spot);
-    }
+  if (statusCart === "full" && spot.statusWork === "free") {
+    spot.statusWork = "pending";
   }
 
   await saveConfig(config);
 
-  res.json({
+  return res.json({
     ok: true,
     data: spot,
     nextTask,
   });
-});
-
-router.get("/history", async (req, res) => {
-  const { status, q, fields } = req.query;
-  let history = await getHistory();
-
-  if (status && status !== "ALL") {
-    history = history.filter((item) => item.status === status);
-  }
-
-  const searchFields = fields
-    ? fields.split(",")
-    : ["orderId", "robotName", "pickup", "drop"];
-
-  if (q && searchFields.length > 0) {
-    const query = q.toLowerCase();
-
-    history = history.filter((item) => {
-      return searchFields.some((field) => {
-        if (field === "orderId") {
-          return item.orderId?.toLowerCase().includes(query);
-        }
-
-        if (field === "robotName") {
-          return item.robotName?.toLowerCase().includes(query);
-        }
-
-        if (field === "pickup") {
-          return item.pickup?.name?.toLowerCase().includes(query);
-        }
-
-        if (field === "drop") {
-          return item.drop?.name?.toLowerCase().includes(query);
-        }
-
-        return false;
-      });
-    });
-  }
-
-  res.json(history);
 });
 
 router.post("/:orderId/cancel", async (req, res) => {

@@ -14,7 +14,7 @@ import {
   fetchZonePick,
   fetchZoneDrop,
   fetchCarts,
-  fetchRobtots,
+  fetchRobots,
   createOrder,
 } from "../api/client.js";
 import cartT2Img from "../../src/assets/images/cart/Cart T2.png";
@@ -39,6 +39,7 @@ function TaskAssign() {
 
   const groupId = searchParams.get("groupId");
   const card = searchParams.get("card");
+  const zoneName = searchParams.get("zoneName");
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -49,13 +50,17 @@ function TaskAssign() {
 
   const [pickupStations, setPickupStations] = useState([]);
   const [dropStations, setDropStations] = useState([]);
+
   const [robots, setRobots] = useState([]);
   const [carts, setCarts] = useState([]);
 
-  const selectedRobot = robots[0];
+  const robotId = searchParams.get("robotId");
+  const robotName = searchParams.get("robotName");
+
+  const selectedRobot =
+    robots.find((robot) => String(robot.id) === String(robotId)) || null;
+
   const canSelectCart = Boolean(pickup && dropOff);
-
-
 
   useEffect(() => {
     setLoading(true);
@@ -64,7 +69,7 @@ function TaskAssign() {
       fetchZonePick(),
       fetchZoneDrop(),
       fetchCarts(),
-      fetchRobtots(),
+      fetchRobots(),
     ])
       .then(([pickRes, dropRes, cartRes, robotRes]) => {
         const pickZones = pickRes?.data || [];
@@ -137,6 +142,7 @@ function TaskAssign() {
       <div style="text-align:left; font-size:18px;">
         <div><b>Pick up:</b> ${formatSpotName(selectedPickupStation?.name || "-")}</div>
         <div><b>Drop Off:</b> ${formatSpotName(selectedDropStation?.name || "-")}</div>
+        <div><b>Robot:</b> ${selectedRobot?.name || "-"}</div>
         <div><b>Cart:</b> ${String(cartType).toUpperCase()}</div>
       </div>
     `,
@@ -175,6 +181,13 @@ function TaskAssign() {
       setSubmitting(false);
     }
   };
+
+  const backToSelectRobotUrl = `/select-robot?zoneId=${encodeURIComponent(
+    zoneId || "",
+  )}&zoneName=${encodeURIComponent(zoneName || "")}&groupId=${encodeURIComponent(
+    groupId || "",
+  )}&groupName=${encodeURIComponent(card || "")}&type=CALL_AMR`;
+
   if (loading) {
     return (
       <ScreenLayout
@@ -188,7 +201,7 @@ function TaskAssign() {
 
   return (
     <ScreenLayout
-      onBack={() => navigate("/zone-list")}
+      onBack={() => navigate(backToSelectRobotUrl)}
       onHome={() => navigate("/")}
     >
       <Box
@@ -226,6 +239,32 @@ function TaskAssign() {
         >
           {card}
         </Typography>
+
+        <Box
+          sx={{
+            mb: 3,
+            p: 1.5,
+            border: "2px solid #000",
+            bgcolor: "#f5f5f5",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: 18,
+              fontWeight: 900,
+            }}
+          >
+            ROBOT
+          </Typography>
+
+          <Typography
+            sx={{
+              fontSize: 24,
+            }}
+          >
+            {robotName || "-"}
+          </Typography>
+        </Box>
 
         <Typography sx={{ fontSize: 22, fontWeight: 900, mb: 1 }}>
           PICKUP
@@ -386,7 +425,7 @@ function TaskAssign() {
           }}
         >
           <Button
-            onClick={() => navigate(-1)}
+            onClick={() => navigate(backToSelectRobotUrl)}
             sx={{
               color: "#000",
               fontSize: 24,
@@ -394,9 +433,9 @@ function TaskAssign() {
               textTransform: "none",
               border: "2px solid #d32f2f",
               "&:hover": {
-                  bgcolor: "#e95656",
-                  color: "#fff",
-                },
+                bgcolor: "#e95656",
+                color: "#fff",
+              },
               borderRadius: "4px",
             }}
           >
@@ -404,7 +443,9 @@ function TaskAssign() {
           </Button>
 
           <Button
-            disabled={!pickup || !dropOff || !cartType || submitting}
+            disabled={
+              !pickup || !dropOff || !cartType || !selectedRobot || submitting
+            }
             variant="contained"
             onClick={handleConfirm}
             sx={{

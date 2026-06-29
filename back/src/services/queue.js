@@ -22,35 +22,52 @@ async function appendHistory(entry) {
 async function dispatchOrderImmediate(order, context) {
   const { robot, startSpot, endSpot, rcsBaseUrl } = context;
   const config = await getConfig();
+
+  const taskPath = startSpot?.rcsPosition
+    ? `${startSpot.rcsPosition},${endSpot.rcsPosition}`
+    : `${endSpot.rcsPosition}`;
+
   console.log("[RCS] sendEnabled:", config.sendEnabled);
-console.log("[RCS] rcsBaseUrl:", rcsBaseUrl);
-console.log("[RCS] payload source:", {
-  orderId: order.orderId,
-  robotId: robot.id,
-  deviceNum: robot.deviceNum,
-  start: startSpot.rcsPosition,
-  end: endSpot.rcsPosition,
-});
+  console.log("[RCS] rcsBaseUrl:", rcsBaseUrl);
+  console.log("[RCS] payload source:", {
+    orderId: order.orderId,
+    robotId: robot.id,
+    deviceNum: robot.deviceNum,
+    start: startSpot?.rcsPosition || null,
+    end: endSpot.rcsPosition,
+    taskPath,
+  });
+
   const now = new Date().toISOString();
 
   await appendHistory({
     orderId: order.orderId,
     robotId: order.robotId,
     robotName: order.robotName,
+    cartId: order.cartId,
+    cartName: order.cartName,
     pickup: order.pickup,
     drop: order.drop,
+    type: order.type || "NORMAL",
     status: "SENDING",
     createdAt: now,
-    startedAt: now
+    startedAt: now,
   });
 
   if (!config.sendEnabled) {
     await updateHistory(order.orderId, {
       status: "SEND_SUCCESS",
       finishedAt: new Date().toISOString(),
-      note: "Send disabled (simulation — no RCS call)"
+      note: "Send disabled (simulation — no RCS call)",
     });
-    return { ok: true, simulated: true };
+    return {
+      ok: true,
+      simulated: true,
+      rcsResponse: {
+        code: 1000,
+        desc: "SIMULATED",
+      },
+    };
   }
 
   const payload = {
@@ -59,40 +76,50 @@ console.log("[RCS] payload source:", {
     orderId: order.orderId,
     taskOrderDetail: [
       {
-        taskPath: `${startSpot.rcsPosition},${endSpot.rcsPosition}`,
-        deviceNum: robot.deviceNum
-      }
-    ]
+        taskPath,
+        deviceNum: robot.deviceNum,
+      },
+    ],
   };
 
   try {
     console.log("[RCS] BEFORE sendTaskOrder");
     const sendResult = await sendTaskOrder(rcsBaseUrl, payload);
     const ok = sendResult && Number(sendResult.code) === 1000;
+
     if (!ok) {
-      console.error("[RCS] addTask rejected (body code):", JSON.stringify(sendResult, null, 2));
+      console.error(
+        "[RCS] addTask rejected (body code):",
+        JSON.stringify(sendResult, null, 2),
+      );
+
       await updateHistory(order.orderId, {
         status: "SEND_FAILED",
         finishedAt: new Date().toISOString(),
         rcsResponse: sendResult,
-        error: sendResult?.desc || "RCS addTask code !== 1000"
+        error: sendResult?.desc || "RCS addTask code !== 1000",
       });
+
       return { ok: false, rcsResponse: sendResult };
     }
+
     await updateHistory(order.orderId, {
       status: "SEND_SUCCESS",
       finishedAt: new Date().toISOString(),
-      rcsResponse: sendResult
+      rcsResponse: sendResult,
     });
+
     return { ok: true, rcsResponse: sendResult };
   } catch (err) {
     const errorPayload = err.response?.data || err.message;
     console.error("[RCS] SEND ERROR:", JSON.stringify(errorPayload, null, 2));
+
     await updateHistory(order.orderId, {
       status: "SEND_FAILED",
       finishedAt: new Date().toISOString(),
-      error: err.message
+      error: err.message,
     });
+
     return { ok: false, error: err.message };
   }
 }

@@ -22,7 +22,14 @@
       "name": "C100",
       "deviceNum": "C3333",
       "rcsId": "rcs-1",
-      "imageUrl": "/assets/C040.jpg"
+      "imageUrl": "/assets/images/C1001.png"
+    },
+    {
+      "id": "up",
+      "name": "UP",
+      "deviceNum": "C3333up",
+      "rcsId": "rcs-1",
+      "imageUrl": "/assets/Up.png"
     }
   ],
   "carts": [

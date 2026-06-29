@@ -20,6 +20,8 @@ import Statustwo from "./pages/Status.two.jsx";
 import TaskAssign from "./pages/TaskAssign.jsx";
 import CartSelect from "./pages/CartSelect.jsx";
 import CartSelectStatus from "./pages/CartSelectStatus.jsx";
+import SelectRobot from "./pages/SelectRobot.jsx";
+import BackHomePoint from "./pages/BAckHomePoint.jsx";
 
 function isAuthed() {
   return Boolean(localStorage.getItem("authUser"));
@@ -174,6 +176,24 @@ function App() {
           element={
             <RequireAuth>
               <CartSelectStatus />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/select-robot"
+          element={
+            <RequireAuth>
+              <SelectRobot />
+            </RequireAuth>
+          }
+        />
+
+         <Route
+          path="/back-home-point"
+          element={
+            <RequireAuth>
+              <BackHomePoint />
             </RequireAuth>
           }
         />

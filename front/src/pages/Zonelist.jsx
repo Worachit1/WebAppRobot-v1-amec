@@ -159,6 +159,9 @@ const ZoneList = () => {
 
                 {isFirstZone && (
                   <Button
+                    onClick={() => {
+                      navigate(`/select-robot?type=HOME`);
+                    }}
                     sx={{
                       mt: 0,
                       bgcolor: "#a020a0",
@@ -272,7 +275,7 @@ const ZoneList = () => {
             <Button
               onClick={() => {
                 navigate(
-                  `/task-assign/${encodeURIComponent(selectedCard?.zoneId)}?zoneName=${encodeURIComponent(selectedCard?.zoneName)}&groupId=${encodeURIComponent(selectedCard?.groupId)}&card=${encodeURIComponent(selectedCard?.groupName)}&type=CALL_AMR`,
+                  `/select-robot?zoneId=${encodeURIComponent(selectedCard?.zoneId)}&zoneName=${encodeURIComponent(selectedCard?.zoneName)}&groupId=${encodeURIComponent(selectedCard?.groupId)}&groupName=${encodeURIComponent(selectedCard?.groupName)}&type=CALL_AMR`,
                 );
               }}
               sx={{

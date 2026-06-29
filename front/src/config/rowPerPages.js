@@ -1,1 +1,1 @@
-export const defaultRowsPerPage = 4;
+export const defaultRowsPerPage =10;

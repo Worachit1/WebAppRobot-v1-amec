@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 
 function Pagination({ page, totalItems, rowsPerPage, onPageChange }) {
-  const totalPages = Math.ceil(totalItems / rowsPerPage);
+  const totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
   const [pageInput, setPageInput] = useState(String(page));
 
   useEffect(() => {
@@ -26,8 +26,6 @@ function Pagination({ page, totalItems, rowsPerPage, onPageChange }) {
     onPageChange(nextPage);
     setPageInput(String(nextPage));
   };
-
-  
 
   return (
     <Box

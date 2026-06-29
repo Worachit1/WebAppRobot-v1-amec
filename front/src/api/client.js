@@ -47,7 +47,7 @@ export function fetchZoneDrop(params = {}) {
   return apiRequest("/zones/get/drops");
 }
 // get robots
-export function fetchRobtots(params = {}) {
+export function fetchRobots(params = {}) {
   return apiRequest("/robots/get");
 }
 // get cart
@@ -57,6 +57,14 @@ export function fetchCarts(params = {}) {
 
 export function createOrder(payload) {
   return apiRequest("/orders", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+
+export function createHomeOrder(payload) {
+  return apiRequest("/orders/home", {
     method: "POST",
     body: JSON.stringify(payload),
   });
@@ -86,6 +94,12 @@ export async function cancelOrder(orderId) {
   });
 }
 
+export function fetchHistory(params = {}) {
+  const search = new URLSearchParams(params);
+  const suffix = search.toString() ? `?${search}` : "";
+  return apiRequest(`/orders/history${suffix}`);
+}
+
 // ----------- ของเก่าเอาค้างไว้ก่อน ------------------
 export function fetchConfig() {
   return apiRequest("/config");
@@ -96,12 +110,6 @@ export function updateConfig(config) {
     method: "PUT",
     body: JSON.stringify(config),
   });
-}
-
-export function fetchHistory(params = {}) {
-  const search = new URLSearchParams(params);
-  const suffix = search.toString() ? `?${search}` : "";
-  return apiRequest(`/orders/history${suffix}`);
 }
 
 export function fetchRobotStatus(robotId) {

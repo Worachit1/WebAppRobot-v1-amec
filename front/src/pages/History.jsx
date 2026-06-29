@@ -18,6 +18,8 @@ import { formatDateTime } from "../config/formatDatetime.js";
 import Pagination from "../components/Pagination.jsx";
 import { defaultRowsPerPage } from "../config/rowPerPages.js";
 
+import { formatSpotName } from "../config/fotmatSpotName.js";
+
 const STATUS_COLORS = {
   COMPLETED: "success",
   CANCELLED: "error",
@@ -29,87 +31,44 @@ const STATUS_COLORS = {
   SENDING: "warning",
 };
 
-function HistoryCard({ item }) {
-  const chipColor = STATUS_COLORS[item.status] || "default";
-
-  return (
-    <Box
-      sx={{
-        width: "100%",
-        borderRadius: "8px",
-        border: "2px solid #111",
-        p: 2,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "flex-start",
-        gap: 2,
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 0.5,
-        }}
-      >
-        <Typography variant="body2">
-          <span style={{ fontWeight: 600 }}>หมายเลขคำสั่ง :</span>{" "}
-          {item.orderId}
-        </Typography>
-        <Typography variant="body2">
-          <span style={{ fontWeight: 600 }}>Robot :</span>{" "}
-          {item.robotName}
-        </Typography>
-        <Typography variant="body2">
-          <span style={{ fontWeight: 700 }}>Pick Up :</span> <br />{" "}
-          {item.pickup?.name}
-        </Typography>
-        <Typography variant="body2">
-          <span style={{ fontWeight: 700 }}>Drop Off :</span>
-          <br /> {item.drop?.name}
-        </Typography>
-        <Typography variant="body2">
-          <span style={{ fontWeight: 600 }}>เวลาดำเนินการ :</span>
-          <br /> {formatDateTime(item.startedAt) || "-"}
-        </Typography>
-        <Typography variant="body2">
-          <span style={{ fontWeight: 700 }}>Cart :</span> {item.cartName}
-        </Typography>
-      </Box>
-      <Chip
-        label={item.status}
-        color={chipColor}
-        size="small"
-        sx={{ fontSize: "12px", fontWeight: 700 }}
-      />
-    </Box>
-  );
-}
-
 function History() {
   const navigate = useNavigate();
   const [status, setStatus] = useState("ALL");
   const [query, setQuery] = useState("");
   const [items, setItems] = useState([]);
+  const [totalItems, setTotalItems] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const [page, setPage] = useState(1);
   const rowsPerPage = defaultRowsPerPage;
 
+  const paginatedItems = items;
+
   useEffect(() => {
     setLoading(true);
-    fetchHistory({ status, q: query })
-      .then((data) => setItems(data))
+
+    fetchHistory({
+      status,
+      q: query,
+      page,
+      limit: rowsPerPage,
+    })
+      .then((data) => {
+        setItems(data.items || []);
+        setTotalItems(data.pagination?.totalItems || 0);
+      })
       .finally(() => setLoading(false));
-  }, [status, query]);
+  }, [status, query, page, rowsPerPage]);
 
-  const totalItems = items.length;
-  const startIndex = (page - 1) * rowsPerPage;
-  const paginatedItems = items.slice(startIndex, startIndex + rowsPerPage);
-
-  useEffect(() => {
+  const handleQueryChange = (e) => {
     setPage(1);
-  }, [status, query]);
+    setQuery(e.target.value);
+  };
+
+  const handleStatusChange = (e) => {
+    setPage(1);
+    setStatus(e.target.value);
+  };
 
   return (
     <ScreenLayout
@@ -121,7 +80,7 @@ function History() {
         sx={{
           width: "100%",
           minHeight: "80vh",
-          p: 2,
+          p: 1,
         }}
       >
         <Box
@@ -129,9 +88,8 @@ function History() {
             maxWidth: "420px",
             mx: "auto",
             backgroundColor: "#fff",
-            p: 2,
-            marginTop: "5px",
-            padding: "12px",
+            p: 1,
+            mt: "5px",
           }}
         >
           <Typography
@@ -141,66 +99,152 @@ function History() {
               fontSize: "20px",
               fontWeight: 900,
               border: "2px solid #000",
-              mb: 3,
+              mb: 2,
             }}
           >
             TASK HISTORY
           </Typography>
-          <Box sx={{ display: "flex", width: "100%", gap: 2 }}>
+
+          <Box sx={{ display: "flex", width: "100%", gap: 2, mb: 2 }}>
             <TextField
               fullWidth
               size="small"
               placeholder="ค้นหา งาน / คำสั่ง"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={handleQueryChange}
             />
+
             <Select
               size="small"
               value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              sx={{
-                mb: 3,
-              }}
+              onChange={handleStatusChange}
+              sx={{ minWidth: 135 }}
             >
               <MenuItem value="ALL">ทั้งหมด</MenuItem>
-              {/* <MenuItem value="COMPLETED">Completed</MenuItem>
-              <MenuItem value="RUNNING">On Task</MenuItem> */}
               <MenuItem value="QUEUED">Waiting Queue</MenuItem>
+              <MenuItem value="PENDING">Pending</MenuItem>
               <MenuItem value="SEND_SUCCESS">Success</MenuItem>
               <MenuItem value="SEND_FAILED">Failed</MenuItem>
               <MenuItem value="CANCELLED">Cancelled</MenuItem>
             </Select>
           </Box>
+
           {loading ? (
             <CircularProgress />
+          ) : items.length === 0 ? (
+            <Typography variant="body2" color="text.secondary">
+              ไม่มีรายการ
+            </Typography>
           ) : (
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 2,
-                width: "100%",
-              }}
-            >
-              {items.length === 0 ? (
-                <Typography variant="body2" color="text.secondary">
-                  ไม่มีรายการ
-                </Typography>
-              ) : (
-                <>
-                  {paginatedItems.map((item) => (
-                    <HistoryCard key={item.orderId} item={item} />
-                  ))}
+            <>
+              <Box sx={{ width: "100%", overflowX: "auto" }}>
+                <Box
+                  component="table"
+                  sx={{
+                    width: "100%",
+                    borderCollapse: "separate",
+                    borderSpacing: "5px 25px",
+                    fontSize: 10,
+                    "& th": {
+                      textAlign: "left",
+                      fontWeight: 900,
+                      textDecoration: "underline",
+                      whiteSpace: "nowrap",
+                    },
+                    "& td": {
+                      verticalAlign: "middle",
+                      whiteSpace: "nowrap",
+                    },
+                  }}
+                >
+                  <Box component="thead">
+                    <Box component="tr">
+                      <Box component="th">Task</Box>
+                      <Box component="th">Pick Up</Box>
+                      <Box component="th">Drop Off</Box>
+                      <Box component="th">Cart</Box>
+                      <Box component="th">Robot</Box>
+                      <Box component="th">Status</Box>
+                    </Box>
+                  </Box>
 
-                  <Pagination
-                    page={page}
-                    totalItems={totalItems}
-                    rowsPerPage={rowsPerPage}
-                    onPageChange={setPage}
-                  />
-                </>
-              )}
-            </Box>
+                  <Box component="tbody">
+                    {paginatedItems.map((item, index) => {
+                      const statusLabel =
+                        item.status === "SEND_SUCCESS"
+                          ? "Success"
+                          : item.status === "SEND_FAILED"
+                            ? "Failed"
+                            : item.status === "QUEUED"
+                              ? "Queued"
+                              : item.status === "PENDING"
+                                ? "Pending"
+                                : item.status === "CANCELLED"
+                                  ? "Cancelled"
+                                  : item.status || "-";
+
+                      const statusColor =
+                        item.status === "SEND_SUCCESS"
+                          ? "#1976d2"
+                          : item.status === "QUEUED"
+                            ? "#ed6c02"
+                            : item.status === "PENDING"
+                              ? "#7b1fa2"
+                              : item.status === "SEND_FAILED"
+                                ? "#d32f2f"
+                                : item.status === "CANCELLED"
+                                  ? "#777"
+                                  : "#000";
+
+                      return (
+                        <Box
+                          component="tr"
+                          key={`${item.orderId || "no-order"}-${item.status || "no-status"}-${page}-${index}`}
+                        >
+                          <Box component="td">
+                            {(page - 1) * rowsPerPage + index + 1}
+                          </Box>
+
+                          <Box component="td">
+                            {formatSpotName(item.pickup?.name || "-")}
+                          </Box>
+
+                          <Box component="td">
+                            {formatSpotName(item.drop?.name || "-")}
+                          </Box>
+
+                          <Box component="td">
+                            {item.cartName || item.cartId || "-"}
+                          </Box>
+
+                          <Box component="td">
+                            {item.robotName || item.robotId || "-"}
+                          </Box>
+
+                          <Box
+                            component="td"
+                            sx={{
+                              fontWeight: 900,
+                              color: statusColor,
+                              textTransform: "capitalize",
+                            }}
+                          >
+                            {statusLabel}
+                          </Box>
+                        </Box>
+                      );
+                    })}
+                  </Box>
+                </Box>
+              </Box>
+
+              <Pagination
+                page={page}
+                totalItems={totalItems}
+                rowsPerPage={rowsPerPage}
+                onPageChange={setPage}
+              />
+            </>
           )}
         </Box>
       </Box>
