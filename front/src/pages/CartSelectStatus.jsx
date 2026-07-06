@@ -44,6 +44,10 @@ function CartSelectStatus() {
   }, [items]);
 
   useEffect(() => {
+    setGroupId(defaultGroupId);
+  }, [defaultGroupId]);
+
+  useEffect(() => {
     if (!groupId && groups.length > 0) {
       setGroupId(groups[0].id);
     }
@@ -57,11 +61,15 @@ function CartSelectStatus() {
 
   const handleBack = () => {
     navigate(
-      `/cart-select?groupId=${encodeURIComponent(groupId)}&groupName=${encodeURIComponent(selectedGroup?.name || "")}
-      &robotId=${encodeURIComponent(robotId || "")}&robotName=${encodeURIComponent(robotName || "")}`,
+      `/cart-select?groupId=${encodeURIComponent(
+        groupId,
+      )}&groupName=${encodeURIComponent(
+        selectedGroup?.name || "",
+      )}&robotId=${encodeURIComponent(
+        robotId || "",
+      )}&robotName=${encodeURIComponent(robotName || "")}`,
     );
   };
-
   return (
     <ScreenLayout onBack={handleBack} onHome={() => navigate("/")}>
       <Box
@@ -105,15 +113,7 @@ function CartSelectStatus() {
                 return (
                   <Button
                     key={group.id}
-                    onClick={() => {
-                      navigate(
-                        `/cart-select-status?groupId=${encodeURIComponent(
-                          group.id,
-                        )}&robotId=${encodeURIComponent(
-                          robotId || "",
-                        )}&robotName=${encodeURIComponent(robotName || "")}`,
-                      );
-                    }}
+                    onClick={() => setGroupId(group.id)}
                     sx={{
                       minWidth: 55,
                       height: 45,
