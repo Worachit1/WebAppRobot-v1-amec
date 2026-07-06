@@ -155,14 +155,40 @@ function TaskAssign() {
     try {
       setSubmitting(true);
 
-      await createOrder({
+      const res = await createOrder({
         robotId: selectedRobot.id,
         cartId: String(cartType),
         pickupSpotId: pickup,
         dropSpotId: dropOff,
       });
 
-      navigate(backToZoneListUrl);
+      const orderStatus = res?.status;
+
+      if (orderStatus === "QUEUED") {
+        await Swal.fire({
+          icon: "info",
+          title: "Added to Queue",
+          text: "Drop Off not available, order added to queue. Please wait for the robot to finish its current task.",
+          confirmButtonColor: "#1976d2",
+        });
+      } else if (orderStatus === "PENDING") {
+        await Swal.fire({
+          icon: "warning",
+          title: "Pending",
+          text: "Drop Off not available, order is pending. Please wait for the cart to be empty.",
+          confirmButtonColor: "#ed6c02",
+        });
+      } else {
+        await Swal.fire({
+          icon: "success",
+          title: "Order Sent",
+          text: "Order sent successfully to the robot.",
+          timer: 1200,
+          showConfirmButton: false,
+        });
+      }
+      // navigate(backToZoneListUrl);
+      navigate("/");
     } catch (err) {
       console.error(err);
 

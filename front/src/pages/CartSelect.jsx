@@ -80,7 +80,7 @@ function CartSelect() {
     }
 
     const result = await Swal.fire({
-      title: "คุณต้องการ CLEAR CART ใช่ไหม?",
+      title: "Do you want to clear the cart?",
       text: `Station: ${station.name || station.id}`,
       icon: "warning",
       showCancelButton: true,
@@ -100,13 +100,13 @@ function CartSelect() {
       const res = await fetchZoneDrop();
       setItems(res.data || []);
 
-      Swal.fire("CLEAR CART สำเร็จ!", "", "success");
+      Swal.fire("CLEAR CART SUCCESS!", "", "success");
     } catch (err) {
       console.error(err);
 
       Swal.fire(
-        "Clear Cart ไม่สำเร็จ",
-        err?.message || "เกิดข้อผิดพลาด",
+        "Clear Cart FAILED",
+        err?.message || "An error occurred while clearing the cart.",
         "error",
       );
     } finally {
