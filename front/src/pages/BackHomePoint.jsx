@@ -102,22 +102,24 @@ function BackHomePoint() {
     }
   };
 
+  const backToZoneListUrl = `/zone-list?robotId=${encodeURIComponent(
+    robotId || "",
+  )}&robotName=${encodeURIComponent(robotName || "")}`;
+
+  const handleBack = () => {
+    navigate(backToZoneListUrl);
+  };
+
   if (loading) {
     return (
-      <ScreenLayout
-        onBack={() => navigate("/select-robot?type=HOME")}
-        onHome={() => navigate("/")}
-      >
+      <ScreenLayout onBack={handleBack} onHome={() => navigate("/")}>
         <CircularProgress />
       </ScreenLayout>
     );
   }
 
   return (
-    <ScreenLayout
-      onBack={() => navigate("/select-robot?type=HOME")}
-      onHome={() => navigate("/")}
-    >
+    <ScreenLayout onBack={handleBack} onHome={() => navigate("/")}>
       <Box
         sx={{
           width: "100%",
@@ -190,7 +192,7 @@ function BackHomePoint() {
 
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Button
-            onClick={() => navigate("/select-robot?type=HOME")}
+            onClick={handleBack}
             sx={{
               color: "#000",
               fontSize: 24,

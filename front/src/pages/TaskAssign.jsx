@@ -65,12 +65,7 @@ function TaskAssign() {
   useEffect(() => {
     setLoading(true);
 
-    Promise.all([
-      fetchZonePick(),
-      fetchZoneDrop(),
-      fetchCarts(),
-      fetchRobots(),
-    ])
+    Promise.all([fetchZonePick(), fetchZoneDrop(), fetchCarts(), fetchRobots()])
       .then(([pickRes, dropRes, cartRes, robotRes]) => {
         const pickZones = pickRes?.data || [];
         const dropZones = dropRes?.data || [];
@@ -167,7 +162,7 @@ function TaskAssign() {
         dropSpotId: dropOff,
       });
 
-      navigate("/zone-list");
+      navigate(backToZoneListUrl);
     } catch (err) {
       console.error(err);
 
@@ -182,16 +177,14 @@ function TaskAssign() {
     }
   };
 
-  const backToSelectRobotUrl = `/select-robot?zoneId=${encodeURIComponent(
-    zoneId || "",
-  )}&zoneName=${encodeURIComponent(zoneName || "")}&groupId=${encodeURIComponent(
-    groupId || "",
-  )}&groupName=${encodeURIComponent(card || "")}&type=CALL_AMR`;
+  const backToZoneListUrl = `/zone-list?robotId=${encodeURIComponent(
+    robotId || "",
+  )}&robotName=${encodeURIComponent(robotName || "")}`;
 
   if (loading) {
     return (
       <ScreenLayout
-        onBack={() => navigate("/zone-list")}
+        onBack={() => navigate(backToZoneListUrl)}
         onHome={() => navigate("/")}
       >
         <CircularProgress />
@@ -201,7 +194,7 @@ function TaskAssign() {
 
   return (
     <ScreenLayout
-      onBack={() => navigate(backToSelectRobotUrl)}
+      onBack={() => navigate(backToZoneListUrl)}
       onHome={() => navigate("/")}
     >
       <Box
@@ -425,7 +418,7 @@ function TaskAssign() {
           }}
         >
           <Button
-            onClick={() => navigate(backToSelectRobotUrl)}
+            onClick={() => navigate(backToZoneListUrl)}
             sx={{
               color: "#000",
               fontSize: 24,

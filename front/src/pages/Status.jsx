@@ -16,6 +16,9 @@ import { fetchConfig, fetchRobotStatus, cancelOrder } from "../api/client.js";
 
 import { formatDateTime } from "../config/formatDatetime.js";
 
+const DEFAULT_ROBOT_ID = "C100";
+
+
 function Status() {
   const navigate = useNavigate();
 
@@ -30,8 +33,14 @@ function Status() {
     fetchConfig().then((data) => {
       setConfig(data);
 
+      const defaultRobot = data.robots?.find(
+        (item) => String(item.id) === DEFAULT_ROBOT_ID,
+      );
       const firstRobot = data.robots?.find((item) => item.id);
-      if (firstRobot) {
+
+      if (defaultRobot?.id) {
+        setRobotId(defaultRobot.id);
+      } else if (firstRobot?.id) {
         setRobotId(firstRobot.id);
       }
     });
@@ -176,6 +185,7 @@ function Status() {
                 <Select
                   value={robotId}
                   onChange={(e) => setRobotId(e.target.value)}
+                  disabled
                   sx={{
                     mb: 2,
                     height: 52,
@@ -184,7 +194,7 @@ function Status() {
                   }}
                 >
                   {config.robots
-                    ?.filter((item) => item.id)
+                    ?.filter((item) => String(item.id) === DEFAULT_ROBOT_ID)
                     .map((item, index) => (
                       <MenuItem key={`${item.id}-${index}`} value={item.id}>
                         {item.name}

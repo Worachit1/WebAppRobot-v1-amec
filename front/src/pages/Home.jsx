@@ -15,6 +15,7 @@ import ScreenLayout from "../components/ScreenLayout.jsx";
 import AmrLogo from "../components/Amr-mtm-str.jsx";
 
 import taskAssignImg from "../../src/assets/images/location_task_assign.jpg";
+import cartIcon from "../../src/assets/images/cartIcon.png";
 
 const TEST_PASSWORD = "AMECAMR26";
 
@@ -65,12 +66,12 @@ function Home() {
           gap: 4,
           width: "100%",
           justifyContent: "center",
-          m: 4
+          m: 4,
         }}
       >
         <Button
           variant="contained"
-          onClick={() => navigate("/zone-list")}
+          onClick={() => navigate("/select-robot")}
           sx={{
             flex: 1,
             minHeight: 180,
@@ -140,7 +141,7 @@ function Home() {
           gap: 4,
           width: "100%",
           justifyContent: "center",
-          m: 4
+          m: 4,
         }}
       >
         <Button
@@ -197,7 +198,7 @@ function Home() {
             />
           </Box>
         </Button>
-        <Button
+        {/* <Button
           variant="contained"
           color="inherit"
           sx={{
@@ -250,84 +251,8 @@ function Home() {
               }}
             />
           </Box>
-        </Button>
+        </Button> */}
       </Box>
-
-      {/* <Button
-        variant="contained"
-        color="primary"
-        sx={{ borderRadius: "10px", width: "100%", py: 1.4 }}
-        onClick={() => navigate("/history")}
-      >
-        ประวัติการสั่งงาน
-      </Button>
-      <Button
-        variant="outlined"
-        color="primary"
-        sx={{ borderRadius: "10px", width: "100%", py: 1.4 }}
-        onClick={() => navigate("/status")}
-      >
-        สถานะหุ่นยนต์
-      </Button>
-      <Button
-        variant="outlined"
-        color="secondary"
-        sx={{ borderRadius: "10px", width: "100%", py: 1.4 }}
-        onClick={() => openPasswordDialog("/lift-test")}
-      >
-        ทดสอบลิฟต์ DT01
-      </Button>
-      <Button
-        variant="outlined"
-        color="secondary"
-        sx={{ borderRadius: "10px", width: "100%", py: 1.4 }}
-        onClick={() => openPasswordDialog("/lift-test2")}
-      >
-        ทดสอบลิฟต์ DT02
-      </Button>
-      <Button
-        variant="outlined"
-        color="secondary"
-        sx={{ borderRadius: "10px", width: "100%", py: 1.4 }}
-        onClick={() => openPasswordDialog("/door-test")}
-      >
-        ทดสอบประตู (บอร์ด 103)
-      </Button> */}
-
-      <Dialog
-        open={Boolean(pendingPath)}
-        onClose={closeDialog}
-        fullWidth
-        maxWidth="xs"
-      >
-        <DialogTitle>กรอกรหัสผ่านเพื่อเข้าหน้าทดสอบ</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            fullWidth
-            type="password"
-            label="รหัสผ่าน"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              if (error) setError("");
-            }}
-            onKeyDown={onKeyDown}
-            sx={{ mt: 1 }}
-          />
-          {error && (
-            <Typography color="error" variant="body2" sx={{ mt: 1 }}>
-              {error}
-            </Typography>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeDialog}>ยกเลิก</Button>
-          <Button variant="contained" onClick={submitPassword}>
-            ยืนยัน
-          </Button>
-        </DialogActions>
-      </Dialog>
     </ScreenLayout>
   );
 }

@@ -11,10 +11,35 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import ScreenLayout from "../components/ScreenLayout.jsx";
 import { fetchConfig } from "../api/client.js";
 
-function RobotCard({ robot, selected, onSelect }) {
+const DEFAULT_ROBOT_ID = "C100";
+
+// function RobotCard({ robot, selected, onSelect }) {
+//   return (
+//     <ButtonBase
+//       onClick={() => onSelect(robot)}
+//       disableRipple
+//       disableTouchRipple
+//       focusRipple={false}
+//       sx={{
+//         display: "flex",
+//         flexDirection: "column",
+//         alignItems: "center",
+//         gap: 1,
+//         borderRadius: 2,
+//         "&.Mui-focusVisible": {
+//           outline: "none",
+//         },
+//       }}
+//     >
+
+// ใช้ชั่วคราวเพื่อให้เลือกได้เฉพาะ robot C100 เท่านั้น
+function RobotCard({ robot, selected, disabled, onSelect }) {
   return (
     <ButtonBase
-      onClick={() => onSelect(robot)}
+      onClick={() => {
+        if (!disabled) onSelect(robot);
+      }}
+      disabled={disabled}
       disableRipple
       disableTouchRipple
       focusRipple={false}
@@ -24,8 +49,10 @@ function RobotCard({ robot, selected, onSelect }) {
         alignItems: "center",
         gap: 1,
         borderRadius: 2,
-        "&.Mui-focusVisible": {
-          outline: "none",
+        opacity: disabled ? 0.35 : 1,
+        cursor: disabled ? "not-allowed" : "pointer",
+        "&.Mui-disabled": {
+          opacity: 0.35,
         },
       }}
     >
@@ -89,10 +116,25 @@ function SelectRobot() {
   const [selectedRobot, setSelectedRobot] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   fetchConfig()
+  //     .then((config) => {
+  //       setRobots(config?.robots || []);
+  //     })
+  //     .finally(() => setLoading(false));
+  // }, []);
+
+  // ใช้ชั่วคราวเพื่อให้เลือกได้เฉพาะ robot C100 เท่านั้น
   useEffect(() => {
     fetchConfig()
       .then((config) => {
-        setRobots(config?.robots || []);
+        const robotList = config?.robots || [];
+        const defaultRobot = robotList.find(
+          (robot) => String(robot.id) === DEFAULT_ROBOT_ID,
+        );
+
+        setRobots(robotList);
+        setSelectedRobot(defaultRobot || null);
       })
       .finally(() => setLoading(false));
   }, []);
@@ -110,11 +152,7 @@ function SelectRobot() {
     }
 
     navigate(
-      `/task-assign/${encodeURIComponent(zoneId)}?zoneName=${encodeURIComponent(
-        zoneName,
-      )}&groupId=${encodeURIComponent(groupId)}&card=${encodeURIComponent(
-        groupName,
-      )}&type=${encodeURIComponent(type)}&robotId=${encodeURIComponent(
+      `/zone-list?robotId=${encodeURIComponent(
         selectedRobot.id,
       )}&robotName=${encodeURIComponent(selectedRobot.name)}`,
     );
@@ -123,7 +161,7 @@ function SelectRobot() {
   return (
     <ScreenLayout
       title="Select Robot"
-      onBack={() => navigate(-1)}
+      onBack={() => navigate("/")}
       onHome={() => navigate("/")}
       contentMaxWidth={900}
       headerMaxWidth={900}
@@ -165,14 +203,29 @@ function SelectRobot() {
                 justifyItems: "center",
               }}
             >
-              {robots.map((robot) => (
+              {/* {robots.map((robot) => (
                 <RobotCard
                   key={robot.id}
                   robot={robot}
                   selected={selectedRobot?.id === robot.id}
                   onSelect={setSelectedRobot}
                 />
-              ))}
+              ))} */}
+              
+              {/*ใช้ชั่วคราวเพื่อให้เลือกได้เฉพาะ robot C100 เท่านั้น */}
+              {robots.map((robot) => {
+                const isLocked = String(robot.id) !== DEFAULT_ROBOT_ID;
+
+                return (
+                  <RobotCard
+                    key={robot.id}
+                    robot={robot}
+                    selected={selectedRobot?.id === robot.id}
+                    disabled={isLocked}
+                    onSelect={setSelectedRobot}
+                  />
+                );
+              })}
             </Box>
 
             <Box sx={{ width: "100%", mx: "auto" }}>

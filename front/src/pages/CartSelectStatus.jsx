@@ -12,6 +12,9 @@ function CartSelectStatus() {
 
   const defaultGroupId = searchParams.get("groupId") || "";
 
+  const robotId = searchParams.get("robotId");
+  const robotName = searchParams.get("robotName");
+
   const [items, setItems] = useState([]);
   const [groupId, setGroupId] = useState(defaultGroupId);
   const [loading, setLoading] = useState(true);
@@ -54,7 +57,8 @@ function CartSelectStatus() {
 
   const handleBack = () => {
     navigate(
-      `/cart-select?groupId=${encodeURIComponent(groupId)}&groupName=${encodeURIComponent(selectedGroup?.name || "")}`,
+      `/cart-select?groupId=${encodeURIComponent(groupId)}&groupName=${encodeURIComponent(selectedGroup?.name || "")}
+      &robotId=${encodeURIComponent(robotId || "")}&robotName=${encodeURIComponent(robotName || "")}`,
     );
   };
 
@@ -101,7 +105,15 @@ function CartSelectStatus() {
                 return (
                   <Button
                     key={group.id}
-                    onClick={() => setGroupId(group.id)}
+                    onClick={() => {
+                      navigate(
+                        `/cart-select-status?groupId=${encodeURIComponent(
+                          group.id,
+                        )}&robotId=${encodeURIComponent(
+                          robotId || "",
+                        )}&robotName=${encodeURIComponent(robotName || "")}`,
+                      );
+                    }}
                     sx={{
                       minWidth: 55,
                       height: 45,
@@ -161,7 +173,9 @@ function CartSelectStatus() {
                   <Typography sx={{ fontSize: 16 }}>
                     {selectedGroup?.name}
                   </Typography>
-                  <Typography sx={{ fontSize: 16 }}>{formatSpotName(station.name)}</Typography>
+                  <Typography sx={{ fontSize: 16 }}>
+                    {formatSpotName(station.name)}
+                  </Typography>
 
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <Box
@@ -183,6 +197,22 @@ function CartSelectStatus() {
             })}
           </>
         )}
+        <Button
+          onClick={handleBack}
+          sx={{
+            mt: 8,
+            bgcolor: "#9fd0f0",
+            color: "#000",
+            borderRadius: "4px",
+            fontWeight: 900,
+            boxShadow: "2px 3px 5px rgba(0,0,0,0.5)",
+            "&:hover": {
+              bgcolor: "#8cc3e8",
+            },
+          }}
+        >
+          CART STATION
+        </Button>
       </Box>
     </ScreenLayout>
   );

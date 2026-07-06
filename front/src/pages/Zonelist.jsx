@@ -1,6 +1,6 @@
 import { Box, Button, Typography, Dialog } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import taskAssignImg from "../../src/assets/images/location_task_assign.jpg";
 import c100Img from "../../src/assets/images/C1001.png";
@@ -17,6 +17,11 @@ const ZoneList = () => {
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [searchParams] = useSearchParams();
+
+  const robotId = searchParams.get("robotId");
+  const robotName = searchParams.get("robotName");
 
   const handleSelectCard = (zone, group) => {
     setSelectedCard({
@@ -128,7 +133,7 @@ const ZoneList = () => {
                         onClick={() => handleSelectCard(zone, group)}
                         sx={{
                           height: "85px",
-                          backgroundColor: "#c2f4ca",
+                          backgroundColor: "#f3f4f7",
                           color: "#000",
                           borderRadius: "2px",
                           boxShadow: "4px 4px 6px rgba(0,0,0,0.25)",
@@ -136,7 +141,7 @@ const ZoneList = () => {
                           flexDirection: "column",
                           fontWeight: 800,
                           "&:hover": {
-                            backgroundColor: "#9cbca1",
+                            backgroundColor: "#e0e5f4",
                           },
                         }}
                       >
@@ -160,7 +165,11 @@ const ZoneList = () => {
                 {isFirstZone && (
                   <Button
                     onClick={() => {
-                      navigate(`/select-robot?type=HOME`);
+                      navigate(
+                        `/back-home-point?robotId=${encodeURIComponent(
+                          robotId || "",
+                        )}&robotName=${encodeURIComponent(robotName || "")}`,
+                      );
                     }}
                     sx={{
                       mt: 0,
@@ -275,7 +284,17 @@ const ZoneList = () => {
             <Button
               onClick={() => {
                 navigate(
-                  `/select-robot?zoneId=${encodeURIComponent(selectedCard?.zoneId)}&zoneName=${encodeURIComponent(selectedCard?.zoneName)}&groupId=${encodeURIComponent(selectedCard?.groupId)}&groupName=${encodeURIComponent(selectedCard?.groupName)}&type=CALL_AMR`,
+                  `/task-assign/${encodeURIComponent(
+                    selectedCard?.zoneId,
+                  )}?zoneName=${encodeURIComponent(
+                    selectedCard?.zoneName,
+                  )}&groupId=${encodeURIComponent(
+                    selectedCard?.groupId,
+                  )}&card=${encodeURIComponent(
+                    selectedCard?.groupName,
+                  )}&type=CALL_AMR&robotId=${encodeURIComponent(
+                    robotId || "",
+                  )}&robotName=${encodeURIComponent(robotName || "")}`,
                 );
               }}
               sx={{
@@ -321,7 +340,19 @@ const ZoneList = () => {
             <Button
               onClick={() => {
                 navigate(
-                  `/cart-select?zoneId=${encodeURIComponent(selectedCard?.zoneId)}&zoneName=${encodeURIComponent(selectedCard?.zoneName)}&groupId=${encodeURIComponent(selectedCard?.groupId)}&groupName=${encodeURIComponent(selectedCard?.groupName)}`,
+                  `/cart-select?zoneId=${encodeURIComponent(
+                    selectedCard?.zoneId
+                  )}&zoneName=${encodeURIComponent(
+                    selectedCard?.zoneName
+                  )}&groupId=${encodeURIComponent(
+                    selectedCard?.groupId
+                  )}&groupName=${encodeURIComponent(
+                    selectedCard?.groupName
+                  )}&robotId=${encodeURIComponent(
+                    robotId || ""
+                  )}&robotName=${encodeURIComponent(
+                    robotName || ""
+                  )}`,
                 );
               }}
               sx={{

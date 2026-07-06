@@ -22,6 +22,9 @@ function CartSelect() {
 
   const defaultGroupId = searchParams.get("groupId") || "";
   const defaultGroupName = searchParams.get("groupName") || "";
+  
+  const robotId = searchParams.get("robotId");
+  const robotName = searchParams.get("robotName");
 
   const [items, setItems] = useState([]);
   const [groupId, setGroupId] = useState(defaultGroupId);
@@ -111,10 +114,27 @@ function CartSelect() {
     }
   };
 
+  const handleBack = () => {
+    if (robotId && robotName) {
+      navigate(
+        `/zone-list?robotId=${encodeURIComponent(robotId)}&robotName=${encodeURIComponent(robotName)}`,
+      );
+    } else {
+      navigate("/select-robot");
+    }
+  };
+
+  const handleCartStatus = () => {
+    navigate(
+      `/cart-status?groupId=${encodeURIComponent(groupId)}&groupName=${encodeURIComponent(selectedGroup?.name || "")}
+      &robotId=${encodeURIComponent(robotId || "")}&robotName=${encodeURIComponent(robotName || "")}`,
+    );
+  }
+
   return (
     <ScreenLayout
       title="CART ASSIGN"
-      onBack={() => navigate("/zone-list")}
+      onBack={handleBack}
       onHome={() => navigate("/")}
     >
       <Box sx={{ width: "100%", maxWidth: 420, mx: "auto", p: 2 }}>
@@ -209,11 +229,7 @@ function CartSelect() {
                 </Box>
               ))}
             <Button
-              onClick={() =>
-                navigate(
-                  `/cart-status?groupId=${encodeURIComponent(groupId)}&groupName=${encodeURIComponent(selectedGroup?.name || "")}`,
-                )
-              }
+              onClick={handleCartStatus}
               sx={{
                 mt: 8,
                 bgcolor: "#9fd0f0",

@@ -25,11 +25,11 @@
       "imageUrl": "/assets/images/C1001.png"
     },
     {
-      "id": "up",
-      "name": "UP",
+      "id": "d150",
+      "name": "D150D",
       "deviceNum": "C3333up",
       "rcsId": "rcs-1",
-      "imageUrl": "/assets/Up.png"
+      "imageUrl": "/assets/images/D150D1.png"
     }
   ],
   "carts": [
@@ -719,42 +719,9 @@
             {
               "id": "d-s-g-z3-home-feederin",
               "name": "FeederIn",
-              "statusCart": "full",
-              "statusWork": "delivering",
-              "rcsPosition": "FeederIn",
-              "robotId": "C100",
-              "cartId": "t6",
-              "cartName": "T6",
-              "orderId": "1782101735185281197",
-              "taskQueue": [
-                {
-                  "orderId": "1782101882103654914",
-                  "robotId": "C100",
-                  "robotName": "C100",
-                  "cartId": "t3",
-                  "cartName": "T3",
-                  "statusWork": "queue",
-                  "pickup": {
-                    "id": "s-g-z1-mtf-rd",
-                    "name": "MTF-RD",
-                    "zoneId": "z1",
-                    "zoneName": "MTF ZONE",
-                    "groupId": "g-z1",
-                    "groupName": "MTF",
-                    "rcsPosition": "MTF-RD"
-                  },
-                  "drop": {
-                    "id": "d-s-g-z3-home-feederin",
-                    "name": "FeederIn",
-                    "zoneId": "z3",
-                    "zoneName": "STA ZONE",
-                    "groupId": "g-z3-home",
-                    "groupName": "Home",
-                    "rcsPosition": "FeederIn"
-                  },
-                  "createdAt": "2026-06-22T04:18:02.103Z"
-                }
-              ]
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "FeederIn"
             },
             {
               "id": "d-s-g-z3-home-home-ps-hp",
