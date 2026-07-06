@@ -109,7 +109,7 @@ function History() {
             <TextField
               fullWidth
               size="small"
-              placeholder="ค้นหา งาน / คำสั่ง"
+              placeholder="Search"
               value={query}
               onChange={handleQueryChange}
             />
@@ -120,7 +120,7 @@ function History() {
               onChange={handleStatusChange}
               sx={{ minWidth: 135 }}
             >
-              <MenuItem value="ALL">ทั้งหมด</MenuItem>
+              <MenuItem value="ALL">ALL</MenuItem>
               <MenuItem value="QUEUED">Waiting Queue</MenuItem>
               <MenuItem value="PENDING">Pending</MenuItem>
               <MenuItem value="SEND_SUCCESS">Success</MenuItem>

@@ -237,7 +237,7 @@ function Status() {
                     </Typography>
 
                     <Typography variant="body2">
-                      ชื่อหุ่นยนต์ : {status?.robot?.name || "-"}
+                      Robot : {status?.robot?.name || "-"}
                     </Typography>
 
                     <Typography variant="body2">
@@ -267,16 +267,12 @@ function Status() {
                     ) : (
                       <>
                         <Typography variant="body2">
-                          สถานะ AMR :{" "}
+                          Status AMR :{" "}
                           {device?.agvStatus || device?.state || "-"}
                         </Typography>
 
                         <Typography variant="body2">
-                          ชั้นที่พบ : {floorText}
-                        </Typography>
-
-                        <Typography variant="body2">
-                          ตำแหน่ง : {device?.devicePosition || "-"}
+                          Position : {device?.devicePosition || "-"}
                         </Typography>
 
                         <Typography variant="body2">
@@ -292,7 +288,7 @@ function Status() {
                   </Box>
 
                   {tasks.length === 0 ? (
-                    <Typography variant="body2">ไม่มีงาน</Typography>
+                    <Typography variant="body2">Not works.</Typography>
                   ) : (
                     <Box sx={{ width: "100%", overflowX: "auto" }}>
                       <Typography
