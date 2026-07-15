@@ -40,7 +40,7 @@ const ZoneList = () => {
   }, []);
 
   return (
-    <ScreenLayout onBack={() => navigate("/")} onHome={() => navigate("/")}>
+    <ScreenLayout onBack={() => navigate("/select-robot")} onHome={() => navigate("/")}>
       <Box
         sx={{
           width: "100%",
@@ -164,13 +164,13 @@ const ZoneList = () => {
 
                 {isFirstZone && (
                   <Button
-                    onClick={() => {
-                      navigate(
-                        `/back-home-point?robotId=${encodeURIComponent(
-                          robotId || "",
-                        )}&robotName=${encodeURIComponent(robotName || "")}`,
-                      );
-                    }}
+                    // onClick={() => {
+                    //   navigate(
+                    //     `/back-home-point?robotId=${encodeURIComponent(
+                    //       robotId || "",
+                    //     )}&robotName=${encodeURIComponent(robotName || "")}`,
+                    //   );
+                    // }}
                     sx={{
                       mt: 0,
                       bgcolor: "#a020a0",

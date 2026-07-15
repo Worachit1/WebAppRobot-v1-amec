@@ -12,12 +12,16 @@ import { useNavigate } from "react-router-dom";
 
 import ScreenLayout from "../components/ScreenLayout.jsx";
 import Swal from "sweetalert2";
-import { fetchConfig, fetchRobotStatus, cancelOrder } from "../api/client.js";
+import {
+  fetchConfig,
+  fetchRobotStatus,
+  cancelOrder,
+  cancelRunningOrder,
+} from "../api/client.js";
 
 import { formatDateTime } from "../config/formatDatetime.js";
 
 const DEFAULT_ROBOT_ID = "C100";
-
 
 function Status() {
   const navigate = useNavigate();
@@ -136,6 +140,87 @@ function Status() {
         title: "Cancel failed",
         text:
           err?.response?.data?.error || err.message || "Cancel order failed",
+      });
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleCancelRunning = async (orderId) => {
+    const result = await Swal.fire({
+      title: "Cancel Delivering?",
+      text: `Cancel running order ${orderId} in RCS?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Cancel in RCS",
+      cancelButtonText: "Back",
+      confirmButtonColor: "#d32f2f",
+      cancelButtonColor: "#777",
+      reverseButtons: true,
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      setActionLoading(true);
+
+      await cancelRunningOrder(orderId, false);
+
+      await Swal.fire({
+        icon: "success",
+        title: "Cancelled",
+        text: "Order cancelled in RCS and WebApp.",
+        timer: 1200,
+        showConfirmButton: false,
+      });
+
+      await reloadStatus();
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Cancel failed",
+        text:
+          err?.response?.data?.error || err.message || "Cancel running failed",
+      });
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleReleaseRunning = async (orderId) => {
+    const result = await Swal.fire({
+      title: "Release WebApp Status?",
+      text: `Release WebApp status for running order ${orderId}?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Release",
+      cancelButtonText: "Back",
+      confirmButtonColor: "#ed6c02",
+      cancelButtonColor: "#777",
+      reverseButtons: true,
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      setActionLoading(true);
+
+      await cancelRunningOrder(orderId, true);
+
+      await Swal.fire({
+        icon: "success",
+        title: "Released",
+        text: "WebApp status released.",
+        timer: 1200,
+        showConfirmButton: false,
+      });
+
+      await reloadStatus();
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Release failed",
+        text: err?.response?.data?.error || err.message || "Release failed",
       });
     } finally {
       setActionLoading(false);
@@ -391,6 +476,58 @@ function Status() {
                                   >
                                     ✖
                                   </Button>
+                                ) : task.statusWork === "delivering" ? (
+                                  <Box sx={{ display: "flex", gap: 0.5 }}>
+                                    <Button
+                                      disabled={actionLoading}
+                                      onClick={() =>
+                                        handleCancelRunning(task.orderId)
+                                      }
+                                      sx={{
+                                        minWidth: 28,
+                                        width: 28,
+                                        height: 28,
+                                        p: 0,
+                                        border: "2px solid #000",
+                                        borderRadius: 0,
+                                        bgcolor: "#fff",
+                                        color: "#d32f2f",
+                                        fontSize: 18,
+                                        fontWeight: 900,
+                                        lineHeight: 1,
+                                        "&:hover": {
+                                          bgcolor: "#ffecec",
+                                        },
+                                      }}
+                                    >
+                                      ✖
+                                    </Button>
+
+                                    <Button
+                                      disabled={actionLoading}
+                                      onClick={() =>
+                                        handleReleaseRunning(task.orderId)
+                                      }
+                                      sx={{
+                                        minWidth: 28,
+                                        width: 28,
+                                        height: 28,
+                                        p: 0,
+                                        border: "2px solid #000",
+                                        borderRadius: 0,
+                                        bgcolor: "#fff",
+                                        color: "#ed6c02",
+                                        fontSize: 14,
+                                        fontWeight: 900,
+                                        lineHeight: 1,
+                                        "&:hover": {
+                                          bgcolor: "#fff4e5",
+                                        },
+                                      }}
+                                    >
+                                      R
+                                    </Button>
+                                  </Box>
                                 ) : null}
                               </Box>
                             </Box>

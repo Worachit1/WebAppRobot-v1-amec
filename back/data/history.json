@@ -1,0 +1,830 @@
+[
+  {
+    "orderId": "1783927605231920063",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z2-f1-f1lz",
+      "name": "F1LZ",
+      "zoneId": "z2",
+      "zoneName": "STF ZONE",
+      "groupId": "g-z2-f1",
+      "groupName": "F1 STF",
+      "rcsPosition": "F1LZ"
+    },
+    "drop": {
+      "id": "d-s-g-z2-g5to-g5to-feeder-in",
+      "name": "G5TO-Feeder-In",
+      "zoneId": "z2",
+      "zoneName": "STF ZONE",
+      "groupId": "g-z2-g5to",
+      "groupName": "G5TO",
+      "rcsPosition": "G5TO-Feeder-In"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T07:26:45.232Z",
+    "startedAt": "2026-07-13T07:26:45.232Z",
+    "finishedAt": "2026-07-13T07:26:45.256Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208479",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208478",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208477",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208476",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208475",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208474",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208473",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208472",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208471",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208470",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208469",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208468",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208467",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208466",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208465",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208464",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208463",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208462",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924934062208461",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z3-a1-a1-hanger-case",
+      "name": "A1-Hanger_Case",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-a1",
+      "groupName": "A1",
+      "rcsPosition": "A1-Hanger_Case"
+    },
+    "drop": {
+      "id": "d-s-g-z3-bwh-g1-a1b9-in",
+      "name": "#G1-A1B9_(IN)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-bwh",
+      "groupName": "B-W/H",
+      "rcsPosition": "G1-A1B9(IN)"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:14.067Z",
+    "startedAt": "2026-07-13T06:42:14.067Z",
+    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924920106508733",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t3",
+    "cartName": "T3",
+    "pickup": {
+      "id": "s-g-z3-kt-g4-kitting-out",
+      "name": "G4_Kitting_(OUT)",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-kt",
+      "groupName": "KT STA",
+      "rcsPosition": "G4-Kitting-(OUT)"
+    },
+    "drop": {
+      "id": "d-s-g-z3-g4-125-gsb282",
+      "name": "125-GSB282",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-g4",
+      "groupName": "G4 STA",
+      "rcsPosition": "125-GSB282"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:42:00.110Z",
+    "startedAt": "2026-07-13T06:42:00.110Z",
+    "finishedAt": "2026-07-13T06:42:00.158Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "178392490163110169",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-z2-f2-f2pb12-cartreturn",
+      "name": "F2PB12-CartReturn",
+      "zoneId": "z2",
+      "zoneName": "STF ZONE",
+      "groupId": "g-z2-f2",
+      "groupName": "F2 STF",
+      "rcsPosition": "F2PB12-CartReturn"
+    },
+    "drop": {
+      "id": "d-s-g-z3-b9-115-c",
+      "name": "B9-115_C",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-z3-b9",
+      "groupName": "B9",
+      "rcsPosition": "B9-115_C"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:41:41.633Z",
+    "startedAt": "2026-07-13T06:41:41.633Z",
+    "finishedAt": "2026-07-13T06:41:41.674Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  },
+  {
+    "orderId": "1783924883367412145",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t3",
+    "cartName": "T3",
+    "pickup": {
+      "id": "s-g-z2-f1-f1lz",
+      "name": "F1LZ",
+      "zoneId": "z2",
+      "zoneName": "STF ZONE",
+      "groupId": "g-z2-f1",
+      "groupName": "F1 STF",
+      "rcsPosition": "F1LZ"
+    },
+    "drop": {
+      "id": "d-s-g-z2-g5to-g5to-feeder-in",
+      "name": "G5TO-Feeder-In",
+      "zoneId": "z2",
+      "zoneName": "STF ZONE",
+      "groupId": "g-z2-g5to",
+      "groupName": "G5TO",
+      "rcsPosition": "G5TO-Feeder-In"
+    },
+    "type": "NORMAL",
+    "status": "SEND_FAILED",
+    "createdAt": "2026-07-13T06:41:23.370Z",
+    "startedAt": "2026-07-13T06:41:23.370Z",
+    "finishedAt": "2026-07-13T06:41:23.432Z",
+    "rcsResponse": {
+      "code": 2103,
+      "data": "",
+      "desc": "任务流程模板编号不存在"
+    },
+    "error": "任务流程模板编号不存在"
+  }
+]

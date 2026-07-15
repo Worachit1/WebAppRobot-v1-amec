@@ -5,10 +5,8 @@ const authRoutes = require("./routes/auth");
 const configRoutes = require("./routes/config");
 const ordersRoutes = require("./routes/orders");
 const statusRoutes = require("./routes/status");
-const liftRoutes = require("./routes/lift");
 const zoneRoutes = require("./routes/zones");
 const robotRoutes = require("./routes/robots");
-const { registerDoorRoutes } = require("./routes/door");
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -24,13 +22,16 @@ app.use("/api/auth", authRoutes);
 app.use("/api/config", configRoutes);
 app.use("/api/orders", ordersRoutes);
 app.use("/api/status", statusRoutes);
-app.use("/api/lift", liftRoutes);
 app.use("/api/zones", zoneRoutes);
 app.use("/api/robots", robotRoutes);
-registerDoorRoutes(app);
 
 const server = app.listen(port, () => {
   console.log(`Backend listening on port ${port}`);
+  if (typeof ordersRoutes.processQueuedOrders === "function") {
+    ordersRoutes.processQueuedOrders().catch((err) => {
+      console.error("[Orders] startup queue sweep failed:", err);
+    });
+  }
 });
 
 server.on("error", (err) => {

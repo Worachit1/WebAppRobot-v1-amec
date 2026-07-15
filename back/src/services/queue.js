@@ -12,7 +12,20 @@ async function updateHistory(orderId, updates) {
 
 async function appendHistory(entry) {
   const history = await getHistory();
-  history.unshift(entry);
+
+  const index = history.findIndex((item) => item.orderId === entry.orderId);
+
+  if (index >= 0) {
+    history[index] = {
+      ...history[index],
+      ...entry,
+      createdAt: history[index].createdAt || entry.createdAt,
+      startedAt: history[index].startedAt || entry.startedAt,
+    };
+  } else {
+    history.unshift(entry);
+  }
+
   await saveHistory(history);
 }
 
@@ -92,6 +105,14 @@ async function dispatchOrderImmediate(order, context) {
         "[RCS] addTask rejected (body code):",
         JSON.stringify(sendResult, null, 2),
       );
+
+      if (Number(sendResult?.code) === 2160) {
+        return {
+          ok: false,
+          retryable: true,
+          rcsResponse: sendResult,
+        };
+      }
 
       await updateHistory(order.orderId, {
         status: "SEND_FAILED",

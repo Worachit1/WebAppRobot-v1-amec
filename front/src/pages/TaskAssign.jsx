@@ -183,7 +183,7 @@ function TaskAssign() {
           icon: "success",
           title: "Order Sent",
           text: "Order sent successfully to the robot.",
-          timer: 1200,
+          timer: 1500,
           showConfirmButton: false,
         });
       }

@@ -1,7 +1,7 @@
 // ใช้ host เดียวกับหน้าที่เปิดอยู่ — เปิดจาก 192.168.1.10 จะยิง API ไป 192.168.1.10:4000 (ไม่ติด localhost)
 const getApiBase = () => {
   if (typeof window === "undefined")
-    return import.meta.env.VITE_API_BASE_URL || "http://192.168.1.80:4000/api";
+    return import.meta.env.VITE_API_BASE_URL;
   const envUrl = import.meta.env.VITE_API_BASE_URL;
   if (
     envUrl &&
@@ -88,9 +88,18 @@ export function clearTask(orderId) {
 }
 
 // cancel order
-export async function cancelOrder(orderId) {
+export function cancelOrder(orderId) {
   return apiRequest(`/orders/${orderId}/cancel`, {
     method: "POST",
+  });
+}
+
+export function cancelRunningOrder(orderId, releaseOnly = false) {
+  return apiRequest(`/orders/${orderId}/cancel-running`, {
+    method: "POST",
+    body: JSON.stringify({
+      releaseOnly,
+    }),
   });
 }
 
@@ -116,115 +125,10 @@ export function fetchRobotStatus(robotId) {
   return apiRequest(`/status/${robotId}`);
 }
 
-// Lift DT01 APIs
-export function fetchLiftStatus() {
-  return apiRequest("/lift/status");
-}
-
-export function sendLiftCommand(payload) {
-  return apiRequest("/lift/command", {
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
-}
-
-// Lift DT02 APIs
-export function fetchLift2Status() {
-  return apiRequest("/lift/status2");
-}
-
-export function sendLift2Command(payload) {
-  return apiRequest("/lift/command2", {
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
-}
 
 /** Origin ของ backend (ไม่มี /api) — สำหรับ POST /door/... และ GET /door/... */
 function backendOrigin() {
   let b = API_BASE.replace(/\/$/, "");
   if (b.endsWith("/api")) return b.slice(0, -4);
   return b;
-}
-
-/** RCS-style body ตาม manual 3.2.3: status 1=ขอเปิด, 2=ขอปิด */
-const rcsDoorPayload = (doorCode, status) =>
-  JSON.stringify({
-    deviceNum: "test",
-    doorCode,
-    payLoad: "0",
-    qrName: "test",
-    orderId: 0,
-    deviceCode: "TEST",
-    status,
-  });
-
-function doorPostBody(payload, doorCode) {
-  if (payload === null || payload === undefined) {
-    return rcsDoorPayload(doorCode, 1);
-  }
-  if (typeof payload === "object") {
-    return JSON.stringify(payload);
-  }
-  if (typeof payload === "number") {
-    return rcsDoorPayload(doorCode, payload);
-  }
-  return rcsDoorPayload(doorCode, 1);
-}
-
-/** POST /door/controldoor1 — คืน HTTP + body (ไม่ throw) */
-export async function postDoor1(payload) {
-  const res = await fetch(`${backendOrigin()}/door/controldoor1`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: doorPostBody(payload, "MJ01"),
-  });
-  const data = await res.json().catch(() => ({}));
-  return { status: res.status, data };
-}
-
-export async function postDoor2(payload) {
-  const res = await fetch(`${backendOrigin()}/door/controldoor2`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: doorPostBody(payload, "MJ02"),
-  });
-  const data = await res.json().catch(() => ({}));
-  return { status: res.status, data };
-}
-
-export async function postDoor3(payload) {
-  const res = await fetch(`${backendOrigin()}/door/controldoor3`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: doorPostBody(payload, "MJ03"),
-  });
-  const data = await res.json().catch(() => ({}));
-  return { status: res.status, data };
-}
-
-export async function fetchDoorStatus1() {
-  const res = await fetch(`${backendOrigin()}/door/getstatus1`);
-  const data = await res.json().catch(() => ({}));
-  return { status: res.status, data };
-}
-
-export async function fetchDoorStatus2() {
-  const res = await fetch(`${backendOrigin()}/door/getstatus2`);
-  const data = await res.json().catch(() => ({}));
-  return { status: res.status, data };
-}
-
-export async function fetchDoorStatus3() {
-  const res = await fetch(`${backendOrigin()}/door/getstatus3`);
-  const data = await res.json().catch(() => ({}));
-  return { status: res.status, data };
-}
-
-/** เคลียร์ output ทุกช่องบนบอร์ด lift1 + lift2 + ประตู */
-export function clearAllTestOutputs() {
-  return apiRequest("/test/clear-all-outputs", {
-    method: "POST",
-    body: "{}",
-  });
 }

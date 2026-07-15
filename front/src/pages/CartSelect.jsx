@@ -13,7 +13,6 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import ScreenLayout from "../components/ScreenLayout.jsx";
 import { fetchZoneDrop, updateSpotStatusCart } from "../api/client.js";
 
-
 import Swal from "sweetalert2";
 
 function CartSelect() {
@@ -22,7 +21,7 @@ function CartSelect() {
 
   const defaultGroupId = searchParams.get("groupId") || "";
   const defaultGroupName = searchParams.get("groupName") || "";
-  
+
   const robotId = searchParams.get("robotId");
   const robotName = searchParams.get("robotName");
 
@@ -100,7 +99,14 @@ function CartSelect() {
       const res = await fetchZoneDrop();
       setItems(res.data || []);
 
-      Swal.fire("CLEAR CART SUCCESS!", "", "success");
+      Swal.fire({
+        title: "CLEAR CART SUCCESS!",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+      {/* แบบเดิม ไม่ใส่ timer*/}
+      // Swal.fire("CLEAR CART SUCCESS!", "", "success"); 
     } catch (err) {
       console.error(err);
 
@@ -129,7 +135,7 @@ function CartSelect() {
       `/cart-status?groupId=${encodeURIComponent(groupId)}&groupName=${encodeURIComponent(selectedGroup?.name || "")}
       &robotId=${encodeURIComponent(robotId || "")}&robotName=${encodeURIComponent(robotName || "")}`,
     );
-  }
+  };
 
   return (
     <ScreenLayout

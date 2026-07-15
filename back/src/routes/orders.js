@@ -10,7 +10,12 @@ const {
   getQueueSnapshot,
 } = require("../services/queue");
 
+const { cancelTask } = require("../services/rcs");
+
 const router = express.Router();
+const queuedRetryTimers = new Map();
+const MAX_QUEUED_RETRIES = 5;
+const QUEUED_RETRY_DELAY_MS = 5000;
 
 function getGroups(zone) {
   return zone.groups || zone.group || [];
@@ -69,14 +74,41 @@ function findRcsBaseUrl(config, robot) {
   return rcs?.baseUrl || "";
 }
 
-async function startNextQueuedTask(config, spot) {
-  const queue = Array.isArray(spot.taskQueue) ? spot.taskQueue : [];
-  const next = queue.shift();
+function findNextQueuedTask(config, robotId) {
+  for (const zone of config.dropZones || []) {
+    for (const group of getGroups(zone)) {
+      for (const spot of group.spots || []) {
+        if (spot.statusWork !== "free") continue;
+        if (spot.statusCart === "full") continue;
 
-  if (!next) {
-    delete spot.taskQueue;
-    return null;
+        const queue = Array.isArray(spot.taskQueue) ? spot.taskQueue : [];
+
+        const index = queue.findIndex(
+          (task) => String(task.robotId) === String(robotId),
+        );
+
+        if (index >= 0) {
+          return {
+            spot,
+            queue,
+            index,
+            task: queue[index],
+          };
+        }
+      }
+    }
   }
+
+  return null;
+}
+
+async function startNextQueuedTask(config, robotId) {
+  if (!robotId) return null;
+
+  const found = findNextQueuedTask(config, robotId);
+  if (!found) return null;
+
+  const { spot, queue, index, task: next } = found;
 
   const robot = findRobot(config, next.robotId);
   if (!robot) return null;
@@ -103,8 +135,70 @@ async function startNextQueuedTask(config, spot) {
   );
 
   if (!result.ok) {
-    queue.unshift(next);
-    spot.taskQueue = queue;
+    if (result.retryable) {
+      const retryCount = Number(next.retryCount || 0) + 1;
+
+      queue[index] = {
+        ...next,
+        retryCount,
+      };
+      spot.taskQueue = queue;
+
+      await saveMockHistory(
+        next,
+        "QUEUED",
+        `RCS busy, retrying (${retryCount}/${MAX_QUEUED_RETRIES})`,
+        result.rcsResponse,
+      );
+
+      if (retryCount < MAX_QUEUED_RETRIES) {
+        const existingTimer = queuedRetryTimers.get(next.orderId);
+        if (existingTimer) clearTimeout(existingTimer);
+
+        const retryTimer = setTimeout(async () => {
+          queuedRetryTimers.delete(next.orderId);
+          try {
+            await startNextQueuedTask(config, next.robotId);
+            await saveConfig(config);
+          } catch (err) {
+            console.error("[Orders] queued retry failed:", err);
+          }
+        }, QUEUED_RETRY_DELAY_MS);
+
+        queuedRetryTimers.set(next.orderId, retryTimer);
+      } else {
+        const existingTimer = queuedRetryTimers.get(next.orderId);
+        if (existingTimer) {
+          clearTimeout(existingTimer);
+          queuedRetryTimers.delete(next.orderId);
+        }
+
+        await saveMockHistory(
+          next,
+          "SEND_FAILED",
+          `RCS busy after ${MAX_QUEUED_RETRIES} retries`,
+          result.rcsResponse,
+        );
+
+        return {
+          ...next,
+          status: "SEND_FAILED",
+          retryable: false,
+          retryCount,
+          rcsResponse: result.rcsResponse,
+          error: result.rcsResponse?.desc || "RCS busy",
+        };
+      }
+
+      return {
+        ...next,
+        status: "QUEUED",
+        retryable: true,
+        retryCount,
+        rcsResponse: result.rcsResponse,
+      };
+    }
+
     return {
       ...next,
       status: "SEND_FAILED",
@@ -113,15 +207,23 @@ async function startNextQueuedTask(config, spot) {
     };
   }
 
+  const existingTimer = queuedRetryTimers.get(next.orderId);
+  if (existingTimer) {
+    clearTimeout(existingTimer);
+    queuedRetryTimers.delete(next.orderId);
+  }
+
+  queue.splice(index, 1);
+
+  if (queue.length > 0) spot.taskQueue = queue;
+  else delete spot.taskQueue;
+
   spot.statusCart = "empty";
   spot.statusWork = "delivering";
   spot.robotId = next.robotId;
   spot.cartId = next.cartId;
   spot.cartName = next.cartName;
   spot.orderId = next.orderId;
-
-  if (queue.length > 0) spot.taskQueue = queue;
-  else delete spot.taskQueue;
 
   return {
     ...next,
@@ -130,18 +232,87 @@ async function startNextQueuedTask(config, spot) {
   };
 }
 
+async function processQueuedOrders(configOverride = null) {
+  const config = configOverride || (await getConfig());
+  const queuedCandidates = [];
+
+  for (const zone of config.dropZones || []) {
+    for (const group of getGroups(zone)) {
+      for (const spot of group.spots || []) {
+        if (spot.statusWork !== "free") continue;
+        if (!Array.isArray(spot.taskQueue) || spot.taskQueue.length === 0) continue;
+
+        const robotId = spot.taskQueue[0]?.robotId;
+        if (robotId) {
+          queuedCandidates.push(robotId);
+        }
+      }
+    }
+  }
+
+  let changed = false;
+  for (const robotId of queuedCandidates) {
+    const result = await startNextQueuedTask(config, robotId);
+    if (result) changed = true;
+  }
+
+  if (changed) {
+    await saveConfig(config);
+  }
+
+  return { changed };
+}
+
 async function saveMockHistory(order, status, note, rcsResponse) {
   const history = await getHistory();
-  history.unshift({
+  const now = new Date().toISOString();
+  const entry = {
     ...order,
     status,
-    createdAt: new Date().toISOString(),
-    startedAt: new Date().toISOString(),
-    finishedAt: status === "SEND_SUCCESS" ? new Date().toISOString() : null,
+    createdAt: order.createdAt || now,
+    startedAt: order.startedAt || order.createdAt || now,
+    finishedAt: status === "SEND_SUCCESS" ? now : null,
     rcsResponse,
     note,
-  });
+  };
+
+  const index = history.findIndex((item) => item.orderId === order.orderId);
+
+  if (index >= 0) {
+    history[index] = {
+      ...history[index],
+      ...entry,
+      createdAt: history[index].createdAt || entry.createdAt,
+      startedAt: history[index].startedAt || entry.startedAt,
+    };
+
+    for (let i = history.length - 1; i > index; i -= 1) {
+      if (history[i].orderId === order.orderId) {
+        history.splice(i, 1);
+      }
+    }
+  } else {
+    history.unshift(entry);
+  }
+
   await saveHistory(history);
+}
+
+function isRobotBusy(config, robotId) {
+  for (const zone of config.dropZones || []) {
+    for (const group of getGroups(zone)) {
+      for (const spot of group.spots || []) {
+        if (
+          String(spot.robotId) === String(robotId) &&
+          spot.statusWork === "delivering"
+        ) {
+          return true;
+        }
+      }
+    }
+  }
+
+  return false;
 }
 
 router.post("/", async (req, res) => {
@@ -285,6 +456,49 @@ router.post("/", async (req, res) => {
         orderId,
         status: "PENDING",
         message: "Drop spot is full/pending. Order queued until cart is empty.",
+        queue: getQueueSnapshot(),
+      });
+    }
+
+    const robotBusy = isRobotBusy(config, robot.id);
+
+    if (robotBusy) {
+      const queueResponse = {
+        code: 1000,
+        desc: "QUEUED",
+        data: { orderId },
+      };
+
+      dropRef.taskQueue = Array.isArray(dropRef.taskQueue)
+        ? dropRef.taskQueue
+        : [];
+
+      dropRef.taskQueue.push({
+        orderId,
+        robotId: robot.id,
+        robotName: robot.name,
+        cartId: cart.id,
+        cartName: cart.name,
+        statusWork: "queue",
+        pickup: order.pickup,
+        drop: order.drop,
+        createdAt: new Date().toISOString(),
+      });
+
+      await saveMockHistory(
+        order,
+        "QUEUED",
+        "Robot is busy. Order added to queue",
+        queueResponse,
+      );
+      await saveConfig(config);
+
+      return res.json({
+        ok: true,
+        orderId,
+        status: "QUEUED",
+        message: "Robot is busy. Order added to queue.",
+        rcsResponse: queueResponse,
         queue: getQueueSnapshot(),
       });
     }
@@ -471,7 +685,9 @@ router.post("/home", async (req, res) => {
     }
 
     if (!drop.rcsPosition) {
-      return res.status(400).json({ error: "Home point rcsPosition is missing" });
+      return res
+        .status(400)
+        .json({ error: "Home point rcsPosition is missing" });
     }
 
     const orderId = `${Date.now()}${Math.floor(Math.random() * 1e6)}`;
@@ -661,7 +877,8 @@ router.post("/:orderId/clear-task", async (req, res) => {
   if (!spot)
     return res.status(404).json({ error: "Task not found by orderId" });
 
-  spot.statusCart = "empty";
+  const finishedRobotId = spot.robotId;
+
   spot.statusWork = "free";
 
   delete spot.robotId;
@@ -669,7 +886,7 @@ router.post("/:orderId/clear-task", async (req, res) => {
   delete spot.cartName;
   delete spot.orderId;
 
-  const nextTask = await startNextQueuedTask(config, spot);
+  nextTask = await startNextQueuedTask(config, finishedRobotId);
 
   await saveConfig(config);
 
@@ -702,6 +919,10 @@ router.patch("/:spotId/status-cart", async (req, res) => {
   }
 
   let nextTask = null;
+  const finishedRobotId = spot.robotId;
+  const queuedRobotId = Array.isArray(spot.taskQueue)
+    ? spot.taskQueue[0]?.robotId
+    : null;
 
   spot.statusCart = statusCart;
 
@@ -713,7 +934,10 @@ router.patch("/:spotId/status-cart", async (req, res) => {
     delete spot.cartName;
     delete spot.orderId;
 
-    nextTask = await startNextQueuedTask(config, spot);
+    nextTask = await startNextQueuedTask(
+      config,
+      finishedRobotId || queuedRobotId,
+    );
   }
 
   if (statusCart === "full" && spot.statusWork === "free") {
@@ -795,4 +1019,89 @@ router.post("/:orderId/cancel", async (req, res) => {
   });
 });
 
+router.post("/:orderId/cancel-running", async (req, res) => {
+  const { orderId } = req.params;
+  const { releaseOnly = false } = req.body || {};
+
+  const config = await getConfig();
+  const history = await getHistory();
+
+  const spot = findSpotRefByOrderId(config.dropZones || [], orderId);
+
+  if (!spot) {
+    return res.status(404).json({ error: "Delivering task not found" });
+  }
+
+  if (spot.statusWork !== "delivering") {
+    return res.status(409).json({
+      error: "This task is not delivering",
+      statusWork: spot.statusWork,
+    });
+  }
+
+  const finishedRobotId = spot.robotId;
+  const robot = findRobot(config, finishedRobotId);
+
+  if (!robot) {
+    return res.status(404).json({ error: "Robot not found" });
+  }
+
+  const rcsBaseUrl = findRcsBaseUrl(config, robot);
+
+  let rcsResponse = null;
+
+  if (!releaseOnly) {
+    rcsResponse = await cancelTask(rcsBaseUrl, [
+      {
+        orderId,
+        destPosition: spot.rcsPosition,
+      },
+    ]);
+
+    if (Number(rcsResponse?.code) !== 1000) {
+      return res.status(502).json({
+        error: rcsResponse?.desc || "RCS cancelTask failed",
+        rcsResponse,
+      });
+    }
+  }
+
+  spot.statusWork = "free";
+  spot.statusCart = "empty";
+
+  delete spot.robotId;
+  delete spot.cartId;
+  delete spot.cartName;
+  delete spot.orderId;
+
+  const nextTask = await startNextQueuedTask(config, finishedRobotId);
+
+  const historyIndex = history.findIndex((item) => item.orderId === orderId);
+
+  if (historyIndex >= 0) {
+    history[historyIndex] = {
+      ...history[historyIndex],
+      status: "CANCELLED",
+      finishedAt: new Date().toISOString(),
+      note: releaseOnly
+        ? "Released in WebApp after cancelled in RCS"
+        : "Cancelled running task in RCS",
+      rcsResponse: rcsResponse || history[historyIndex].rcsResponse,
+    };
+  }
+
+  await saveConfig(config);
+  await saveHistory(history);
+
+  return res.json({
+    ok: true,
+    orderId,
+    status: "CANCELLED",
+    releaseOnly,
+    rcsResponse,
+    nextTask,
+    data: spot,
+  });
+});
 module.exports = router;
+router.processQueuedOrders = processQueuedOrders;
