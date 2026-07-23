@@ -17,19 +17,10 @@ import {
   fetchRobots,
   createOrder,
 } from "../api/client.js";
-import cartT2Img from "../../src/assets/images/cart/Cart T2.png";
-import cartT3Img from "../../src/assets/images/cart/Cart T3.png";
-import cartT6Img from "../../src/assets/images/cart/Cart T6.png";
 
 import { dropRules } from "../config/dropRules.js";
 import Swal from "sweetalert2";
 import { formatSpotName } from "../config/fotmatSpotName.js";
-
-const cartTypes = [
-  { id: "t2", img: cartT2Img },
-  { id: "t3", img: cartT3Img },
-  { id: "t6", img: cartT6Img },
-];
 
 function TaskAssign() {
   const navigate = useNavigate();
@@ -65,7 +56,12 @@ function TaskAssign() {
   useEffect(() => {
     setLoading(true);
 
-    Promise.all([fetchZonePick(), fetchZoneDrop(), fetchCarts(), fetchRobots()])
+    Promise.all([
+      fetchZonePick({ robotId: robotId || "" }),
+      fetchZoneDrop({ robotId: robotId || "" }),
+      fetchCarts({ robotId: robotId || "" }),
+      fetchRobots(),
+    ])
       .then(([pickRes, dropRes, cartRes, robotRes]) => {
         const pickZones = pickRes?.data || [];
         const dropZones = dropRes?.data || [];
@@ -86,7 +82,7 @@ function TaskAssign() {
         setRobots(robotRes?.data || []);
       })
       .finally(() => setLoading(false));
-  }, [groupId]);
+  }, [groupId, robotId]);
 
   const dropOptions = useMemo(() => {
     if (!pickup) return dropStations;
@@ -103,7 +99,7 @@ function TaskAssign() {
     return dropStations.find((station) => station.id === dropOff);
   }, [dropStations, dropOff]);
 
-  const dropStatusCart = selectedDropStation?.statusCart || "empty";
+  const dropStatusCart = selectedDropStation?.statusCart || "???";
   const dropStatusWork = selectedDropStation?.statusWork || "free";
 
   const handlePickupChange = (value) => {
@@ -187,8 +183,11 @@ function TaskAssign() {
           showConfirmButton: false,
         });
       }
-      // navigate(backToZoneListUrl);
-      navigate("/");
+      navigate(
+        `/status?robotId=${encodeURIComponent(
+          selectedRobot.id,
+        )}&robotName=${encodeURIComponent(selectedRobot.name || "")}`,
+      );
     } catch (err) {
       console.error(err);
 
@@ -362,7 +361,7 @@ function TaskAssign() {
         </Typography>
 
         <Box sx={{ display: "flex", gap: 3, mb: 3 }}>
-          {cartTypes.map((cart) => {
+          {carts.map((cart) => {
             const isSelected = cartType === cart.id;
 
             return (
@@ -386,19 +385,25 @@ function TaskAssign() {
                   "&.Mui-disabled": {
                     bgcolor: "#fff",
                   },
-                }}
-              >
-                <Box
-                  component="img"
-                  src={cart.img}
-                  alt={`Cart type ${cart.id}`}
-                  sx={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                    filter: isSelected ? "none" : "grayscale(100%)",
-                  }}
-                />
+              }}
+            >
+                {cart.imageUrl ? (
+                  <Box
+                    component="img"
+                    src={cart.imageUrl}
+                    alt={cart.name || `Cart type ${cart.id}`}
+                    sx={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "contain",
+                      filter: isSelected ? "none" : "grayscale(100%)",
+                    }}
+                  />
+                ) : (
+                  <Typography sx={{ fontSize: 20, fontWeight: 900 }}>
+                    {cart.name || String(cart.id).toUpperCase()}
+                  </Typography>
+                )}
               </Button>
             );
           })}
@@ -421,12 +426,12 @@ function TaskAssign() {
             sx={{
               minWidth: 120,
               height: 48,
-              bgcolor: dropStatusCart === "full" ? "#ed6c2f" : "#2e7d32",
+              bgcolor: dropStatusCart === "full" ? "#ed6c2f" : dropStatusCart === "empty" ? "#2e7d32" : "#ccc",
               color: "#fff !important",
               fontSize: 18,
               fontWeight: 900,
               "&.Mui-disabled": {
-                bgcolor: dropStatusCart === "full" ? "#ed6c2f" : "#2e7d32",
+                bgcolor: dropStatusCart === "full" ? "#ed6c2f" : dropStatusCart === "empty" ? "#2e7d32" : "#ccc",
                 color: "#fff",
                 opacity: 1,
               },

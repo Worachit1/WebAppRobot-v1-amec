@@ -84,7 +84,7 @@ async function dispatchOrderImmediate(order, context) {
   }
 
   const payload = {
-    modelProcessCode: config.modelProcessCode || "moveShelf6",
+    modelProcessCode: robot.modelProcessCode || config.modelProcessCode || "moveShelf6",
     fromSystem: config.fromSystem || "TSC",
     orderId: order.orderId,
     taskOrderDetail: [

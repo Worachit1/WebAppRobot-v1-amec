@@ -22,6 +22,11 @@ const ZoneList = () => {
 
   const robotId = searchParams.get("robotId");
   const robotName = searchParams.get("robotName");
+  const amrImage =
+    String(robotId).toLowerCase() === "d150" ||
+    String(robotName).toLowerCase().includes("d150")
+      ? "/assets/images/D150D1.png"
+      : c100Img;
 
   const handleSelectCard = (zone, group) => {
     setSelectedCard({
@@ -34,10 +39,10 @@ const ZoneList = () => {
   };
   useEffect(() => {
     setLoading(true);
-    fetchZonePick()
+    fetchZonePick({ robotId: robotId || "" })
       .then((res) => setItems(res.data || []))
       .finally(() => setLoading(false));
-  }, []);
+  }, [robotId]);
 
   return (
     <ScreenLayout onBack={() => navigate("/select-robot")} onHome={() => navigate("/")}>
@@ -314,7 +319,7 @@ const ZoneList = () => {
             >
               <Box
                 component="img"
-                src={c100Img}
+                src={amrImage}
                 alt="CALL AMR"
                 sx={{
                   width: "180px",

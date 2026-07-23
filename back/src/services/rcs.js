@@ -36,8 +36,38 @@ async function sendTaskOrder(baseUrl, payload) {
 }
 
 async function getTaskOrderStatus(baseUrl, orderId) {
-  const res = await axios.post(`${baseUrl}/ics/out/task/getTaskOrderStatus`, {
-    orderId,
+  const res = await axios.post(
+    `${baseUrl}/ics/out/task/getTaskOrderStatus`,
+    {
+      orderId,
+    },
+    {
+      timeout: 10000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      validateStatus: () => true,
+    },
+  );
+  return res.data;
+}
+
+async function getOrderList(baseUrl, areaId, orderIds = []) {
+  const body = {
+    areaId: Number(areaId),
+    StartPage: "1",
+    pageSize: "20",
+  };
+
+  if (orderIds.length) {
+    body.orderIdList = orderIds.map((id) => String(id));
+  }
+
+  const res = await axios.post(`${baseUrl}/ics/out/task/getOrderList`, body, {
+    timeout: 10000,
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
   return res.data;
 }
@@ -76,21 +106,15 @@ async function getDeviceStatusFromAllAreas(baseUrl, deviceKeys, areaIds) {
       for (const key of keys) {
         const res = await getDeviceListByArea(baseUrl, areaId, key);
         if (res.code === 1000 && Array.isArray(res.data) && res.data.length) {
-          const device =
-            res.data.find(
-              (d) =>
-                keys.some(
-                  (k) =>
-                    String(d.deviceCode || "") === k ||
-                    String(d.deviceName || "") === k,
-                ) ||
-                keys.some(
-                  (k) =>
-                    String(d.deviceCode || "").includes(k) ||
-                    String(d.deviceName || "").includes(k),
-                ),
-            ) || res.data[0];
-          return { ...res, data: device, areaId };
+          const device = res.data.find((d) =>
+            keys.some(
+              (k) =>
+                String(d.deviceCode || "") === k ||
+                String(d.deviceName || "") === k,
+            ),
+          );
+
+          if (device) return { ...res, data: device, areaId };
         }
       }
 
@@ -107,11 +131,6 @@ async function getDeviceStatusFromAllAreas(baseUrl, deviceKeys, areaIds) {
               (k) =>
                 String(d.deviceCode || "") === k ||
                 String(d.deviceName || "") === k,
-            ) ||
-            keys.some(
-              (k) =>
-                String(d.deviceCode || "").includes(k) ||
-                String(d.deviceName || "").includes(k),
             ),
         );
         if (device) return { ...allRes, data: device, areaId };
@@ -139,6 +158,7 @@ async function cancelTask(rcsBaseUrl, tasks) {
 module.exports = {
   sendTaskOrder,
   getTaskOrderStatus,
+  getOrderList,
   getDeviceListByArea,
   getDeviceStatusFromAllAreas,
   cancelTask,

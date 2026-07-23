@@ -2,7 +2,6 @@
   "sendEnabled": true,
   "pollingIntervalMs": 2000,
   "statusRefreshIntervalMs": 5000,
-  "modelProcessCode": "C6",
   "fromSystem": "TSC",
   "rcs": [
     {
@@ -10,9 +9,9 @@
       "name": "RCS-1",
       "baseUrl": "http://192.168.8.100:7000",
       "areaIds": [
-        0,
         1,
-        2
+        2,
+        3
       ]
     }
   ],
@@ -20,35 +19,56 @@
     {
       "id": "C100",
       "name": "C100",
-      "deviceNum": "C3333",
+      "deviceNum": "F001",
       "rcsId": "rcs-1",
-      "imageUrl": "/assets/images/C1001.png"
+      "imageUrl": "/assets/images/C1001.png",
+      "modelProcessCode": "FP150Task"
     },
     {
       "id": "d150",
       "name": "D150D",
-      "deviceNum": "C3333up",
+      "deviceNum": "D001",
       "rcsId": "rcs-1",
-      "imageUrl": "/assets/images/D150D1.png"
+      "imageUrl": "/assets/images/D150D1.png",
+      "modelProcessCode": "forkTemplateNo24"
     }
   ],
-  "carts": [
-    {
-      "id": "t2",
-      "name": "T2",
-      "imageUrl": "/assets/images/cart/Cart T2.png"
-    },
-    {
-      "id": "t3",
-      "name": "T3",
-      "imageUrl": "/assets/images/cart/Cart T3.png"
-    },
-    {
-      "id": "t6",
-      "name": "T6",
-      "imageUrl": "/assets/images/cart/Cart T6.png"
-    }
-  ],
+  "cartsByRobot": {
+    "C100": [
+      {
+        "id": "t2",
+        "name": "T2",
+        "imageUrl": "/assets/images/cart/Cart T2.png"
+      },
+      {
+        "id": "t3",
+        "name": "T3",
+        "imageUrl": "/assets/images/cart/Cart T3.png"
+      },
+      {
+        "id": "t6",
+        "name": "T6",
+        "imageUrl": "/assets/images/cart/Cart T6.png"
+      }
+    ],
+    "d150": [
+      {
+        "id": "t2",
+        "name": "T2",
+        "imageUrl": "/assets/images/cart/Cart T2.png"
+      },
+      {
+        "id": "t3",
+        "name": "T3",
+        "imageUrl": "/assets/images/cart/Cart T3.png"
+      },
+      {
+        "id": "t6",
+        "name": "T6",
+        "imageUrl": "/assets/images/cart/Cart T6.png"
+      }
+    ]
+  },
   "pickupZones": [
     {
       "id": "z1",
@@ -439,6 +459,68 @@
               "rcsPosition": "A1-C/D_Operator"
             }
           ]
+        },
+        {
+          "id": "g-test-1",
+          "name": "Test-1",
+          "spots": [
+            {
+              "id": "s-g-c2-f2",
+              "name": "C2-F2",
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "C2-F2"
+            },
+            {
+              "id": "s-g-c2-f3",
+              "name": "C2-F3",
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "C2-F3"
+            },
+            {
+              "id": "s-g-r1",
+              "name": "R1",
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "R1"
+            },
+            {
+              "id": "s-g-r2",
+              "name": "R2",
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "R2"
+            },
+            {
+              "id": "s-g-r3",
+              "name": "R3",
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "R3"
+            },
+            {
+              "id": "s-g-r4",
+              "name": "R4",
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "R4"
+            },
+            {
+              "id": "s-g-p1",
+              "name": "P1",
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "P1"
+            },
+            {
+              "id": "s-g-p2",
+              "name": "P2",
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "P2"
+            }
+          ]
         }
       ]
     }
@@ -712,7 +794,7 @@
             {
               "id": "d-s-g-z3-home-feederin",
               "name": "FeederIn",
-              "statusCart": "empty",
+              "statusCart": "full",
               "statusWork": "free",
               "rcsPosition": "FeederIn"
             },
@@ -833,8 +915,796 @@
               "rcsPosition": "A1-C/D_Operator"
             }
           ]
+        },
+        {
+          "id": "g-test-1",
+          "name": "Test-1",
+          "spots": [
+            {
+              "id": "s-g-c2-f2",
+              "name": "C2-F2",
+              "statusCart": "full",
+              "statusWork": "pending",
+              "rcsPosition": "C2-F2"
+            },
+            {
+              "id": "s-g-c2-f3",
+              "name": "C2-F3",
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "C2-F3"
+            },
+            {
+              "id": "s-g-r1",
+              "name": "R1",
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "R1"
+            },
+            {
+              "id": "s-g-r2",
+              "name": "R2",
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "R2"
+            },
+            {
+              "id": "s-g-r3",
+              "name": "R3",
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "R3"
+            },
+            {
+              "id": "s-g-r4",
+              "name": "R4",
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "R4"
+            },
+            {
+              "id": "s-g-p1",
+              "name": "P1",
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "P1"
+            },
+            {
+              "id": "s-g-p2",
+              "name": "P2",
+              "statusCart": "empty",
+              "statusWork": "free",
+              "rcsPosition": "P2"
+            }
+          ]
         }
       ]
     }
-  ]
+  ],
+  "pickupZonesByRobot": {
+    "d150": [
+      {
+        "id": "d150-z-mtf",
+        "name": "ZONE MTF",
+        "groups": [
+          {
+            "id": "d150-g-z-mtf",
+            "name": "MTF",
+            "spots": [
+              {
+                "id": "d150-s-g-z-mtf-sheave-assy-in",
+                "name": "Sheave Assy (In)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Sheave_Assy_(In)"
+              },
+              {
+                "id": "d150-s-g-z-mtf-sheave-assy-out",
+                "name": "Sheave Assy (Out)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Sheave_Assy_(Out)"
+              },
+              {
+                "id": "d150-s-g-z-mtf-bearing-of-sheave-assy-item-124-125",
+                "name": "Bearing of Sheave Assy (Item 124,125)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Bearing_of_Sheave_Assy_Item_124-125"
+              },
+              {
+                "id": "d150-s-g-z-mtf-j1nl28-sheave-item-124-125",
+                "name": "J1NL28 Sheave (Item 124,125)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "J1NL28_Sheave_Item_124-125"
+              },
+              {
+                "id": "d150-s-g-z-mtf-rotor-item-101-in",
+                "name": "Rotor (Item 101) (In)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Rotor_Item_101_In"
+              },
+              {
+                "id": "d150-s-g-z-mtf-rotor-item-101-out",
+                "name": "Rotor (Item 101) (Out)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Rotor_Item_101_Out"
+              },
+              {
+                "id": "d150-s-g-z-mtf-housing-item-101",
+                "name": "Housing (Item 101)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Housing_Item_101"
+              },
+              {
+                "id": "d150-s-g-z-mtf-shaft-material",
+                "name": "Shaft Material",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Shaft_Material"
+              },
+              {
+                "id": "d150-s-g-z-mtf-frame-bracket-item-125-131",
+                "name": "Frame Bracket (Item 125,131)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Frame_Bracket_Item_125-131"
+              },
+              {
+                "id": "d150-s-g-z-mtf-shaft-item-101",
+                "name": "Shaft (Item 101)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Shaft_Item_101"
+              },
+              {
+                "id": "d150-s-g-z-mtf-field-item-101",
+                "name": "Field (Item 101)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Field_Item_101"
+              },
+              {
+                "id": "d150-s-g-z-mtf-a1sd01",
+                "name": "A1SD01",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "A1SD01"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d150-z-stf",
+        "name": "ZONE STF",
+        "groups": [
+          {
+            "id": "d150-z-g-stf",
+            "name": "STF",
+            "spots": [
+              {
+                "id": "d150-s-g-z-stf-rubber-bolt",
+                "name": "Rubber & Bolt",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Rubber_Bolt"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d150-z-sta",
+        "name": "ZONE STA",
+        "groups": [
+          {
+            "id": "d150-z-g-sta",
+            "name": "STA",
+            "spots": [
+              {
+                "id": "d150-s-g-z-sta-a1-hanger-case",
+                "name": "A1-Hanger Case",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "A1-Hanger_Case"
+              },
+              {
+                "id": "d150-s-g-z-sta-a1-cd-accessory",
+                "name": "A1-C/D Accessory",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "A1-C/D_Accessory"
+              },
+              {
+                "id": "d150-s-g-z-sta-b9-sheave-item-181",
+                "name": "B9-Sheave (Item 181)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "B9-Sheave_Item_181"
+              },
+              {
+                "id": "d150-s-g-z-sta-ps-hp",
+                "name": "PS & HP",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "PS_HP"
+              },
+              {
+                "id": "d150-s-g-z-sta-a1-sheave-item-124-2",
+                "name": "Sheave (Item 124-2)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Sheave_Item_124-2"
+              },
+              {
+                "id": "d150-s-g-z-sta-sheave-item-124-3-125-2",
+                "name": "Sheave (Item 124-3, 125-2)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Sheave_Item_124-3-125-2"
+              },
+              {
+                "id": "d150-s-g-z-sta-G4 Kitting",
+                "name": "G4 Kitting",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "G4_Kitting"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d150-z-wh",
+        "name": "ZONE W/H",
+        "groups": [
+          {
+            "id": "d150-z-g-wh",
+            "name": "W/H",
+            "spots": [
+              {
+                "id": "d150-s-g-z-main-wh-1",
+                "name": "Main W/H #1",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_1"
+              },
+              {
+                "id": "d150-s-g-z-main-wh-2",
+                "name": "Main W/H #2",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_2"
+              },
+              {
+                "id": "d150-s-g-z-main-wh-3",
+                "name": "Main W/H #3",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_3"
+              },
+              {
+                "id": "d150-s-g-z-main-wh-4",
+                "name": "Main W/H #4",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_4"
+              },
+              {
+                "id": "d150-s-g-z-main-wh-5",
+                "name": "Main W/H #5",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_5"
+              },
+              {
+                "id": "d150-s-g-z-main-wh-6",
+                "name": "Main W/H #6",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_6"
+              },
+              {
+                "id": "d150-s-g-z-main-wh-7",
+                "name": "Main W/H #7",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_7"
+              },
+              {
+                "id": "d150-s-g-z-main-wh-8",
+                "name": "Main W/H #8",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_8"
+              },
+              {
+                "id": "d150-s-g-z-main-wh-9",
+                "name": "Main W/H #9",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_9"
+              },
+              {
+                "id": "d150-s-g-z-main-wh-10",
+                "name": "Main W/H #10",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_10"
+              }
+            ]
+          }
+        ]
+      },
+     {
+        "id": "d150-z-b-wh",
+        "name": "ZONE B-W/H",
+        "groups": [
+          {
+            "id": "d150-z-g-b-wh",
+            "name": "B-W/H",
+            "spots": [
+              {
+                "id": "d150-s-g-z-beside-wh-1",
+                "name": "Beside W/H #1",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Beside_W/H_1"
+              },
+              {
+                "id": "d150-s-g-z-beside-wh-2",
+                "name": "Beside W/H #2",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Beside_W/H_2"
+              },
+              {
+                "id": "d150-s-g-z-beside-wh-3",
+                "name": "Beside W/H #3",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Beside_W/H_3"
+              },
+              {
+                "id": "d150-s-g-z-beside-wh-4",
+                "name": "Beside W/H #4",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Beside_W/H_4"
+              },
+              {
+                "id": "d150-s-g-z-beside-wh-5",
+                "name": "Beside W/H #5",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Beside_W/H_5"
+              },
+              {
+                "id": "d150-s-g-z-beside-wh-6",
+                "name": "Beside W/H #6",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Beside_W/H_6"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d150-pick-zone-b",
+        "name": "ZONE B",
+        "groups": [
+          {
+            "id": "d150-pick-group-test-b",
+            "name": "TEST B",
+            "spots": [
+              {
+                "id": "d150-pick-a1",
+                "name": "A1",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "A1"
+              },
+              {
+                "id": "d150-pick-a2",
+                "name": "A2",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "A2"
+              },
+              {
+                "id": "d150-pick-b1",
+                "name": "B1",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "B1"
+              },
+              {
+                "id": "d150-pick-g1",
+                "name": "G1",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "G1"
+              },
+              {
+                "id": "d150-pick-g2",
+                "name": "G2",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "G2"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "dropZonesByRobot": {
+    "d150": [
+      {
+        "id": "d150-z-mtf",
+        "name": "ZONE MTF",
+        "groups": [
+          {
+            "id": "d150-g-z-mtf",
+            "name": "MTF",
+            "spots": [
+              {
+                "id": "d150-d-s-g-z-mtf-sheave-assy-in",
+                "name": "Sheave Assy (In)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Sheave_Assy_(In)"
+              },
+              {
+                "id": "d150-d-s-g-z-mtf-sheave-assy-out",
+                "name": "Sheave Assy (Out)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Sheave_Assy_(Out)"
+              },
+              {
+                "id": "d150-d-s-g-z-mtf-bearing-of-sheave-assy-item-124-125",
+                "name": "Bearing of Sheave Assy (Item 124,125)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Bearing_of_Sheave_Assy_Item_124-125"
+              },
+              {
+                "id": "d150-d-s-g-z-mtf-j1nl28-sheave-item-124-125",
+                "name": "J1NL28 Sheave (Item 124,125)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "J1NL28_Sheave_Item_124-125"
+              },
+              {
+                "id": "d150-d-s-g-z-mtf-rotor-item-101-in",
+                "name": "Rotor (Item 101) (In)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Rotor_Item_101_In"
+              },
+              {
+                "id": "d150-d-s-g-z-mtf-rotor-item-101-out",
+                "name": "Rotor (Item 101) (Out)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Rotor_Item_101_Out"
+              },
+              {
+                "id": "d150-d-s-g-z-mtf-housing-item-101",
+                "name": "Housing (Item 101)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Housing_Item_101"
+              },
+              {
+                "id": "d150-d-s-g-z-mtf-shaft-material",
+                "name": "Shaft Material",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Shaft_Material"
+              },
+              {
+                "id": "d150-d-s-g-z-mtf-frame-bracket-item-125-131",
+                "name": "Frame Bracket (Item 125,131)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Frame_Bracket_Item_125-131"
+              },
+              {
+                "id": "d150-d-s-g-z-mtf-shaft-item-101",
+                "name": "Shaft (Item 101)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Shaft_Item_101"
+              },
+              {
+                "id": "d150-d-s-g-z-mtf-field-item-101",
+                "name": "Field (Item 101)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Field_Item_101"
+              },
+              {
+                "id": "d150-d-s-g-z-mtf-a1sd01",
+                "name": "A1SD01",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "A1SD01"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d150-z-stf",
+        "name": "ZONE STF",
+        "groups": [
+          {
+            "id": "d150-z-g-stf",
+            "name": "STF",
+            "spots": [
+              {
+                "id": "d150-d-s-g-z-stf-rubber-bolt",
+                "name": "Rubber & Bolt",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Rubber_Bolt"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d150-z-sta",
+        "name": "ZONE STA",
+        "groups": [
+          {
+            "id": "d150-z-g-sta",
+            "name": "STA",
+            "spots": [
+              {
+                "id": "d150-d-s-g-z-sta-a1-hanger-case",
+                "name": "A1-Hanger Case",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "A1-Hanger_Case"
+              },
+              {
+                "id": "d150-d-s-g-z-sta-a1-cd-accessory",
+                "name": "A1-C/D Accessory",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "A1-C/D_Accessory"
+              },
+              {
+                "id": "d150-d-s-g-z-sta-b9-sheave-item-181",
+                "name": "B9-Sheave (Item 181)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "B9-Sheave_Item_181"
+              },
+              {
+                "id": "d150-d-s-g-z-sta-ps-hp",
+                "name": "PS & HP",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "PS_HP"
+              },
+              {
+                "id": "d150-d-s-g-z-sta-a1-sheave-item-124-2",
+                "name": "Sheave (Item 124-2)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Sheave_Item_124-2"
+              },
+              {
+                "id": "d150-d-s-g-z-sta-sheave-item-124-3-125-2",
+                "name": "Sheave (Item 124-3, 125-2)",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Sheave_Item_124-3-125-2"
+              },
+              {
+                "id": "d150-d-s-g-z-sta-G4 Kitting",
+                "name": "G4 Kitting",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "G4_Kitting"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d150-z-wh",
+        "name": "ZONE W/H",
+        "groups": [
+          {
+            "id": "d150-z-g-wh",
+            "name": "W/H",
+            "spots": [
+              {
+                "id": "d150-d-s-g-z-main-wh-1",
+                "name": "Main W/H #1",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_1"
+              },
+              {
+                "id": "d150-d-s-g-z-main-wh-2",
+                "name": "Main W/H #2",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_2"
+              },
+              {
+                "id": "d150-d-s-g-z-main-wh-3",
+                "name": "Main W/H #3",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_3"
+              },
+              {
+                "id": "d150-d-s-g-z-main-wh-4",
+                "name": "Main W/H #4",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_4"
+              },
+              {
+                "id": "d150-d-s-g-z-main-wh-5",
+                "name": "Main W/H #5",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_5"
+              },
+              {
+                "id": "d150-d-s-g-z-main-wh-6",
+                "name": "Main W/H #6",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_6"
+              },
+              {
+                "id": "d150-d-s-g-z-main-wh-7",
+                "name": "Main W/H #7",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_7"
+              },
+              {
+                "id": "d150-d-s-g-z-main-wh-8",
+                "name": "Main W/H #8",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_8"
+              },
+              {
+                "id": "d150-d-s-g-z-main-wh-9",
+                "name": "Main W/H #9",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_9"
+              },
+              {
+                "id": "d150-d-s-g-z-main-wh-10",
+                "name": "Main W/H #10",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Main_W/H_10"
+              }
+            ]
+          }
+        ]
+      },
+     {
+        "id": "d150-z-b-wh",
+        "name": "ZONE B-W/H",
+        "groups": [
+          {
+            "id": "d150-z-g-b-wh",
+            "name": "B-W/H",
+            "spots": [
+              {
+                "id": "d150-d-s-g-z-beside-wh-1",
+                "name": "Beside W/H #1",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Beside_W/H_1"
+              },
+              {
+                "id": "d150-d-s-g-z-beside-wh-2",
+                "name": "Beside W/H #2",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Beside_W/H_2"
+              },
+              {
+                "id": "d150-d-s-g-z-beside-wh-3",
+                "name": "Beside W/H #3",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Beside_W/H_3"
+              },
+              {
+                "id": "d150-d-s-g-z-beside-wh-4",
+                "name": "Beside W/H #4",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Beside_W/H_4"
+              },
+              {
+                "id": "d150-d-s-g-z-beside-wh-5",
+                "name": "Beside W/H #5",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Beside_W/H_5"
+              },
+              {
+                "id": "d150-d-s-g-z-beside-wh-6",
+                "name": "Beside W/H #6",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "Beside_W/H_6"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d150-pick-zone-b",
+        "name": "ZONE B",
+        "groups": [
+          {
+            "id": "d150-pick-group-test-b",
+            "name": "TEST B",
+            "spots": [
+              {
+                "id": "d150-pick-a1",
+                "name": "A1",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "A1"
+              },
+              {
+                "id": "d150-pick-a2",
+                "name": "A2",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "A2"
+              },
+              {
+                "id": "d150-pick-b1",
+                "name": "B1",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "B1"
+              },
+              {
+                "id": "d150-pick-g1",
+                "name": "G1",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "G1"
+              },
+              {
+                "id": "d150-pick-g2",
+                "name": "G2",
+                "statusCart": "empty",
+                "statusWork": "free",
+                "rcsPosition": "G2"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 }

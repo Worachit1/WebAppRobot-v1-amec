@@ -203,17 +203,17 @@ function SelectRobot() {
                 justifyItems: "center",
               }}
             >
-              {/* {robots.map((robot) => (
+              {robots.map((robot) => (
                 <RobotCard
                   key={robot.id}
                   robot={robot}
                   selected={selectedRobot?.id === robot.id}
                   onSelect={setSelectedRobot}
                 />
-              ))} */}
+              ))}
               
               {/*ใช้ชั่วคราวเพื่อให้เลือกได้เฉพาะ robot C100 เท่านั้น */}
-              {robots.map((robot) => {
+              {/* {robots.map((robot) => {
                 const isLocked = String(robot.id) !== DEFAULT_ROBOT_ID;
 
                 return (
@@ -225,7 +225,7 @@ function SelectRobot() {
                     onSelect={setSelectedRobot}
                   />
                 );
-              })}
+              })} */}
             </Box>
 
             <Box sx={{ width: "100%", mx: "auto" }}>

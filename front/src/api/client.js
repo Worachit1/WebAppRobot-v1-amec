@@ -40,11 +40,15 @@ export function login(username, password) {
 
 // zone pick
 export function fetchZonePick(params = {}) {
-  return apiRequest("/zones/get/groups");
+  const search = new URLSearchParams(params);
+  const suffix = search.toString() ? `?${search}` : "";
+  return apiRequest(`/zones/get/groups${suffix}`);
 }
 // zone drop
 export function fetchZoneDrop(params = {}) {
-  return apiRequest("/zones/get/drops");
+  const search = new URLSearchParams(params);
+  const suffix = search.toString() ? `?${search}` : "";
+  return apiRequest(`/zones/get/drops${suffix}`);
 }
 // get robots
 export function fetchRobots(params = {}) {
@@ -52,7 +56,9 @@ export function fetchRobots(params = {}) {
 }
 // get cart
 export function fetchCarts(params = {}) {
-  return apiRequest("/robots/get/carts");
+  const search = new URLSearchParams(params);
+  const suffix = search.toString() ? `?${search}` : "";
+  return apiRequest(`/robots/get/carts${suffix}`);
 }
 
 export function createOrder(payload) {
@@ -82,7 +88,7 @@ export function updateSpotStatusCart(spotId, statusCart) {
 
 // claer order
 export function clearTask(orderId) {
-  return apiRequest(`/order/${orderId}/clear-task`, {
+  return apiRequest(`/orders/${orderId}/clear-task`, {
     method: "POST",
   });
 }

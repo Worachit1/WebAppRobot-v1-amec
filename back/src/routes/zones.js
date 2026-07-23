@@ -21,11 +21,22 @@ function normalizeZones(zones = []) {
   }));
 }
 
+function getRobotZones(config, key, robotId) {
+  if (!robotId) return config[key] || [];
+
+  const byRobotKey = `${key}ByRobot`;
+  const robotZones = config[byRobotKey]?.[robotId];
+  if (Array.isArray(robotZones)) return robotZones;
+
+  return config[key] || [];
+}
+
 // GET /zones/get/groups
 router.get("/get/groups", async (req, res) => {
   const config = await getConfig();
+  const { robotId } = req.query;
 
-  const zones = normalizeZones(config.pickupZones || []);
+  const zones = normalizeZones(getRobotZones(config, "pickupZones", robotId));
 
   res.json({
     ok: true,
@@ -36,8 +47,9 @@ router.get("/get/groups", async (req, res) => {
 // GET /zones/get/drop
 router.get("/get/drops", async (req, res) => {
   const config = await getConfig();
+  const { robotId } = req.query;
 
-  const zones = normalizeZones(config.dropZones || []);
+  const zones = normalizeZones(getRobotZones(config, "dropZones", robotId));
 
   res.json({
     ok: true,
@@ -48,12 +60,13 @@ router.get("/get/drops", async (req, res) => {
 // GET /zones
 router.get("/", async (req, res) => {
   const config = await getConfig();
+  const { robotId } = req.query;
 
   res.json({
     ok: true,
     data: {
-      pickupZones: normalizeZones(config.pickupZones || []),
-      dropZones: normalizeZones(config.dropZones || []),
+      pickupZones: normalizeZones(getRobotZones(config, "pickupZones", robotId)),
+      dropZones: normalizeZones(getRobotZones(config, "dropZones", robotId)),
     },
   });
 });

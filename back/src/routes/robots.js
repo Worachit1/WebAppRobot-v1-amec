@@ -16,10 +16,15 @@ router.get("/get", async (req, res) => {
 //get Carts
 router.get("/get/carts", async (req, res) => {
   const config = await getConfig();
+  const { robotId } = req.query;
+  const carts =
+    robotId && Array.isArray(config.cartsByRobot?.[robotId])
+      ? config.cartsByRobot[robotId]
+      : [];
 
   res.json({
     ok: true,
-    data: config.carts || [],
+    data: carts,
   });
 });
 

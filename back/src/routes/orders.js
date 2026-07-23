@@ -21,6 +21,26 @@ function getGroups(zone) {
   return zone.groups || zone.group || [];
 }
 
+function getRobotZones(config, key, robotId) {
+  if (!robotId) return config[key] || [];
+
+  const robotZones = config[`${key}ByRobot`]?.[robotId];
+  if (Array.isArray(robotZones)) return robotZones;
+
+  return config[key] || [];
+}
+
+function getAllZones(config, key) {
+  const zones = [...(config[key] || [])];
+  const byRobot = config[`${key}ByRobot`] || {};
+
+  for (const robotZones of Object.values(byRobot)) {
+    if (Array.isArray(robotZones)) zones.push(...robotZones);
+  }
+
+  return zones;
+}
+
 function findSpotInZones(zones, spotId, spotName) {
   for (const zone of zones || []) {
     for (const group of getGroups(zone)) {
@@ -69,13 +89,19 @@ function findRobot(config, robotId) {
   return (config.robots || []).find((robot) => robot.id === robotId);
 }
 
+function getRobotCarts(config, robotId) {
+  return Array.isArray(config.cartsByRobot?.[robotId])
+    ? config.cartsByRobot[robotId]
+    : [];
+}
+
 function findRcsBaseUrl(config, robot) {
   const rcs = (config.rcs || []).find((item) => item.id === robot.rcsId);
   return rcs?.baseUrl || "";
 }
 
 function findNextQueuedTask(config, robotId) {
-  for (const zone of config.dropZones || []) {
+  for (const zone of getAllZones(config, "dropZones")) {
     for (const group of getGroups(zone)) {
       for (const spot of group.spots || []) {
         if (spot.statusWork !== "free") continue;
@@ -104,6 +130,7 @@ function findNextQueuedTask(config, robotId) {
 
 async function startNextQueuedTask(config, robotId) {
   if (!robotId) return null;
+  if (isRobotBusy(config, robotId)) return null;
 
   const found = findNextQueuedTask(config, robotId);
   if (!found) return null;
@@ -236,14 +263,14 @@ async function processQueuedOrders(configOverride = null) {
   const config = configOverride || (await getConfig());
   const queuedCandidates = [];
 
-  for (const zone of config.dropZones || []) {
+  for (const zone of getAllZones(config, "dropZones")) {
     for (const group of getGroups(zone)) {
       for (const spot of group.spots || []) {
         if (spot.statusWork !== "free") continue;
         if (!Array.isArray(spot.taskQueue) || spot.taskQueue.length === 0) continue;
 
         const robotId = spot.taskQueue[0]?.robotId;
-        if (robotId) {
+        if (robotId && !isRobotBusy(config, robotId)) {
           queuedCandidates.push(robotId);
         }
       }
@@ -251,7 +278,7 @@ async function processQueuedOrders(configOverride = null) {
   }
 
   let changed = false;
-  for (const robotId of queuedCandidates) {
+  for (const robotId of [...new Set(queuedCandidates.map(String))]) {
     const result = await startNextQueuedTask(config, robotId);
     if (result) changed = true;
   }
@@ -299,7 +326,7 @@ async function saveMockHistory(order, status, note, rcsResponse) {
 }
 
 function isRobotBusy(config, robotId) {
-  for (const zone of config.dropZones || []) {
+  for (const zone of getAllZones(config, "dropZones")) {
     for (const group of getGroups(zone)) {
       for (const spot of group.spots || []) {
         if (
@@ -343,19 +370,21 @@ router.post("/", async (req, res) => {
 
     const config = await getConfig();
 
-    const cart = (config.carts || []).find((item) => item.id === cartId);
+    const cart = getRobotCarts(config, robotId).find(
+      (item) => item.id === cartId,
+    );
     if (!cart) return res.status(404).json({ error: "Cart not found" });
 
     const robot = findRobot(config, robotId);
     if (!robot) return res.status(404).json({ error: "Robot not found" });
 
     const pickup = findSpotInZones(
-      config.pickupZones || [],
+      getRobotZones(config, "pickupZones", robot.id),
       pickupSpotId,
       pickupSpotName,
     );
     const drop = findSpotInZones(
-      config.dropZones || [],
+      getRobotZones(config, "dropZones", robot.id),
       dropSpotId,
       dropSpotName,
     );
@@ -370,7 +399,10 @@ router.post("/", async (req, res) => {
         .json({ error: "Pickup or drop rcsPosition is missing" });
     }
 
-    const dropRef = findSpotRefById(config.dropZones || [], drop.id);
+    const dropRef = findSpotRefById(
+      getRobotZones(config, "dropZones", robot.id),
+      drop.id,
+    );
     if (!dropRef)
       return res.status(404).json({ error: "Drop spot ref not found" });
 
@@ -675,7 +707,7 @@ router.post("/home", async (req, res) => {
     if (!robot) return res.status(404).json({ error: "Robot not found" });
 
     const drop = findSpotInZones(
-      config.dropZones || [],
+      getRobotZones(config, "dropZones", robot.id),
       dropSpotId,
       dropSpotName,
     );
@@ -846,7 +878,10 @@ router.post("/:orderId/work-done", async (req, res) => {
   const { orderId } = req.params;
   const config = await getConfig();
 
-  const spot = findSpotRefByOrderId(config.dropZones || [], orderId);
+  const spot = findSpotRefByOrderId(
+    getAllZones(config, "dropZones"),
+    orderId,
+  );
   if (!spot) {
     return res.status(404).json({ error: "Task not found by orderId" });
   }
@@ -873,7 +908,10 @@ router.post("/:orderId/clear-task", async (req, res) => {
   const { orderId } = req.params;
   const config = await getConfig();
 
-  const spot = findSpotRefByOrderId(config.dropZones || [], orderId);
+  const spot = findSpotRefByOrderId(
+    getAllZones(config, "dropZones"),
+    orderId,
+  );
   if (!spot)
     return res.status(404).json({ error: "Task not found by orderId" });
 
@@ -908,7 +946,7 @@ router.patch("/:spotId/status-cart", async (req, res) => {
   }
 
   const config = await getConfig();
-  const spot = findSpotRefById(config.dropZones || [], spotId);
+  const spot = findSpotRefById(getAllZones(config, "dropZones"), spotId);
 
   if (!spot) return res.status(404).json({ error: "Spot not found" });
 
@@ -961,7 +999,7 @@ router.post("/:orderId/cancel", async (req, res) => {
 
   let removedTask = null;
 
-  for (const zone of config.dropZones || []) {
+  for (const zone of getAllZones(config, "dropZones")) {
     for (const group of getGroups(zone)) {
       for (const spot of group.spots || []) {
         if (!Array.isArray(spot.taskQueue)) continue;
@@ -1026,7 +1064,10 @@ router.post("/:orderId/cancel-running", async (req, res) => {
   const config = await getConfig();
   const history = await getHistory();
 
-  const spot = findSpotRefByOrderId(config.dropZones || [], orderId);
+  const spot = findSpotRefByOrderId(
+    getAllZones(config, "dropZones"),
+    orderId,
+  );
 
   if (!spot) {
     return res.status(404).json({ error: "Delivering task not found" });

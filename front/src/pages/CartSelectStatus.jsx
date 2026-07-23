@@ -22,7 +22,7 @@ function CartSelectStatus() {
   useEffect(() => {
     setLoading(true);
 
-    fetchZoneDrop()
+    fetchZoneDrop({ robotId: robotId || "" })
       .then((res) => {
         setItems(res.data || []);
       })
@@ -31,7 +31,7 @@ function CartSelectStatus() {
         setItems([]);
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [robotId]);
 
   const groups = useMemo(() => {
     return items.flatMap((zone) =>

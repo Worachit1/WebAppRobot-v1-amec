@@ -1,33 +1,174 @@
 [
   {
-    "orderId": "1783927605231920063",
+    "orderId": "1784623026604314585",
     "robotId": "C100",
     "robotName": "C100",
-    "cartId": "t2",
-    "cartName": "T2",
+    "cartId": "t6",
+    "cartName": "T6",
     "pickup": {
-      "id": "s-g-z2-f1-f1lz",
-      "name": "F1LZ",
-      "zoneId": "z2",
-      "zoneName": "STF ZONE",
-      "groupId": "g-z2-f1",
-      "groupName": "F1 STF",
-      "rcsPosition": "F1LZ"
+      "id": "s-g-c2-f3",
+      "name": "C2-F3",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F3"
     },
     "drop": {
-      "id": "d-s-g-z2-g5to-g5to-feeder-in",
-      "name": "G5TO-Feeder-In",
-      "zoneId": "z2",
-      "zoneName": "STF ZONE",
-      "groupId": "g-z2-g5to",
-      "groupName": "G5TO",
-      "rcsPosition": "G5TO-Feeder-In"
+      "id": "s-g-c2-f2",
+      "name": "C2-F2",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F2"
+    },
+    "createdAt": "2026-07-21T08:37:06.604Z",
+    "status": "CANCELLED",
+    "startedAt": "2026-07-21T08:37:06.604Z",
+    "finishedAt": "2026-07-21T08:37:45.423Z",
+    "rcsResponse": {
+      "code": 1000,
+      "desc": "PENDING",
+      "data": {
+        "orderId": "1784623026604314585"
+      }
+    },
+    "note": "Cancelled before sending to RCS"
+  },
+  {
+    "orderId": "1784622652042467179",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t6",
+    "cartName": "T6",
+    "pickup": {
+      "id": "s-g-c2-f3",
+      "name": "C2-F3",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F3"
+    },
+    "drop": {
+      "id": "s-g-c2-f2",
+      "name": "C2-F2",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F2"
+    },
+    "createdAt": "2026-07-21T08:30:52.042Z",
+    "status": "CANCELLED",
+    "startedAt": "2026-07-21T08:30:52.042Z",
+    "finishedAt": "2026-07-21T08:33:31.898Z",
+    "rcsResponse": {
+      "code": 1000,
+      "desc": "请求成功"
+    },
+    "note": "Cancelled running task in RCS"
+  },
+  {
+    "orderId": "1784622595947779745",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t6",
+    "cartName": "T6",
+    "pickup": {
+      "id": "s-g-c2-f2",
+      "name": "C2-F2",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F2"
+    },
+    "drop": {
+      "id": "s-g-c2-f3",
+      "name": "C2-F3",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F3"
+    },
+    "type": "NORMAL",
+    "status": "CANCELLED",
+    "createdAt": "2026-07-21T08:29:55.949Z",
+    "startedAt": "2026-07-21T08:29:55.949Z",
+    "finishedAt": "2026-07-21T08:33:26.496Z",
+    "rcsResponse": {
+      "code": 1000,
+      "desc": "请求成功"
+    },
+    "note": "Cancelled running task in RCS"
+  },
+  {
+    "orderId": "1784617540842492399",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t6",
+    "cartName": "T6",
+    "pickup": {
+      "id": "s-g-r1",
+      "name": "R1",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "R1"
+    },
+    "drop": {
+      "id": "s-g-p2",
+      "name": "P2",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "P2"
+    },
+    "type": "NORMAL",
+    "status": "CANCELLED",
+    "createdAt": "2026-07-21T07:05:40.845Z",
+    "startedAt": "2026-07-21T07:05:40.845Z",
+    "finishedAt": "2026-07-21T07:06:06.500Z",
+    "rcsResponse": {
+      "code": 1000,
+      "desc": "请求成功"
+    },
+    "note": "Cancelled running task in RCS"
+  },
+  {
+    "orderId": "1784617471711197897",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t6",
+    "cartName": "T6",
+    "pickup": {
+      "id": "s-g-r1",
+      "name": "R1",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "R1"
+    },
+    "drop": {
+      "id": "s-g-p2",
+      "name": "P2",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "P2"
     },
     "type": "NORMAL",
     "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T07:26:45.232Z",
-    "startedAt": "2026-07-13T07:26:45.232Z",
-    "finishedAt": "2026-07-13T07:26:45.256Z",
+    "createdAt": "2026-07-21T07:04:31.713Z",
+    "startedAt": "2026-07-21T07:04:31.713Z",
+    "finishedAt": "2026-07-21T07:04:32.239Z",
     "rcsResponse": {
       "code": 2103,
       "data": "",
@@ -36,34 +177,69 @@
     "error": "任务流程模板编号不存在"
   },
   {
-    "orderId": "1783924934062208479",
-    "robotId": "C100",
-    "robotName": "C100",
+    "orderId": "1784616102704512409",
+    "robotId": "d150",
+    "robotName": "D150D",
+    "cartId": "t3",
+    "cartName": "T3",
+    "pickup": {
+      "id": "d150-pick-g1",
+      "name": "G1",
+      "zoneId": "d150-pick-zone-b",
+      "zoneName": "ZONE B",
+      "groupId": "d150-pick-group-test-b",
+      "groupName": "TEST B",
+      "rcsPosition": "G1"
+    },
+    "drop": {
+      "id": "d150-drop-b1",
+      "name": "B1",
+      "zoneId": "d150-drop-zone-b",
+      "zoneName": "ZONE B",
+      "groupId": "d150-drop-group-test-b",
+      "groupName": "TEST B",
+      "rcsPosition": "B1"
+    },
+    "type": "NORMAL",
+    "status": "CANCELLED",
+    "createdAt": "2026-07-21T06:41:42.715Z",
+    "startedAt": "2026-07-21T06:41:42.715Z",
+    "finishedAt": "2026-07-21T06:42:17.668Z",
+    "rcsResponse": {
+      "code": 1000,
+      "desc": "请求成功"
+    },
+    "note": "Cancelled running task in RCS"
+  },
+  {
+    "orderId": "1784615612723410981",
+    "robotId": "d150",
+    "robotName": "D150D",
     "cartId": "t2",
     "cartName": "T2",
     "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
+      "id": "d150-pick-g1",
+      "name": "G1",
+      "zoneId": "d150-pick-zone-b",
+      "zoneName": "ZONE B",
+      "groupId": "d150-pick-group-test-b",
+      "groupName": "TEST B",
+      "rcsPosition": "G1"
     },
     "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
+      "id": "d150-drop-b1",
+      "name": "B1",
+      "zoneId": "d150-drop-zone-b",
+      "zoneName": "ZONE B",
+      "groupId": "d150-drop-group-test-b",
+      "groupName": "TEST B",
+      "rcsPosition": "B1"
     },
     "type": "NORMAL",
     "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "createdAt": "2026-07-21T06:33:32.726Z",
+    "startedAt": "2026-07-21T06:33:32.726Z",
+    "finishedAt": "2026-07-21T06:33:32.797Z",
     "rcsResponse": {
       "code": 2103,
       "data": "",
@@ -72,759 +248,641 @@
     "error": "任务流程模板编号不存在"
   },
   {
-    "orderId": "1783924934062208478",
+    "orderId": "1784542668728191107",
     "robotId": "C100",
     "robotName": "C100",
     "cartId": "t2",
     "cartName": "T2",
     "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
+      "id": "s-g-c2-f3",
+      "name": "C2-F3",
       "zoneId": "z3",
       "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F3"
     },
     "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
+      "id": "s-g-c2-f2",
+      "name": "C2-F2",
       "zoneId": "z3",
       "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F2"
     },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "createdAt": "2026-07-20T10:17:48.729Z",
+    "status": "COMPLETED",
+    "startedAt": "2026-07-20T10:17:48.729Z",
+    "finishedAt": "2026-07-20T10:20:06.912Z",
     "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
+      "code": 1000,
+      "data": "1784542668728191107",
+      "desc": "请求成功"
     },
-    "error": "任务流程模板编号不存在"
+    "note": "RCS mission accomplished, drop spot is full and pending",
+    "type": "NORMAL",
+    "rcsTaskStatus": {
+      "AllowChangeDevice": 0,
+      "RobotType": "RTA-FP150-L-H300-3L2T-E-453",
+      "TaskId": 4311,
+      "ZoneId": 24,
+      "Priority": 6,
+      "advanceFinishTaskStrategy": 1,
+      "OrderPath": "C2—C2",
+      "OrderNumber": "554",
+      "OrderId": "1784542668728191107",
+      "steps": [
+        {
+          "qrContent": "C2",
+          "flag": 2,
+          "needTrigger": 0
+        }
+      ],
+      "Materiel": "[]",
+      "TemplateCode": "FP150Task",
+      "StorageNum": "C2-F3,C2-F2",
+      "ReExecute": 1,
+      "OrderStatus": 8,
+      "ActualStartTime": "2026-07-20 18:18:03",
+      "FixedRobotId": "FB16308AAK00001",
+      "createTime": "2026-07-20 18:18:02",
+      "ActualEndTime": "2026-07-20 18:20:04",
+      "TemplateName": "FP150Task",
+      "subType": 6,
+      "TaskTime": "121",
+      "AgvNum": "F001"
+    }
   },
   {
-    "orderId": "1783924934062208477",
+    "orderId": "1784542324160474867",
     "robotId": "C100",
     "robotName": "C100",
     "cartId": "t2",
     "cartName": "T2",
     "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
+      "id": "s-g-c2-f2",
+      "name": "C2-F2",
       "zoneId": "z3",
       "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F2"
     },
     "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
+      "id": "s-g-c2-f3",
+      "name": "C2-F3",
       "zoneId": "z3",
       "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F3"
     },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "createdAt": "2026-07-20T10:12:04.160Z",
+    "status": "COMPLETED",
+    "startedAt": "2026-07-20T10:12:04.160Z",
+    "finishedAt": "2026-07-20T10:16:13.951Z",
     "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
+      "code": 1000,
+      "data": "1784542324160474867",
+      "desc": "请求成功"
     },
-    "error": "任务流程模板编号不存在"
+    "note": "RCS mission accomplished, drop spot is full and pending",
+    "type": "NORMAL",
+    "rcsTaskStatus": {
+      "AllowChangeDevice": 0,
+      "RobotType": "RTA-FP150-L-H300-3L2T-E-453",
+      "TaskId": 4310,
+      "ZoneId": 24,
+      "Priority": 6,
+      "advanceFinishTaskStrategy": 1,
+      "OrderPath": "C2—C2",
+      "OrderNumber": "553",
+      "OrderId": "1784542324160474867",
+      "steps": [
+        {
+          "qrContent": "C2",
+          "flag": 2,
+          "needTrigger": 0
+        }
+      ],
+      "Materiel": "[]",
+      "TemplateCode": "FP150Task",
+      "StorageNum": "C2-F2,C2-F3",
+      "ReExecute": 1,
+      "OrderStatus": 8,
+      "ActualStartTime": "2026-07-20 18:14:07",
+      "FixedRobotId": "FB16308AAK00001",
+      "createTime": "2026-07-20 18:14:06",
+      "ActualEndTime": "2026-07-20 18:16:12",
+      "TemplateName": "FP150Task",
+      "subType": 6,
+      "TaskTime": "125",
+      "AgvNum": "F001"
+    }
   },
   {
-    "orderId": "1783924934062208476",
+    "orderId": "1784542301231678903",
     "robotId": "C100",
     "robotName": "C100",
     "cartId": "t2",
     "cartName": "T2",
     "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
+      "id": "s-g-c2-f3",
+      "name": "C2-F3",
       "zoneId": "z3",
       "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F3"
     },
     "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
+      "id": "s-g-c2-f2",
+      "name": "C2-F2",
       "zoneId": "z3",
       "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F2"
     },
     "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "status": "COMPLETED",
+    "createdAt": "2026-07-20T10:11:41.234Z  ",
+    "startedAt": "2026-07-20T10:11:41.234Z",
+    "finishedAt": "2026-07-20T10:14:07.252Z",
     "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
+      "code": 1000,
+      "data": "1784542301231678903",
+      "desc": "请求成功"
     },
-    "error": "任务流程模板编号不存在"
+    "note": "RCS mission accomplished, drop spot is full and pending",
+    "rcsTaskStatus": {
+      "AllowChangeDevice": 0,
+      "RobotType": "RTA-FP150-L-H300-3L2T-E-453",
+      "TaskId": 4309,
+      "ZoneId": 24,
+      "Priority": 6,
+      "advanceFinishTaskStrategy": 1,
+      "OrderPath": "C2—C2",
+      "OrderNumber": "552",
+      "OrderId": "1784542301231678903",
+      "steps": [
+        {
+          "qrContent": "C2",
+          "flag": 2,
+          "needTrigger": 0
+        }
+      ],
+      "Materiel": "[]",
+      "TemplateCode": "FP150Task",
+      "StorageNum": "C2-F3,C2-F2",
+      "ReExecute": 1,
+      "OrderStatus": 8,
+      "ActualStartTime": "2026-07-20 18:11:41",
+      "FixedRobotId": "FB16308AAK00001",
+      "createTime": "2026-07-20 18:11:40",
+      "ActualEndTime": "2026-07-20 18:14:05",
+      "TemplateName": "FP150Task",
+      "subType": 6,
+      "TaskTime": "144",
+      "AgvNum": "F001"
+    }
   },
   {
-    "orderId": "1783924934062208475",
+    "orderId": "1784541912757949715",
     "robotId": "C100",
     "robotName": "C100",
     "cartId": "t2",
     "cartName": "T2",
     "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
+      "id": "s-g-c2-f3",
+      "name": "C2-F3",
       "zoneId": "z3",
       "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F3"
     },
     "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
+      "id": "s-g-c2-f2",
+      "name": "C2-F2",
       "zoneId": "z3",
       "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F2"
     },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "createdAt": "2026-07-20T10:05:12.758Z",
+    "status": "CANCELLED",
+    "startedAt": "2026-07-20T10:05:12.758Z",
+    "finishedAt": "2026-07-20T10:05:39.326Z",
     "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
+      "code": 1000,
+      "desc": "请求成功"
     },
-    "error": "任务流程模板编号不存在"
+    "note": "Cancelled running task in RCS",
+    "type": "NORMAL"
   },
   {
-    "orderId": "1783924934062208474",
+    "orderId": "17845418950205213",
     "robotId": "C100",
     "robotName": "C100",
     "cartId": "t2",
     "cartName": "T2",
     "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
+      "id": "s-g-c2-f2",
+      "name": "C2-F2",
       "zoneId": "z3",
       "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F2"
     },
     "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
+      "id": "s-g-c2-f3",
+      "name": "C2-F3",
       "zoneId": "z3",
       "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F3"
     },
     "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
+    "status": "COMPLETED",
+    "createdAt": "2026-07-20T10:04:55.029Z",
+    "startedAt": "2026-07-20T10:04:55.029Z",
+    "finishedAt": "2026-07-20T10:08:07.192Z",
     "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
+      "code": 1000,
+      "data": "17845418950205213",
+      "desc": "请求成功"
     },
-    "error": "任务流程模板编号不存在"
+    "note": "RCS mission accomplished, drop spot is full and pending",
+    "rcsTaskStatus": {
+      "AllowChangeDevice": 0,
+      "RobotType": "RTA-FP150-L-H300-3L2T-E-453",
+      "TaskId": 4306,
+      "ZoneId": 24,
+      "Priority": 6,
+      "advanceFinishTaskStrategy": 1,
+      "OrderPath": "C2—C2",
+      "OrderNumber": "550",
+      "OrderId": "17845418950205213",
+      "steps": [
+        {
+          "qrContent": "C2",
+          "flag": 2,
+          "needTrigger": 0
+        }
+      ],
+      "Materiel": "[]",
+      "TemplateCode": "FP150Task",
+      "StorageNum": "C2-F2,C2-F3",
+      "ReExecute": 1,
+      "OrderStatus": 8,
+      "ActualStartTime": "2026-07-20 18:04:56",
+      "FixedRobotId": "FB16308AAK00001",
+      "createTime": "2026-07-20 18:04:54",
+      "ActualEndTime": "2026-07-20 18:07:41",
+      "TemplateName": "FP150Task",
+      "subType": 6,
+      "TaskTime": "165",
+      "AgvNum": "F001"
+    }
   },
   {
-    "orderId": "1783924934062208473",
-    "robotId": "C100",
-    "robotName": "C100",
-    "cartId": "t2",
-    "cartName": "T2",
-    "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
-    },
-    "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
-    },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
-    "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
-    },
-    "error": "任务流程模板编号不存在"
-  },
-  {
-    "orderId": "1783924934062208472",
-    "robotId": "C100",
-    "robotName": "C100",
-    "cartId": "t2",
-    "cartName": "T2",
-    "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
-    },
-    "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
-    },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
-    "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
-    },
-    "error": "任务流程模板编号不存在"
-  },
-  {
-    "orderId": "1783924934062208471",
-    "robotId": "C100",
-    "robotName": "C100",
-    "cartId": "t2",
-    "cartName": "T2",
-    "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
-    },
-    "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
-    },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
-    "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
-    },
-    "error": "任务流程模板编号不存在"
-  },
-  {
-    "orderId": "1783924934062208470",
-    "robotId": "C100",
-    "robotName": "C100",
-    "cartId": "t2",
-    "cartName": "T2",
-    "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
-    },
-    "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
-    },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
-    "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
-    },
-    "error": "任务流程模板编号不存在"
-  },
-  {
-    "orderId": "1783924934062208469",
-    "robotId": "C100",
-    "robotName": "C100",
-    "cartId": "t2",
-    "cartName": "T2",
-    "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
-    },
-    "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
-    },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
-    "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
-    },
-    "error": "任务流程模板编号不存在"
-  },
-  {
-    "orderId": "1783924934062208468",
-    "robotId": "C100",
-    "robotName": "C100",
-    "cartId": "t2",
-    "cartName": "T2",
-    "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
-    },
-    "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
-    },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
-    "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
-    },
-    "error": "任务流程模板编号不存在"
-  },
-  {
-    "orderId": "1783924934062208467",
-    "robotId": "C100",
-    "robotName": "C100",
-    "cartId": "t2",
-    "cartName": "T2",
-    "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
-    },
-    "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
-    },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
-    "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
-    },
-    "error": "任务流程模板编号不存在"
-  },
-  {
-    "orderId": "1783924934062208466",
-    "robotId": "C100",
-    "robotName": "C100",
-    "cartId": "t2",
-    "cartName": "T2",
-    "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
-    },
-    "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
-    },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
-    "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
-    },
-    "error": "任务流程模板编号不存在"
-  },
-  {
-    "orderId": "1783924934062208465",
-    "robotId": "C100",
-    "robotName": "C100",
-    "cartId": "t2",
-    "cartName": "T2",
-    "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
-    },
-    "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
-    },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
-    "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
-    },
-    "error": "任务流程模板编号不存在"
-  },
-  {
-    "orderId": "1783924934062208464",
-    "robotId": "C100",
-    "robotName": "C100",
-    "cartId": "t2",
-    "cartName": "T2",
-    "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
-    },
-    "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
-    },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
-    "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
-    },
-    "error": "任务流程模板编号不存在"
-  },
-  {
-    "orderId": "1783924934062208463",
-    "robotId": "C100",
-    "robotName": "C100",
-    "cartId": "t2",
-    "cartName": "T2",
-    "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
-    },
-    "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
-    },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
-    "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
-    },
-    "error": "任务流程模板编号不存在"
-  },
-  {
-    "orderId": "1783924934062208462",
-    "robotId": "C100",
-    "robotName": "C100",
-    "cartId": "t2",
-    "cartName": "T2",
-    "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
-    },
-    "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
-    },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
-    "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
-    },
-    "error": "任务流程模板编号不存在"
-  },
-  {
-    "orderId": "1783924934062208461",
-    "robotId": "C100",
-    "robotName": "C100",
-    "cartId": "t2",
-    "cartName": "T2",
-    "pickup": {
-      "id": "s-g-z3-a1-a1-hanger-case",
-      "name": "A1-Hanger_Case",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-a1",
-      "groupName": "A1",
-      "rcsPosition": "A1-Hanger_Case"
-    },
-    "drop": {
-      "id": "d-s-g-z3-bwh-g1-a1b9-in",
-      "name": "#G1-A1B9_(IN)",
-      "zoneId": "z3",
-      "zoneName": "STA ZONE",
-      "groupId": "g-z3-bwh",
-      "groupName": "B-W/H",
-      "rcsPosition": "G1-A1B9(IN)"
-    },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:14.067Z",
-    "startedAt": "2026-07-13T06:42:14.067Z",
-    "finishedAt": "2026-07-13T06:42:14.141Z",
-    "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
-    },
-    "error": "任务流程模板编号不存在"
-  },
-  {
-    "orderId": "1783924920106508733",
+    "orderId": "1784538243253908208",
     "robotId": "C100",
     "robotName": "C100",
     "cartId": "t3",
     "cartName": "T3",
     "pickup": {
-      "id": "s-g-z3-kt-g4-kitting-out",
-      "name": "G4_Kitting_(OUT)",
+      "id": "s-g-c2-f3",
+      "name": "C2-F3",
       "zoneId": "z3",
       "zoneName": "STA ZONE",
-      "groupId": "g-z3-kt",
-      "groupName": "KT STA",
-      "rcsPosition": "G4-Kitting-(OUT)"
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F3"
     },
     "drop": {
-      "id": "d-s-g-z3-g4-125-gsb282",
-      "name": "125-GSB282",
+      "id": "s-g-c2-f2",
+      "name": "C2-F2",
       "zoneId": "z3",
       "zoneName": "STA ZONE",
-      "groupId": "g-z3-g4",
-      "groupName": "G4 STA",
-      "rcsPosition": "125-GSB282"
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F2"
     },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:42:00.110Z",
-    "startedAt": "2026-07-13T06:42:00.110Z",
-    "finishedAt": "2026-07-13T06:42:00.158Z",
+    "createdAt": "2026-07-20T09:04:03.253Z",
+    "status": "CANCELLED",
+    "startedAt": "2026-07-20T09:04:03.253Z",
+    "finishedAt": "2026-07-20T10:04:04.511Z",
     "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
+      "code": 2160,
+      "data": "请勿频繁请求",
+      "desc": "请勿频繁请求"
     },
-    "error": "任务流程模板编号不存在"
+    "note": "Cancelled before sending to RCS",
+    "type": "NORMAL",
+    "statusWork": "queue",
+    "retryCount": 144,
+    "error": "请勿重复下发任务"
   },
   {
-    "orderId": "178392490163110169",
+    "orderId": "1784538206599456653",
     "robotId": "C100",
     "robotName": "C100",
     "cartId": "t2",
     "cartName": "T2",
     "pickup": {
-      "id": "s-g-z2-f2-f2pb12-cartreturn",
-      "name": "F2PB12-CartReturn",
-      "zoneId": "z2",
-      "zoneName": "STF ZONE",
-      "groupId": "g-z2-f2",
-      "groupName": "F2 STF",
-      "rcsPosition": "F2PB12-CartReturn"
-    },
-    "drop": {
-      "id": "d-s-g-z3-b9-115-c",
-      "name": "B9-115_C",
+      "id": "s-g-c2-f2",
+      "name": "C2-F2",
       "zoneId": "z3",
       "zoneName": "STA ZONE",
-      "groupId": "g-z3-b9",
-      "groupName": "B9",
-      "rcsPosition": "B9-115_C"
-    },
-    "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:41:41.633Z",
-    "startedAt": "2026-07-13T06:41:41.633Z",
-    "finishedAt": "2026-07-13T06:41:41.674Z",
-    "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
-    },
-    "error": "任务流程模板编号不存在"
-  },
-  {
-    "orderId": "1783924883367412145",
-    "robotId": "C100",
-    "robotName": "C100",
-    "cartId": "t3",
-    "cartName": "T3",
-    "pickup": {
-      "id": "s-g-z2-f1-f1lz",
-      "name": "F1LZ",
-      "zoneId": "z2",
-      "zoneName": "STF ZONE",
-      "groupId": "g-z2-f1",
-      "groupName": "F1 STF",
-      "rcsPosition": "F1LZ"
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F2"
     },
     "drop": {
-      "id": "d-s-g-z2-g5to-g5to-feeder-in",
-      "name": "G5TO-Feeder-In",
-      "zoneId": "z2",
-      "zoneName": "STF ZONE",
-      "groupId": "g-z2-g5to",
-      "groupName": "G5TO",
-      "rcsPosition": "G5TO-Feeder-In"
+      "id": "s-g-c2-f3",
+      "name": "C2-F3",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F3"
     },
     "type": "NORMAL",
-    "status": "SEND_FAILED",
-    "createdAt": "2026-07-13T06:41:23.370Z",
-    "startedAt": "2026-07-13T06:41:23.370Z",
-    "finishedAt": "2026-07-13T06:41:23.432Z",
+    "status": "CANCELLED",
+    "createdAt": "2026-07-20T09:03:26.605Z",
+    "startedAt": "2026-07-20T09:03:26.605Z",
+    "finishedAt": "2026-07-20T10:04:08.378Z",
     "rcsResponse": {
-      "code": 2103,
-      "data": "",
-      "desc": "任务流程模板编号不存在"
+      "code": 1000,
+      "desc": "请求成功"
     },
-    "error": "任务流程模板编号不存在"
+    "note": "Cancelled running task in RCS"
+  },
+  {
+    "orderId": "1784537969483514778",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-c2-f2",
+      "name": "C2-F2",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F2"
+    },
+    "drop": {
+      "id": "s-g-c2-f3",
+      "name": "C2-F3",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F3"
+    },
+    "type": "NORMAL",
+    "status": "COMPLETED",
+    "createdAt": "2026-07-20T08:59:29.489Z",
+    "startedAt": "2026-07-20T08:59:29.489Z",
+    "finishedAt": "2026-07-20T09:01:39.703Z",
+    "rcsResponse": {
+      "code": 1000,
+      "data": "1784537969483514778",
+      "desc": "请求成功"
+    },
+    "note": "RCS mission accomplished, drop spot is full and pending",
+    "rcsTaskStatus": {
+      "AllowChangeDevice": 0,
+      "RobotType": "RTA-FP150-L-H300-3L2T-E-453",
+      "TaskId": 4296,
+      "ZoneId": 24,
+      "Priority": 6,
+      "advanceFinishTaskStrategy": 1,
+      "OrderPath": "C2—C2",
+      "OrderNumber": "547",
+      "OrderId": "1784537969483514778",
+      "steps": [
+        {
+          "qrContent": "C2",
+          "flag": 2,
+          "needTrigger": 0
+        }
+      ],
+      "Materiel": "[]",
+      "TemplateCode": "FP150Task",
+      "StorageNum": "C2-F2,C2-F3",
+      "ReExecute": 1,
+      "OrderStatus": 8,
+      "ActualStartTime": "2026-07-20 16:59:31",
+      "FixedRobotId": "FB16308AAK00001",
+      "createTime": "2026-07-20 16:59:30",
+      "ActualEndTime": "2026-07-20 17:01:39",
+      "TemplateName": "FP150Task",
+      "subType": 6,
+      "TaskTime": "128",
+      "AgvNum": "F001"
+    }
+  },
+  {
+    "orderId": "1784537426887987582",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t6",
+    "cartName": "T6",
+    "pickup": {
+      "id": "s-g-c2-f3",
+      "name": "C2-F3",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F3"
+    },
+    "drop": {
+      "id": "s-g-c2-f2",
+      "name": "C2-F2",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F2"
+    },
+    "type": "NORMAL",
+    "status": "COMPLETED",
+    "createdAt": "2026-07-20T08:50:26.909Z",
+    "startedAt": "2026-07-20T08:50:26.909Z",
+    "finishedAt": "2026-07-20T08:52:57.560Z",
+    "rcsResponse": {
+      "code": 1000,
+      "data": "1784537426887987582",
+      "desc": "请求成功"
+    },
+    "note": "RCS mission accomplished",
+    "rcsTaskStatus": {
+      "AllowChangeDevice": 0,
+      "RobotType": "RTA-FP150-L-H300-3L2T-E-453",
+      "TaskId": 4295,
+      "ZoneId": 24,
+      "Priority": 6,
+      "advanceFinishTaskStrategy": 1,
+      "OrderPath": "C2—C2",
+      "OrderNumber": "546",
+      "OrderId": "1784537426887987582",
+      "steps": [
+        {
+          "qrContent": "C2",
+          "flag": 2,
+          "needTrigger": 0
+        }
+      ],
+      "Materiel": "[]",
+      "TemplateCode": "FP150Task",
+      "StorageNum": "C2-F3,C2-F2",
+      "ReExecute": 1,
+      "OrderStatus": 8,
+      "ActualStartTime": "2026-07-20 16:50:28",
+      "FixedRobotId": "FB16308AAK00001",
+      "createTime": "2026-07-20 16:50:27",
+      "ActualEndTime": "2026-07-20 16:52:57",
+      "TemplateName": "FP150Task",
+      "subType": 6,
+      "TaskTime": "149",
+      "AgvNum": "F001"
+    }
+  },
+  {
+    "orderId": "178453699608333447",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t2",
+    "cartName": "T2",
+    "pickup": {
+      "id": "s-g-c2-f3",
+      "name": "C2-F3",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F3"
+    },
+    "drop": {
+      "id": "s-g-c2-f2",
+      "name": "C2-F2",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F2"
+    },
+    "type": "NORMAL",
+    "status": "CANCELLED",
+    "createdAt": "2026-07-20T08:43:16.096Z",
+    "startedAt": "2026-07-20T08:43:16.096Z",
+    "finishedAt": "2026-07-20T08:44:03.975Z",
+    "rcsResponse": {
+      "code": 1000,
+      "desc": "请求成功"
+    },
+    "note": "Cancelled running task in RCS"
+  },
+  {
+    "orderId": "1784535405769124141",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t6",
+    "cartName": "T6",
+    "pickup": {
+      "id": "s-g-c2-f2",
+      "name": "C2-F2",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F2"
+    },
+    "drop": {
+      "id": "s-g-c2-f3",
+      "name": "C2-F3",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F3"
+    },
+    "type": "NORMAL",
+    "status": "COMPLETED",
+    "createdAt": "2026-07-20T08:16:45.807Z",
+    "startedAt": "2026-07-20T08:16:45.807Z",
+    "finishedAt": "2026-07-20T08:25:07.044Z",
+    "rcsResponse": {
+      "code": 1000,
+      "data": "1784535405769124141",
+      "desc": "请求成功"
+    },
+    "note": "RCS mission accomplished",
+    "rcsTaskStatus": {
+      "areaId": 24,
+      "createTime": 1784535406,
+      "taskOrderDetail": [
+        {
+          "deviceNum": "F001",
+          "qrContent": "10000079",
+          "storageNum": "C2-F3",
+          "subTaskStatus": 3,
+          "subTaskSeq": 3,
+          "time": 1784535538,
+          "deviceCode": "FB16308AAK00001",
+          "subTaskTypeId": 24,
+          "subTaskId": 15770,
+          "status": "8"
+        }
+      ],
+      "fromSystem": "TSC",
+      "status": 8
+    }
+  },
+  {
+    "orderId": "1784533691142419466",
+    "robotId": "C100",
+    "robotName": "C100",
+    "cartId": "t6",
+    "cartName": "T6",
+    "pickup": {
+      "id": "s-g-c2-f3",
+      "name": "C2-F3",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F3"
+    },
+    "drop": {
+      "id": "s-g-c2-f2",
+      "name": "C2-F2",
+      "zoneId": "z3",
+      "zoneName": "STA ZONE",
+      "groupId": "g-test-1",
+      "groupName": "Test-1",
+      "rcsPosition": "C2-F2"
+    },
+    "type": "NORMAL",
+    "status": "CANCELLED",
+    "createdAt": "2026-07-20T07:48:11.148Z",
+    "startedAt": "2026-07-20T07:48:11.148Z",
+    "finishedAt": "2026-07-20T07:51:55.500Z",
+    "rcsResponse": {
+      "code": 1000,
+      "data": "1784533691142419466",
+      "desc": "请求成功"
+    },
+    "note": "Released in WebApp after cancelled in RCS"
   }
 ]

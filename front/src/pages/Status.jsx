@@ -8,7 +8,7 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import ScreenLayout from "../components/ScreenLayout.jsx";
 import Swal from "sweetalert2";
@@ -25,6 +25,7 @@ const DEFAULT_ROBOT_ID = "C100";
 
 function Status() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [config, setConfig] = useState(null);
   const [robotId, setRobotId] = useState("");
@@ -32,23 +33,29 @@ function Status() {
   const [loading, setLoading] = useState(true);
 
   const [actionLoading, setActionLoading] = useState(false);
+  const queryRobotId = searchParams.get("robotId");
 
   useEffect(() => {
     fetchConfig().then((data) => {
       setConfig(data);
 
+      const queryRobot = data.robots?.find(
+        (item) => String(item.id) === String(queryRobotId),
+      );
       const defaultRobot = data.robots?.find(
         (item) => String(item.id) === DEFAULT_ROBOT_ID,
       );
       const firstRobot = data.robots?.find((item) => item.id);
 
-      if (defaultRobot?.id) {
+      if (queryRobot?.id) {
+        setRobotId(queryRobot.id);
+      } else if (defaultRobot?.id) {
         setRobotId(defaultRobot.id);
       } else if (firstRobot?.id) {
         setRobotId(firstRobot.id);
       }
     });
-  }, []);
+  }, [queryRobotId]);
 
   useEffect(() => {
     if (!robotId) return;
@@ -80,6 +87,12 @@ function Status() {
 
   const device = status?.deviceStatus;
   const tasks = status?.tasks || [];
+  const selectedRobot = config?.robots?.find(
+    (item) => String(item.id) === String(robotId),
+  );
+  const assignUrl = `/zone-list?robotId=${encodeURIComponent(
+    robotId || "",
+  )}&robotName=${encodeURIComponent(selectedRobot?.name || status?.robot?.name || "")}`;
 
   const taskStatusColor = {
     delivering: "#1976d2",
@@ -270,7 +283,6 @@ function Status() {
                 <Select
                   value={robotId}
                   onChange={(e) => setRobotId(e.target.value)}
-                  disabled
                   sx={{
                     mb: 2,
                     height: 52,
@@ -278,13 +290,11 @@ function Status() {
                     bgcolor: "#fff",
                   }}
                 >
-                  {config.robots
-                    ?.filter((item) => String(item.id) === DEFAULT_ROBOT_ID)
-                    .map((item, index) => (
-                      <MenuItem key={`${item.id}-${index}`} value={item.id}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
+                  {config.robots.map((item, index) => (
+                    <MenuItem key={`${item.id}-${index}`} value={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
 
@@ -325,9 +335,9 @@ function Status() {
                       Robot : {status?.robot?.name || "-"}
                     </Typography>
 
-                    <Typography variant="body2">
+                    {/* <Typography variant="body2">
                       Device No : {status?.robot?.deviceNum || "-"}
-                    </Typography>
+                    </Typography> */}
 
                     {device?.error ? (
                       <Box>
@@ -352,13 +362,12 @@ function Status() {
                     ) : (
                       <>
                         <Typography variant="body2">
-                          Status AMR :{" "}
-                          {device?.agvStatus || device?.state || "-"}
+                          Status : {device?.agvStatus || device?.state || "-"}
                         </Typography>
-
+                        {/* 
                         <Typography variant="body2">
                           Position : {device?.devicePosition || "-"}
-                        </Typography>
+                        </Typography> */}
 
                         <Typography variant="body2">
                           Battery : {device?.battery ?? "-"}%
@@ -536,6 +545,26 @@ function Status() {
                       </Box>
                     </Box>
                   )}
+
+                  <Button
+                    variant="contained"
+                    disabled={!robotId}
+                    onClick={() => navigate(assignUrl)}
+                    sx={{
+                      mt: 4,
+                      height: 35,
+                      bgcolor: "#0066c0",
+                      color: "#fff",
+                      fontSize: 16,
+                      fontWeight: 900,
+                      borderRadius: "4px",
+                      "&:hover": {
+                        bgcolor: "#0054a0",
+                      },
+                    }}
+                  >
+                    ASSIGN
+                  </Button>
                 </Box>
               )}
             </>

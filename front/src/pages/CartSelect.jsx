@@ -33,12 +33,12 @@ function CartSelect() {
 
   useEffect(() => {
     setLoading(true);
-    fetchZoneDrop()
+    fetchZoneDrop({ robotId: robotId || "" })
       .then((res) => {
         setItems(res.data || []);
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [robotId]);
 
   const groups = useMemo(() => {
     return items.flatMap((zone) =>
@@ -96,7 +96,7 @@ function CartSelect() {
 
       await updateSpotStatusCart(station.id, "empty");
 
-      const res = await fetchZoneDrop();
+      const res = await fetchZoneDrop({ robotId: robotId || "" });
       setItems(res.data || []);
 
       Swal.fire({
@@ -132,8 +132,13 @@ function CartSelect() {
 
   const handleCartStatus = () => {
     navigate(
-      `/cart-status?groupId=${encodeURIComponent(groupId)}&groupName=${encodeURIComponent(selectedGroup?.name || "")}
-      &robotId=${encodeURIComponent(robotId || "")}&robotName=${encodeURIComponent(robotName || "")}`,
+      `/cart-status?groupId=${encodeURIComponent(
+        groupId,
+      )}&groupName=${encodeURIComponent(
+        selectedGroup?.name || "",
+      )}&robotId=${encodeURIComponent(
+        robotId || "",
+      )}&robotName=${encodeURIComponent(robotName || "")}`,
     );
   };
 

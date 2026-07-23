@@ -273,3 +273,6 @@ export const dropRules = {
     "d-s-g-z3-bwh-g1-a1b9-in",
   ], // No 44  "A1-C/D Operator"
 };
+
+
+// ต่อมาเป็น D150 
